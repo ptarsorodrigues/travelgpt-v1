@@ -95,13 +95,16 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
 
           <div className="hero-content">
             <div className="hero-top-badges">
-              <div className="badge-featured">
-                <Star size={14} fill="currentColor" /> Atração Principal em Destaque
-              </div>
+              <img 
+                src="/badge_destaque.jpg" 
+                alt="DESTAQUE" 
+                className="hero-badge-destaque-img"
+                title="Atração em Destaque"
+              />
 
               {distanceKm !== null && (
                 <div className="badge-distance-hero">
-                  <Navigation size={14} color="var(--primary)" />
+                  <Navigation size={14} color="#FFFFFF" />
                   <span>a <strong>{formatDistance(distanceKm)}</strong></span>
                 </div>
               )}
@@ -115,11 +118,11 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
                 onClick={() => onSelectCity && onSelectCity(currentPlace.city)}
                 title={`Filtrar apenas atrações de ${currentPlace.city}`}
               >
-                <MapPin size={16} color="var(--primary)" />
+                <MapPin size={16} color="#FFFFFF" />
                 <span>{currentPlace.city}</span>
               </div>
               <div className="hero-meta-item">
-                <span style={{ padding: '2px 10px', borderRadius: '12px', background: 'rgba(0,212,178,0.15)', color: 'var(--primary)', fontWeight: 600, fontSize: '0.85rem' }}>
+                <span className="hero-category-white-badge">
                   {currentPlace.category}
                 </span>
               </div>

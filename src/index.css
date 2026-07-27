@@ -87,11 +87,18 @@ body {
   background: var(--primary);
 }
 
-/* Layout Utilities */
 .container {
   max-width: 1380px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
 }
 
 .glass-panel {
@@ -107,31 +114,84 @@ body {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border-glass);
-  padding: 1rem 0;
+  padding: 0.4rem 0 !important;
   transition: var(--transition);
 }
 
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+.header-container-responsive {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 0.2rem !important;
+}
+
+.header-nav-tabs {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  margin-left: auto !important; /* Força os botões para a extrema DIREITA */
+  gap: 0.2rem !important; /* Espaçamento compacto e simétrico entre os comandos */
 }
 
 .brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  margin-right: auto !important; /* Mantém a logo na extrema ESQUERDA */
+}
+
+/* Sub-banner Phrase Styling (Sua viagem nunca mais será a mesma!) */
+.app-subbanner-phrase {
+  margin-top: 0.4rem !important;   /* Espaçamento superior igual (0.4rem) */
+  margin-bottom: 0.4rem !important;/* Espaçamento inferior igual (0.4rem) */
+  text-align: center !important;
+  padding: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.app-subbanner-phrase p {
+  font-family: var(--font-heading) !important;
+  font-size: 0.98rem !important;
+  font-weight: 700 !important;
+  color: var(--primary) !important;
+  letter-spacing: 0.02em !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  background: rgba(0, 212, 178, 0.08) !important;
+  border: 1px solid rgba(0, 212, 178, 0.25) !important;
+  padding: 0.35rem 1.1rem !important;
+  border-radius: 24px !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 10px rgba(0, 212, 178, 0.1) !important;
+}
+
+[data-theme="light"] .app-subbanner-phrase p {
+  background: #E6F7F5 !important;
+  color: #007A67 !important;
+  border: 1px solid #B2EBE4 !important;
+  box-shadow: 0 2px 8px rgba(0, 122, 103, 0.1) !important;
+}
+
+/* Hero Showcase */
+.hero-section {
+  position: relative;
+  padding: 0.4rem 0 1.5rem 0 !important;
+  overflow: hidden;
 }
 
 .header-logo-img {
-  height: 48px; /* Mantido o tamanho do box */
+  height: 40px;
   width: auto;
   object-fit: contain;
-  background: #FFFFFF; /* Fundo Branco */
-  padding: 2px 6px; /* Reduzido padding ao mínimo p/ ampliar logo ao máximo dentro do box */
-  border-radius: 10px; /* Bordas Arredondadas */
+  background: #FFFFFF;
+  padding: 2px 6px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   transition: var(--transition);
@@ -139,28 +199,61 @@ body {
 
 .header-logo-img:hover {
   transform: scale(1.04);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-}
-
-.header-nav-tabs {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .nav-tab-btn {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  background: transparent;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 38px;
+  min-width: 38px;
+  padding: 0 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-card);
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.tab-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #EF4444;
+  color: #FFF;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 10px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .header-logo-img {
+    height: 34px;
+    padding: 2px 4px;
+  }
+
+  .nav-tab-text {
+    display: none;
+  }
+
+  .nav-tab-btn {
+    padding: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+  }
 }
 
 .nav-tab-btn:hover {
@@ -266,6 +359,51 @@ body {
   margin-bottom: 1.25rem;
 }
 
+.hero-badge-destaque-img {
+  height: 64px !important; /* Dobro do tamanho atual (32px -> 64px) */
+  width: auto !important;
+  border-radius: 16px !important;
+  border: 2px solid rgba(255, 184, 0, 0.8) !important;
+  box-shadow: 0 6px 20px rgba(255, 184, 0, 0.35) !important;
+  object-fit: cover !important;
+  transition: transform 0.3s ease;
+}
+
+.hero-badge-destaque-img:hover {
+  transform: scale(1.05);
+}
+
+/* Light Mode Tier Badges Overrides (Destaque Máximo para GOLD vs BRONZE) */
+[data-theme="light"] .tier-diamond {
+  background: linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%) !important;
+  border: 2px solid #0284C7 !important;
+  color: #0369A1 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25) !important;
+}
+
+[data-theme="light"] .tier-gold {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 50%, #F59E0B 100%) !important;
+  border: 2px solid #D97706 !important;
+  color: #78350F !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4) !important;
+}
+
+[data-theme="light"] .tier-silver {
+  background: #F1F5F9 !important;
+  border: 1.5px solid #94A3B8 !important;
+  color: #334155 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .tier-bronze {
+  background: #FAF5F0 !important;
+  border: 1.5px solid #B45309 !important;
+  color: #78350F !important;
+  box-shadow: none !important;
+}
+
 .badge-featured {
   display: inline-flex;
   align-items: center;
@@ -344,6 +482,14 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+}
+
+.interactive-city-tag-hero,
+.interactive-city-tag-hero *,
+.interactive-city-tag-hero span {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .hero-description {
@@ -499,9 +645,81 @@ body {
 }
 
 .view-btn.active {
-  background: var(--primary);
-  color: #0B0F19;
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--primary) !important;
+  font-weight: 700 !important;
   box-shadow: var(--primary-glow);
+}
+
+.view-btn.active *,
+.nav-tab-btn.active,
+.nav-tab-btn.active * {
+  color: #FFFFFF !important;
+}
+
+/* Regras de Alta Legibilidade com Texto em Branco (#FFFFFF) para Botões Ativos */
+.badge-distance-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #FFFFFF !important;
+  font-size: 0.85rem;
+  font-weight: 700 !important;
+  backdrop-filter: blur(8px);
+}
+
+.badge-distance-hero *,
+.badge-distance-hero strong {
+  color: #FFFFFF !important;
+}
+
+.hero-category-white-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem;
+  backdrop-filter: blur(8px);
+}
+
+/* Botões de Raio de Distância Ativos (Fundo Azul + Texto Branco) */
+.radius-pill.active,
+.distance-chip.active {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  border-color: #2563EB !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+}
+
+.radius-pill.active *,
+.distance-chip.active * {
+  color: #FFFFFF !important;
+}
+
+/* Botões de Seleção de Cidade e Categorias Ativos (Fundo Verde + Texto Branco) */
+.chip-btn.active,
+.chip-badge.active,
+.category-multi-chip.active {
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--primary) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(0, 135, 112, 0.3) !important;
+}
+
+.chip-btn.active *,
+.chip-badge.active *,
+.category-multi-chip.active * {
+  color: #FFFFFF !important;
 }
 
 /* Category Pills */
@@ -2539,15 +2757,23 @@ body {
     gap: 0.5rem;
   }
 
-  .theme-toggle-btn {
-    padding: 0.45rem 0.7rem;
-    font-size: 0.8rem;
+  .container {
+    padding: 0 0.2rem !important; /* Apenas 3px de margem externa no celular */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .filter-system-card {
-    padding: 1rem;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 0.4rem !important; /* Apenas 6px de padding interno no card de filtros */
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .filter-box {
+    padding: 0.4rem !important; /* Apenas 6px de padding interno nas caixas de cidades e categorias */
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .filter-boxes-grid {

@@ -209,6 +209,11 @@ export default function App() {
         setActiveTab={setActiveTab}
       />
 
+      {/* Frase de Destaque Solicitada pelo Usuário */}
+      <div className="app-subbanner-phrase container">
+        <p>Sua viagem nunca mais será a mesma!</p>
+      </div>
+
       {/* RENDER BY SCREEN TAB */}
       {activeTab === 'itinerary' ? (
         <main className="container" style={{ minHeight: '80vh', paddingTop: '2rem' }}>
@@ -459,16 +464,7 @@ export default function App() {
         </>
       )}
 
-      {/* Modal View for Detailed Place Info */}
-      <PlaceModal 
-        place={selectedPlace}
-        userLocation={userLocation}
-        onClose={() => setSelectedPlace(null)}
-        onOpenWebView={setWebViewerPlace}
-        onSelectCity={handleSelectSingleCity}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
+      {/* Modal antigo desativado conforme solicitado: clique na imagem/card abre direto o Saiba Mais */}
 
       {/* In-App Web View Modal */}
       <InAppWebViewer 

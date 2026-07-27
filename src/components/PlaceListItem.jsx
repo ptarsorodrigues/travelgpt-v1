@@ -16,20 +16,24 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
   const listingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl;
 
   const handleSaibaMais = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     window.open(listingUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div 
       className="list-item-card"
-      onClick={() => onSelectPlace && onSelectPlace(place)}
-      title="Clique para ver todos os detalhes do local"
+      onClick={handleSaibaMais}
+      title={`Clique para abrir ${place.title}`}
     >
       {/* Bloco Superior (Lado a Lado): Coluna 1 (Imagem 105px) | Coluna 2 (Direita) */}
       <div className="list-item-top-row">
         {/* Coluna 1 (Esquerda): Imagem miniatura (105px, align-self: stretch) */}
-        <div className="list-item-thumb-wrapper">
+        <div 
+          className="list-item-thumb-wrapper"
+          onClick={handleSaibaMais}
+          title={`Clique para abrir ${place.title}`}
+        >
           <img 
             src={place.coverImage} 
             alt={place.title}
@@ -108,6 +112,7 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
     </div>
   );
 }
+
 
 
 

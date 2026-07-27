@@ -16,13 +16,13 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
   const listingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl;
 
   const handleSaibaMais = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     window.open(listingUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="place-card">
-      <div className="place-card-img-wrap">
+    <div className="place-card" onClick={handleSaibaMais} style={{ cursor: 'pointer' }}>
+      <div className="place-card-img-wrap" onClick={handleSaibaMais}>
         <img 
           src={place.coverImage} 
           alt={place.title}
