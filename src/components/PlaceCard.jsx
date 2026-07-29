@@ -2,10 +2,11 @@ import React from 'react';
 import { MapPin, Heart, Phone, Mail, Star, Navigation, Info } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
 export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
   const handleImageError = (e) => {
-    e.target.src = place.backupImage;
+    handlePlaceImageError(e, place);
   };
 
   const distanceKm = userLocation && place.lat && place.lng
@@ -24,7 +25,7 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
     <div className="place-card" onClick={handleSaibaMais} style={{ cursor: 'pointer' }}>
       <div className="place-card-img-wrap" onClick={handleSaibaMais}>
         <img 
-          src={place.coverImage} 
+          src={getPlaceImageUrl(place)} 
           alt={place.title}
           className="place-card-img"
           onError={handleImageError}

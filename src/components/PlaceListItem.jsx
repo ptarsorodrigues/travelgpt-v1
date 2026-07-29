@@ -2,10 +2,11 @@ import React from 'react';
 import { MapPin, Heart, Navigation, Info } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
 export default function PlaceListItem({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
   const handleImageError = (e) => {
-    e.target.src = place.backupImage;
+    handlePlaceImageError(e, place);
   };
 
   const distanceKm = userLocation && place.lat && place.lng
@@ -35,7 +36,7 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           title={`Clique para abrir ${place.title}`}
         >
           <img 
-            src={place.coverImage} 
+            src={getPlaceImageUrl(place)} 
             alt={place.title}
             className="list-item-thumb"
             onError={handleImageError}

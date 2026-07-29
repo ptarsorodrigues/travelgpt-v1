@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Trash2, MapPin, ExternalLink, Share2, Printer, Plus, Clock, MoveUp, MoveDown, CheckCircle2 } from 'lucide-react';
+import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
 export default function ItineraryView({ favorites, placesData, onSelectPlace, onSelectCity }) {
   const favoritePlaces = placesData.filter(p => favorites.includes(p.id));
@@ -166,7 +167,12 @@ export default function ItineraryView({ favorites, placesData, onSelectPlace, on
                       return (
                         <div key={placeId} className="itinerary-place-item">
                           <span className="itinerary-step-number">{pIdx + 1}</span>
-                          <img src={place.coverImage} alt={place.title} className="itinerary-item-thumb" onError={(e) => e.target.src = place.backupImage} />
+                          <img 
+                            src={getPlaceImageUrl(place)} 
+                            alt={place.title} 
+                            className="itinerary-item-thumb" 
+                            onError={(e) => handlePlaceImageError(e, place)} 
+                          />
                           <div className="itinerary-item-info">
                             <h4 onClick={() => onSelectPlace(place)} className="itinerary-place-title">
                               {place.title}
@@ -225,7 +231,12 @@ export default function ItineraryView({ favorites, placesData, onSelectPlace, on
               {favoritePlaces.map(place => (
                 <div key={place.id} className="sidebar-fav-item">
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <img src={place.coverImage} alt={place.title} className="fav-mini-thumb" onError={(e) => e.target.src = place.backupImage} />
+                    <img 
+                      src={getPlaceImageUrl(place)} 
+                      alt={place.title} 
+                      className="fav-mini-thumb" 
+                      onError={(e) => handlePlaceImageError(e, place)} 
+                    />
                     <div>
                       <strong style={{ fontSize: '0.88rem', display: 'block', color: 'var(--text-main)' }}>{place.title}</strong>
                       <small style={{ color: 'var(--text-muted)' }}>📍 {place.city}</small>
