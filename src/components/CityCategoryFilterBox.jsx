@@ -122,7 +122,15 @@ export default function CityCategoryFilterBox({
 
   return (
     <section className="filter-system-card glass-panel">
-      {/* Search & Top Action Row */}
+      {/* Título da Nova Seção */}
+      <div className="personalize-section-title-wrap">
+        <h2 className="personalize-section-title">
+          <SlidersHorizontal size={20} color="var(--primary)" />
+          <span>PERSONALIZE O SEU TRAVELGPT</span>
+        </h2>
+      </div>
+
+      {/* Busca e Botão de Controle de GPS */}
       <div className="filter-header-row">
         <div className="search-input-wrap">
           <Search className="search-icon" size={18} />
@@ -140,22 +148,27 @@ export default function CityCategoryFilterBox({
           )}
         </div>
 
-        {/* GPS Location Button */}
+        {/* Botão de Controle de GPS do Smartphone (VERDE ATIVO / VERMELHO INATIVO) */}
         <button 
-          className={`gps-location-btn ${userLocation?.isGps ? 'active' : ''}`}
+          className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
           onClick={onGeolocateUser}
           disabled={isGeolocating}
-          title="Detectar sua localização GPS para ordenar atrações por menor distância"
+          title={userLocation?.isGps ? "GPS Conectado e Ativo (Sua Posição). Clique para desativar." : "GPS Inativo (Sua Posição). Clique para ativar a localização."}
         >
           {isGeolocating ? (
-            <Loader2 size={16} className="animate-spin" />
+            <Loader2 size={16} className="animate-spin" color="#FFF" />
           ) : (
-            <Navigation size={16} color={userLocation?.isGps ? "#0B0F19" : "var(--primary)"} />
+            <Navigation size={16} color="#FFF" />
           )}
-          <span>{userLocation?.isGps ? '📍 GPS Ativo (Sua Posição)' : '📍 Usar Meu GPS / Localização'}</span>
+          <span>{userLocation?.isGps ? '📍 GPS Ativo (Sua Posição)' : '📍 GPS Inativo (Sua Posição)'}</span>
         </button>
+      </div>
 
-        {/* View Mode Toggle Buttons (DEFAULT = LIST) */}
+      {/* 1. TIPO DE EXIBIÇÃO (Rótulo à Esquerda + Botões de Exibição) */}
+      <div className="view-mode-section-block">
+        <span className="radius-label align-left-label">
+          <Layers size={14} color="var(--primary)" /> TIPO DE EXIBIÇÃO:
+        </span>
         <div className="view-mode-toggle">
           <button 
             className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
@@ -191,10 +204,10 @@ export default function CityCategoryFilterBox({
         </div>
       </div>
 
-      {/* DISTANCE RADIUS FILTER ROW (< 10 KM DEFAULT INITIAL) */}
+      {/* 2. RAIO DE BUSCA INICIAL (Rótulo à Esquerda) */}
       <div className="distance-radius-row">
-        <span className="radius-label">
-          <Navigation size={14} color="var(--primary)" /> Raio de Busca Inicial:
+        <span className="radius-label align-left-label">
+          <Navigation size={14} color="var(--primary)" /> RAIO DE BUSCA INICIAL:
         </span>
         <div className="radius-buttons-scroll">
           <button 
@@ -239,165 +252,154 @@ export default function CityCategoryFilterBox({
         </div>
       </div>
 
-      {/* FILTER BOXES GRID (RESPONSIVE FOR MOBILE & DESKTOP) */}
-      <div className="filter-boxes-grid">
-        
-        {/* BOX 1: CIDADES (MULTI-SELEÇÃO & PROXIMIDADE) */}
-        <div className={`filter-box ${isCityBoxOpen ? 'expanded' : ''}`}>
-          <div className="filter-box-header" onClick={() => setIsCityBoxOpen(!isCityBoxOpen)}>
-            <div className="filter-box-title">
-              <MapPin size={18} color="var(--primary)" />
-              <div>
-                <strong>1. Escolher Cidades (Multi-seleção)</strong>
-                <small className="filter-summary-tag">
-                  {isAllCitiesSelected 
-                    ? `🏙️ Todas as Cidades (${citiesWithStats.length})` 
-                    : `📍 ${selectedCities.length} ${selectedCities.length === 1 ? 'cidade selecionada' : 'cidades selecionadas'}`
-                  }
-                </small>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {!isAllCitiesSelected && (
-                <button 
-                  className="mini-clear-btn" 
-                  onClick={(e) => { e.stopPropagation(); clearAllCities(); }}
-                  title="Limpar seleção de cidades"
-                >
-                  Limpar ({selectedCities.length})
-                </button>
-              )}
-              {isCityBoxOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-            </div>
-          </div>
-
-          {/* Active City Chips */}
-          <div className="selected-chips-row">
+      {/* 2. ESCOLHA A CIDADE DESEJADA */}
+      <div className="filter-box-section-block">
+        <div className="filter-box-section-header">
+          <span className="radius-label">
+            <MapPin size={14} color="var(--primary)" /> ESCOLHA A CIDADE DESEJADA:
+          </span>
+          {!isAllCitiesSelected && (
             <button 
-              className={`chip-btn ${isAllCitiesSelected ? 'active' : ''}`}
-              onClick={selectAllCities}
+              className="mini-clear-btn" 
+              onClick={clearAllCities}
+              title="Limpar seleção de cidades"
             >
-              Todas ({placesData.length})
+              Limpar ({selectedCities.length})
             </button>
-            {selectedCities.map(city => (
-              <span key={city} className="chip-badge active">
-                📍 {city}
-                <button onClick={() => toggleCity(city)} className="chip-remove">✕</button>
-              </span>
-            ))}
-          </div>
-
-          {/* Collapsible City Selector Box Panel */}
-          {isCityBoxOpen && (
-            <div className="box-dropdown-panel animate-slide-down">
-              <div className="box-search-bar">
-                <Search size={14} color="var(--text-muted)" />
-                <input 
-                  type="text" 
-                  placeholder="Pesquisar cidade..."
-                  value={citySearchText}
-                  onChange={(e) => setCitySearchText(e.target.value)}
-                  className="box-search-input"
-                />
-              </div>
-
-              {/* Sort selector for cities */}
-              <div className="city-sort-bar">
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Ordenar lista por:</span>
-                <button 
-                  className={`sort-tab ${citySortBy === 'proximity' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('proximity')}
-                >
-                  Proximidade (Capital)
-                </button>
-                <button 
-                  className={`sort-tab ${citySortBy === 'count' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('count')}
-                >
-                  Mais Atrações
-                </button>
-                <button 
-                  className={`sort-tab ${citySortBy === 'name' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('name')}
-                >
-                  Nome (A-Z)
-                </button>
-              </div>
-
-              {/* Scrollable list of cities with checkboxes and distance */}
-              <div className="box-items-scroll">
-                {filteredCitiesInBox.map(c => {
-                  const isChecked = selectedCities.includes(c.city);
-                  return (
-                    <label key={c.city} className={`checkbox-item-row ${isChecked ? 'checked' : ''}`}>
-                      <input 
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => toggleCity(c.city)}
-                        className="custom-checkbox"
-                      />
-                      <span className="checkbox-city-name">{c.city}</span>
-                      <div className="city-meta-tags">
-                        <span className="meta-badge-count">{c.count} {c.count === 1 ? 'local' : 'locais'}</span>
-                        <span className="meta-badge-dist">
-                          {c.distance === 0 ? 'Capital' : `~${c.distance} km`}
-                        </span>
-                      </div>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
           )}
         </div>
 
-        {/* BOX 2: CATEGORIAS (MULTI-SELEÇÃO) */}
-        <div className={`filter-box ${isCategoryBoxOpen ? 'expanded' : ''}`}>
-          <div className="filter-box-header" onClick={() => setIsCategoryBoxOpen(!isCategoryBoxOpen)}>
-            <div className="filter-box-title">
-              <Filter size={18} color="var(--accent-gold)" />
-              <div>
-                <strong>2. Escolher Categorias (Multi-seleção)</strong>
-                <small className="filter-summary-tag">
-                  {selectedCategories.includes('Todas') 
-                    ? '🎯 Todas as Categorias' 
-                    : `✨ ${selectedCategories.length} selecionadas`
-                  }
-                </small>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {!selectedCategories.includes('Todas') && (
-                <button 
-                  className="mini-clear-btn" 
-                  onClick={(e) => { e.stopPropagation(); setSelectedCategories(['Todas']); }}
-                >
-                  Resetar
-                </button>
-              )}
-              {isCategoryBoxOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-            </div>
-          </div>
-
-          {/* Interactive Multi-Select Category Pills */}
-          <div className="categories-multi-chips">
-            {categoriesList.map(cat => {
-              const isSelected = selectedCategories.includes(cat);
-              return (
-                <button
-                  key={cat}
-                  className={`category-multi-chip ${isSelected ? 'active' : ''}`}
-                  onClick={() => toggleCategory(cat)}
-                >
-                  {cat === 'Todas' ? 'Todas as Categorias' : cat}
-                  {isSelected && <Check size={14} style={{ marginLeft: '4px' }} />}
-                </button>
-              );
-            })}
-          </div>
+        <div className="selected-chips-row">
+          <button 
+            className={`chip-btn ${isAllCitiesSelected ? 'active' : ''}`}
+            onClick={selectAllCities}
+          >
+            Todas ({placesData.length})
+          </button>
+          {selectedCities.map(city => (
+            <span key={city} className="chip-badge active">
+              📍 {city}
+              <button onClick={() => toggleCity(city)} className="chip-remove">✕</button>
+            </span>
+          ))}
+          <button 
+            className="chip-btn"
+            onClick={() => setIsCityBoxOpen(!isCityBoxOpen)}
+            style={{ borderStyle: 'dashed' }}
+          >
+            {isCityBoxOpen ? '▲ Fechar Lista' : '▼ Ver Lista de Cidades'}
+          </button>
         </div>
 
+        {/* Dropdown Painel de Cidades */}
+        {isCityBoxOpen && (
+          <div className="box-dropdown-panel animate-slide-down">
+            <div className="box-search-bar">
+              <Search size={14} color="var(--text-muted)" />
+              <input 
+                type="text" 
+                placeholder="Pesquisar cidade..."
+                value={citySearchText}
+                onChange={(e) => setCitySearchText(e.target.value)}
+                className="box-search-input"
+              />
+            </div>
+
+            <div className="city-sort-bar">
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Ordenar lista por:</span>
+              <button 
+                className={`sort-tab ${citySortBy === 'proximity' ? 'active' : ''}`}
+                onClick={() => setCitySortBy('proximity')}
+              >
+                Proximidade (Capital)
+              </button>
+              <button 
+                className={`sort-tab ${citySortBy === 'count' ? 'active' : ''}`}
+                onClick={() => setCitySortBy('count')}
+              >
+                Mais Atrações
+              </button>
+              <button 
+                className={`sort-tab ${citySortBy === 'name' ? 'active' : ''}`}
+                onClick={() => setCitySortBy('name')}
+              >
+                Nome (A-Z)
+              </button>
+            </div>
+
+            <div className="box-items-scroll">
+              {filteredCitiesInBox.map(c => {
+                const isChecked = selectedCities.includes(c.city);
+                return (
+                  <label key={c.city} className={`checkbox-item-row ${isChecked ? 'checked' : ''}`}>
+                    <input 
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => toggleCity(c.city)}
+                      className="custom-checkbox"
+                    />
+                    <span className="checkbox-city-name">{c.city}</span>
+                    <div className="city-meta-tags">
+                      <span className="meta-badge-count">{c.count} {c.count === 1 ? 'local' : 'locais'}</span>
+                      <span className="meta-badge-dist">
+                        {c.distance === 0 ? 'Capital' : `~${c.distance} km`}
+                      </span>
+                    </div>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* 3. CATEGORIAS */}
+      <div className="filter-box-section-block" style={{ marginTop: '0.75rem' }}>
+        <div className="filter-box-section-header">
+          <span className="radius-label">
+            <Filter size={14} color="var(--accent-gold)" /> CATEGORIAS:
+          </span>
+          {!selectedCategories.includes('Todas') && (
+            <button 
+              className="mini-clear-btn" 
+              onClick={() => setSelectedCategories(['Todas'])}
+            >
+              Resetar
+            </button>
+          )}
+        </div>
+
+        <div className="categories-multi-chips">
+          {categoriesList.map(cat => {
+            const isSelected = selectedCategories.includes(cat);
+            return (
+              <button
+                key={cat}
+                className={`category-multi-chip ${isSelected ? 'active' : ''}`}
+                onClick={() => toggleCategory(cat)}
+              >
+                {cat === 'Todas' ? 'Todas as Categorias' : cat}
+                {isSelected && <Check size={14} style={{ marginLeft: '4px' }} />}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* BOTÃO FINAL: INICIAR A PESQUISA */}
+      <button 
+        className="btn-iniciar-pesquisa"
+        onClick={() => {
+          const element = document.getElementById('search-results-anchor');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        title="Iniciar a Pesquisa com os Filtros Selecionados"
+      >
+        <Search size={18} />
+        <span>INICIAR A PESQUISA</span>
+      </button>
     </section>
   );
 }

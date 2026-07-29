@@ -10,9 +10,8 @@ import AiAssistant from './components/AiAssistant';
 import ProfileView from './components/ProfileView';
 import CityCategoryFilterBox from './components/CityCategoryFilterBox';
 import InAppWebViewer from './components/InAppWebViewer';
-import placesData from './data/places.json';
 import { getDistanceKm, formatDistance } from './utils/geo';
-import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation } from 'lucide-react';
+import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
 
 const CATEGORIES = [
   "Todas",
@@ -30,6 +29,36 @@ export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [activeTab, setActiveTab] = useState('explore'); // 'explore', 'map', 'itinerary', 'ai', 'profile'
   
+  // Dynamic places state fetched exclusively from Vercel Postgres DB (/api/places)
+  const [places, setPlaces] = useState([]);
+  const [isLoadingDb, setIsLoadingDb] = useState(true);
+  const [dbError, setDbError] = useState(null);
+
+  useEffect(() => {
+    setIsLoadingDb(true);
+    fetch('/api/places')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Erro na API do Banco de Dados (${res.status})`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setPlaces(data);
+          setDbError(null);
+        } else {
+          throw new Error('Formato de resposta inválido do Banco de Dados.');
+        }
+        setIsLoadingDb(false);
+      })
+      .catch(err => {
+        console.error('Erro ao conectar ao Banco de Dados Vercel Postgres:', err);
+        setDbError(err.message);
+        setIsLoadingDb(false);
+      });
+  }, []);
+
   // User GPS Location State
   const [userLocation, setUserLocation] = useState(DEFAULT_LOCATION);
   const [isGeolocating, setIsGeolocating] = useState(false);
@@ -77,6 +106,13 @@ export default function App() {
   }, [favorites]);
 
   const handleGeolocateUser = () => {
+    // Se o GPS já estiver ATIVO, ao clicar ele DESATIVA (desconecta e volta para a Capital padrão)
+    if (userLocation?.isGps) {
+      setUserLocation(DEFAULT_LOCATION);
+      return;
+    }
+
+    // Se o GPS estiver INATIVO, ao clicar ele ATIVA (solicita as coordenadas GPS ao navegador)
     if ('geolocation' in navigator) {
       setIsGeolocating(true);
       navigator.geolocation.getCurrentPosition(
@@ -91,6 +127,7 @@ export default function App() {
         (error) => {
           console.warn("GPS Geolocation error or permission denied:", error);
           setIsGeolocating(false);
+          setUserLocation(DEFAULT_LOCATION);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
       );
@@ -111,7 +148,7 @@ export default function App() {
 
   // Multi-filtering logic with initial < 10 km distance constraint
   const filteredPlaces = useMemo(() => {
-    return placesData.filter(place => {
+    return places.filter(place => {
       // Calculate distance to user reference/GPS location
       const distance = (userLocation && place.lat && place.lng)
         ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
@@ -151,7 +188,7 @@ export default function App() {
 
       return true;
     });
-  }, [selectedCities, selectedCategories, searchQuery, showFavoritesOnly, favorites, userLocation, maxDistanceKm]);
+  }, [places, selectedCities, selectedCategories, searchQuery, showFavoritesOnly, favorites, userLocation, maxDistanceKm]);
 
   // Sort filtered places by ASCENDING DISTANCE to user (menor até a maior distância)
   const sortedFilteredPlaces = useMemo(() => {
@@ -175,12 +212,12 @@ export default function App() {
 
   // Featured places for Hero Banner (only POIs classified as 'gold' in Product column, sorted by closest to user)
   const featuredPlaces = useMemo(() => {
-    const featured = placesData.filter(p => p.tier && p.tier.toLowerCase() === 'gold');
+    const featured = places.filter(p => p.tier && (p.tier.toLowerCase() === 'gold' || p.tier.toLowerCase() === 'diamond'));
     return featured.map(p => ({
       ...p,
       distanceKm: getDistanceKm(userLocation.lat, userLocation.lng, p.lat, p.lng)
     })).sort((a, b) => a.distanceKm - b.distanceKm);
-  }, [userLocation]);
+  }, [places, userLocation]);
 
   // Single city select shortcut
   const handleSelectSingleCity = (city) => {
@@ -209,9 +246,41 @@ export default function App() {
         setActiveTab={setActiveTab}
       />
 
-      {/* Frase de Destaque Solicitada pelo Usuário */}
+      {/* Banner Destaque Solicitado pelo Usuário */}
       <div className="app-subbanner-phrase container">
-        <p>Sua viagem nunca mais será a mesma!</p>
+        <img 
+          src="/banner_sua_viagem.png" 
+          alt="Sua viagem nunca mais será a mesma!" 
+          className="app-subbanner-img"
+        />
+      </div>
+
+      {/* Database Connection Status Banner */}
+      <div className="container" style={{ marginBottom: '1rem' }}>
+        {isLoadingDb ? (
+          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0.75rem 1.25rem', color: 'var(--primary)' }}>
+            <Loader2 className="animate-spin" size={18} />
+            <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>
+              Conectando ao Banco de Dados Vercel Postgres...
+            </span>
+          </div>
+        ) : dbError ? (
+          <div className="glass-panel" style={{ borderLeft: '4px solid #ef4444', padding: '1rem 1.25rem', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444', fontWeight: 600, marginBottom: '4px' }}>
+              <Database size={18} /> Conexão com o Banco de Dados Vercel Postgres Pendente
+            </div>
+            <p style={{ fontSize: '0.85rem', margin: 0 }}>
+              Para conectar o banco ao vivo: adicione a variável <code>POSTGRES_URL</code> no seu painel da Vercel (ou em <code>.env.local</code>) e execute <code>npm run db:seed</code>.
+            </p>
+          </div>
+        ) : (
+          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.5rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Database size={15} color="var(--primary)" /> 
+              <strong>Banco de Dados Conectado:</strong> Exibindo {places.length} registros diretamente do Vercel Postgres
+            </span>
+          </div>
+        )}
       </div>
 
       {/* RENDER BY SCREEN TAB */}
@@ -219,7 +288,7 @@ export default function App() {
         <main className="container" style={{ minHeight: '80vh', paddingTop: '2rem' }}>
           <ItineraryView 
             favorites={favorites}
-            placesData={placesData}
+            placesData={places}
             userLocation={userLocation}
             onSelectPlace={setSelectedPlace}
             onSelectCity={handleSelectSingleCity}
@@ -228,7 +297,7 @@ export default function App() {
       ) : activeTab === 'ai' ? (
         <main className="container" style={{ minHeight: '80vh', paddingTop: '2rem' }}>
           <AiAssistant 
-            placesData={placesData}
+            placesData={places}
             userLocation={userLocation}
             onSelectPlace={setSelectedPlace}
             onSelectCity={handleSelectSingleCity}
@@ -240,7 +309,7 @@ export default function App() {
         <main className="container" style={{ minHeight: '80vh', paddingTop: '2rem' }}>
           <ProfileView 
             favorites={favorites}
-            placesData={placesData}
+            placesData={places}
             userLocation={userLocation}
             theme={theme}
             toggleTheme={toggleTheme}
@@ -287,7 +356,7 @@ export default function App() {
           {/* DEDICATED CITY & CATEGORY MULTI-SELECTION FILTER SYSTEM */}
           <section className="container" style={{ marginTop: '1.5rem' }}>
             <CityCategoryFilterBox 
-              placesData={placesData}
+              placesData={places}
               userLocation={userLocation}
               onGeolocateUser={handleGeolocateUser}
               isGeolocating={isGeolocating}
@@ -307,7 +376,7 @@ export default function App() {
           </section>
 
           {/* Main Content Area */}
-          <main className="container" style={{ minHeight: '60vh', paddingTop: '1rem' }}>
+          <main className="container" id="search-results-anchor" style={{ minHeight: '60vh', paddingTop: '1rem' }}>
             {showFavoritesOnly && (
               <div style={{ margin: '1.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#EF4444' }}>
                 <Heart size={24} fill="#EF4444" />

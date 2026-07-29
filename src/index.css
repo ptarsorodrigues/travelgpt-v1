@@ -5,12 +5,12 @@
   --bg-card-hover: rgba(30, 41, 67, 0.85);
   --bg-glass: rgba(18, 25, 41, 0.65);
   --border-glass: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(0, 212, 178, 0.45);
+  --border-hover: rgba(16, 185, 129, 0.45);
   
-  --primary: #00D4B2;
-  --primary-text: #00D4B2;
-  --primary-hover: #00B89B;
-  --primary-glow: rgba(0, 212, 178, 0.25);
+  --primary: #10B981; /* UNIFICADO VERDE OFICIAL #10B981 */
+  --primary-text: #10B981;
+  --primary-hover: #059669;
+  --primary-glow: rgba(16, 185, 129, 0.3);
   
   --accent-gold: #FFB800;
   --accent-gold-glow: rgba(255, 184, 0, 0.25);
@@ -31,7 +31,7 @@
   --radius-xl: 28px;
   
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 25px rgba(0, 212, 178, 0.2);
+  --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.2);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -41,12 +41,12 @@
   --bg-card-hover: #F1F5F9;
   --bg-glass: rgba(255, 255, 255, 0.92);
   --border-glass: rgba(0, 0, 0, 0.12);
-  --border-hover: rgba(0, 135, 112, 0.5);
+  --border-hover: rgba(16, 185, 129, 0.5);
   
-  --primary: #008770;
-  --primary-text: #006E5D;
-  --primary-hover: #006E5D;
-  --primary-glow: rgba(0, 135, 112, 0.2);
+  --primary: #10B981; /* UNIFICADO VERDE OFICIAL #10B981 */
+  --primary-text: #059669;
+  --primary-hover: #047857;
+  --primary-glow: rgba(16, 185, 129, 0.25);
   
   --text-main: #0F172A;
   --text-muted: #334155;
@@ -145,37 +145,32 @@ body {
   margin-right: auto !important; /* Mantém a logo na extrema ESQUERDA */
 }
 
-/* Sub-banner Phrase Styling (Sua viagem nunca mais será a mesma!) */
+/* Sub-banner Image Styling (Sua viagem nunca mais será a mesma!) */
 .app-subbanner-phrase {
-  margin-top: 0.4rem !important;   /* Espaçamento superior igual (0.4rem) */
-  margin-bottom: 0.4rem !important;/* Espaçamento inferior igual (0.4rem) */
+  margin-top: 0.6rem !important;
+  margin-bottom: 0.6rem !important;
   text-align: center !important;
-  padding: 0 !important;
+  padding: 0 1rem !important;
   width: 100% !important;
   box-sizing: border-box !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
-.app-subbanner-phrase p {
-  font-family: var(--font-heading) !important;
-  font-size: 0.98rem !important;
-  font-weight: 700 !important;
-  color: var(--primary) !important;
-  letter-spacing: 0.02em !important;
-  margin: 0 !important;
-  display: inline-block !important;
-  background: rgba(0, 212, 178, 0.08) !important;
-  border: 1px solid rgba(0, 212, 178, 0.25) !important;
-  padding: 0.35rem 1.1rem !important;
-  border-radius: 24px !important;
-  backdrop-filter: blur(8px) !important;
-  box-shadow: 0 2px 10px rgba(0, 212, 178, 0.1) !important;
+.app-subbanner-img {
+  width: 100% !important;
+  max-width: 600px !important;
+  height: auto !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+  object-fit: contain !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-[data-theme="light"] .app-subbanner-phrase p {
-  background: #E6F7F5 !important;
-  color: #007A67 !important;
-  border: 1px solid #B2EBE4 !important;
-  box-shadow: 0 2px 8px rgba(0, 122, 103, 0.1) !important;
+.app-subbanner-img:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.3) !important;
 }
 
 /* Hero Showcase */
@@ -2875,98 +2870,163 @@ body {
 }
 
 /* ==========================================
-   GPS & Distance Badge Styling
+   PERSONALIZE O SEU TRAVELGPT Section Styling
    ========================================== */
-.gps-location-btn {
+.personalize-section-title-wrap {
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 0.4rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.personalize-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.align-left-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  text-align: left !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  margin-bottom: 0.2rem !important;
+}
+
+/* Fundo Escuro (Dark): Frases em BRANCO (#FFFFFF) */
+[data-theme="dark"] .align-left-label,
+[data-theme="dark"] .radius-label,
+[data-theme="dark"] .align-left-label *,
+[data-theme="dark"] .radius-label * {
+  color: #FFFFFF !important;
+}
+
+/* Fundo Claro (Light): Frases em PRETO (#0F172A) */
+[data-theme="light"] .align-left-label,
+[data-theme="light"] .radius-label,
+[data-theme="light"] .align-left-label *,
+[data-theme="light"] .radius-label *,
+[data-theme="light"] .personalize-section-title,
+[data-theme="light"] .personalize-section-title * {
+  color: #0F172A !important;
+}
+
+.view-mode-section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border-glass);
+  border-radius: var(--radius-md);
+  margin-top: 0.35rem;
+}
+
+/* Custom GPS Toggle Button: VERDE ATIVO / VERMELHO INATIVO com Letras em Branco */
+.gps-toggle-btn-custom {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--bg-glass);
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.5rem 1rem;
+  padding: 0.65rem 1.15rem;
   border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: 0 0 15px rgba(0, 212, 178, 0.15);
+  border: none;
+  color: #FFFFFF !important;
 }
 
-.gps-location-btn:hover {
-  background: var(--primary);
-  color: #0B0F19;
-  box-shadow: 0 0 25px rgba(0, 212, 178, 0.4);
-  transform: translateY(-1px);
+.gps-toggle-btn-custom.active-green {
+  background: #10B981 !important; /* VERDE QUANDO ATIVO */
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
 }
 
-.gps-location-btn.active {
-  background: #10B981;
-  color: #0B0F19;
-  border-color: #10B981;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+.gps-toggle-btn-custom.active-green * {
+  color: #FFFFFF !important;
 }
 
-.badge-distance-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 1rem;
-  border-radius: 30px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid #10B981;
-  color: #10B981;
-  font-size: 0.85rem;
-  font-weight: 700;
-  height: 34px;
-  box-sizing: border-box;
+.gps-toggle-btn-custom.inactive-red {
+  background: #EF4444 !important; /* VERMELHO QUANDO INATIVO */
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
 }
 
-.card-distance-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: rgba(0, 212, 178, 0.12);
-  color: var(--primary);
-  border: 1px solid rgba(0, 212, 178, 0.3);
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 12px;
+.gps-toggle-btn-custom.inactive-red * {
+  color: #FFFFFF !important;
 }
 
-.location-indicator-tag {
-  display: inline-block;
-  margin-left: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  color: #10B981;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: 700;
+.filter-box-section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border-glass);
+  border-radius: var(--radius-md);
+  margin-top: 0.35rem;
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ==========================================
-   Distance Radius Filter Row Styling
-   ========================================== */
-.distance-radius-row {
+.filter-box-section-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.85rem;
-  background: rgba(0, 212, 178, 0.05);
+  justify-content: space-between;
+}
+
+/* Botao Final: INICIAR A PESQUISA */
+.btn-iniciar-pesquisa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--primary) 0%, #008770 100%);
+  color: #FFFFFF !important;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(0, 212, 178, 0.35);
+  margin-top: 0.6rem !important;
+}
+
+.btn-iniciar-pesquisa * {
+  color: #FFFFFF !important;
+}
+
+.btn-iniciar-pesquisa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.5);
+}
+
+/* Distance Radius Filter Row Styling */
+.distance-radius-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 212, 178, 0.04);
   border: 1px dashed rgba(0, 212, 178, 0.3);
   border-radius: var(--radius-md);
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
 }
 
 .radius-label {
