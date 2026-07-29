@@ -255,33 +255,6 @@ export default function App() {
         />
       </div>
 
-      {/* Database Connection Status Banner */}
-      <div className="container" style={{ marginBottom: '1rem' }}>
-        {isLoadingDb ? (
-          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0.75rem 1.25rem', color: 'var(--primary)' }}>
-            <Loader2 className="animate-spin" size={18} />
-            <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>
-              Conectando ao Banco de Dados Vercel Postgres...
-            </span>
-          </div>
-        ) : dbError ? (
-          <div className="glass-panel" style={{ borderLeft: '4px solid #ef4444', padding: '1rem 1.25rem', color: 'var(--text-muted)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444', fontWeight: 600, marginBottom: '4px' }}>
-              <Database size={18} /> Conexão com o Banco de Dados Vercel Postgres Pendente
-            </div>
-            <p style={{ fontSize: '0.85rem', margin: 0 }}>
-              Para conectar o banco ao vivo: adicione a variável <code>POSTGRES_URL</code> no seu painel da Vercel (ou em <code>.env.local</code>) e execute <code>npm run db:seed</code>.
-            </p>
-          </div>
-        ) : (
-          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.5rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Database size={15} color="var(--primary)" /> 
-              <strong>Banco de Dados Conectado:</strong> Exibindo {places.length} registros diretamente do Vercel Postgres
-            </span>
-          </div>
-        )}
-      </div>
 
       {/* RENDER BY SCREEN TAB */}
       {activeTab === 'itinerary' ? (
