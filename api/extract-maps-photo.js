@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     return res.redirect(302, streetViewUrl);
   }
 
-  // 3. Tentar fazer scraping server-side da meta tag og:image da página do Google Maps
+  // 3. Extrair a imagem (og:image) diretamente da página de consulta do Google Maps
   if (targetUrl) {
     try {
       const pageRes = await fetch(targetUrl, {
@@ -64,12 +64,13 @@ export default async function handler(req, res) {
       });
       const html = await pageRes.text();
 
-      // Procurar og:image ou imagens do Google Maps/Street View no HTML
+      // Procurar og:image no HTML da página do Google Maps
       const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
                       html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
       
-      if (ogMatch && ogMatch[1] && !ogMatch[1].includes('staticmap')) {
-        return res.redirect(302, ogMatch[1]);
+      if (ogMatch && ogMatch[1]) {
+        let imageUrl = ogMatch[1].replace(/&amp;/g, '&');
+        return res.redirect(302, imageUrl);
       }
 
       // Procurar URLs diretas de foto do Googlelh5 / googleusercontent
