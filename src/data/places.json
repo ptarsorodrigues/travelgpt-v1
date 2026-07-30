@@ -2,7 +2,7 @@
   {
     "id": "place-1",
     "title": "Solazer",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Santa Bárbara d'Oeste",
     "address": "R. Antenor K de Menezes 61 - Res. Parque Rochele II Santa Bárbara d'Oeste - SP 13458-715",
@@ -21,7 +21,7 @@
   {
     "id": "place-2",
     "title": "ÁREA DE LAZER MADRI",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Ribeirão Preto",
     "address": "R. Deocacina Brunhara Approbato 90 - Parque das Oliveiras Ribeirão Preto - SP 14065-782",
@@ -40,7 +40,7 @@
   {
     "id": "place-3",
     "title": "Arena Rubinho",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Guatapará",
     "address": "R. Breno Vieira de Aquino Leite 29 Guatapará - SP 14115-000",
@@ -78,7 +78,7 @@
   {
     "id": "place-5",
     "title": "Chácara São Pedro",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Sertãozinho",
     "address": "Estr. Hermínio Bizio 2450 - Chácaras Recreio Planalto Sertãozinho - SP 14176-425",
@@ -116,7 +116,7 @@
   {
     "id": "place-7",
     "title": "Toca do Leão",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Jaboticabal",
     "address": "R. Dr. Antonio Roque Geraldo 571 - Parque das Araras Jaboticabal - SP 14890-732",
@@ -173,7 +173,7 @@
   {
     "id": "place-10",
     "title": "Espaço Kids Igarapava",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Igarapava",
     "address": "R. José Moisés Neto Igarapava - SP 14540-000",
@@ -230,7 +230,7 @@
   {
     "id": "place-13",
     "title": "CRIANÇA FELIZ ALUGUEL DE BRINQUEDOS E RECREAÇÃO",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Área de recreação",
     "city": "Sertãozinho",
     "address": "R. Fábio Aparecido dos Santos - Jardim Grande Aliança Sertãozinho - SP 14161-330",
@@ -458,7 +458,7 @@
   {
     "id": "place-25",
     "title": "Saci (Lendário)",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Parque de diversões",
     "city": "Olímpia",
     "address": "Olímpia SP 15400-000",
@@ -705,7 +705,7 @@
   {
     "id": "place-38",
     "title": "Aquário Municipal de Campinas",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "Campinas",
     "address": "Rua Coronel Quirino 02 Bosque dos Jequitibás - Bosque Campinas - SP 13025-004",
@@ -781,7 +781,7 @@
   {
     "id": "place-42",
     "title": "Dreams Ice Bar",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "Olímpia",
     "address": "Av. Aurora Forti Neves 116 - Olímpia SP 15400-057",
@@ -1028,7 +1028,7 @@
   {
     "id": "place-55",
     "title": "Ladeira Porto Geral Centro Histórico de São Paulo",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "São Paulo",
     "address": "R. Vinte e Cinco de Março 625 - Centro Histórico de São Paulo São Paulo - SP 01021-200",
@@ -1313,7 +1313,7 @@
   {
     "id": "place-70",
     "title": "Garrafa D'água",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "Lindóia",
     "address": "Av. 31 de Março Lindóia - SP 13950-000",
@@ -1408,7 +1408,7 @@
   {
     "id": "place-75",
     "title": "Teleférico da Barra",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "Barra Bonita",
     "address": "Av. Rosa Zanela Petri - Centro Barra Bonita - SP 17340-000",
@@ -1731,7 +1731,7 @@
   {
     "id": "place-92",
     "title": "Trem da Mogiana",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "Monte Alegre do Sul",
     "address": "Praça Sebastião Carvalho 35 - Monte Alegre do Sul SP 13820-000",
@@ -1750,7 +1750,7 @@
   {
     "id": "place-93",
     "title": "Pouso Paranapiacaba",
-    "category": "Atrações Turísticas & Lazer",
+    "category": "Atrações Turísticas, Museus & Cultura",
     "originalCategory": "Atração turística",
     "city": "São Bernardo do Campo",
     "address": "SP-148 42 - Rio Grande São Bernardo do Campo - SP 11556-000",

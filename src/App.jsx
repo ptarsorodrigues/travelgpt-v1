@@ -34,6 +34,12 @@ export default function App() {
   const [isLoadingDb, setIsLoadingDb] = useState(true);
   const [dbError, setDbError] = useState(null);
 
+  const normalizeCategory = (cat) => {
+    if (!cat) return "Atrações Turísticas, Museus & Cultura";
+    if (cat === "Atrações Turísticas & Lazer") return "Atrações Turísticas, Museus & Cultura";
+    return cat;
+  };
+
   useEffect(() => {
     setIsLoadingDb(true);
     fetch('/api/places')
@@ -45,7 +51,11 @@ export default function App() {
       })
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
-          setPlaces(data);
+          const normalized = data.map(p => ({
+            ...p,
+            category: normalizeCategory(p.category || p.originalCategory)
+          }));
+          setPlaces(normalized);
           setDbError(null);
           setIsLoadingDb(false);
         } else {
@@ -57,7 +67,11 @@ export default function App() {
         import('./data/places.json')
           .then(fallbackModule => {
             const fallbackData = fallbackModule.default || fallbackModule;
-            setPlaces(fallbackData);
+            const normalized = fallbackData.map(p => ({
+              ...p,
+              category: normalizeCategory(p.category || p.originalCategory)
+            }));
+            setPlaces(normalized);
             setDbError(null);
           })
           .catch(importErr => {
