@@ -2961,13 +2961,14 @@ body {
 
 .personalize-section-title {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+  text-transform: uppercase !important;
   color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  letter-spacing: 0.04em;
   margin: 0;
 }
 
@@ -3827,6 +3828,8 @@ body {
 }
 
 [data-theme="dark"] .filter-system-card.expanded-card .personalize-section-title,
+[data-theme="dark"] .filter-system-card.expanded-card .personalize-section-title *,
+[data-theme="dark"] .filter-system-card.expanded-card .personalize-section-title span,
 [data-theme="dark"] .filter-system-card.expanded-card .radius-label,
 [data-theme="dark"] .filter-system-card.expanded-card .checkbox-city-name {
   color: #0F172A !important;
@@ -3865,6 +3868,8 @@ body {
 }
 
 [data-theme="light"] .filter-system-card.expanded-card .personalize-section-title,
+[data-theme="light"] .filter-system-card.expanded-card .personalize-section-title *,
+[data-theme="light"] .filter-system-card.expanded-card .personalize-section-title span,
 [data-theme="light"] .filter-system-card.expanded-card .radius-label,
 [data-theme="light"] .filter-system-card.expanded-card .checkbox-city-name {
   color: #FFFFFF !important;
