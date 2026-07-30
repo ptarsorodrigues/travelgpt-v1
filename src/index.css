@@ -3874,38 +3874,37 @@ body {
   border-color: #00D4B2 !important;
 }
 
-/* 2. Botão de Alto Destaque da Seção (Pill Gradient com Brilho) */
+/* 2. Botão Retangular com Bordas Arredondadas (sem moldura exagerada) */
 .personalize-toggle-wrapper {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  padding: 0.15rem 0 !important;
+  padding: 0.1rem 0 !important;
 }
 
 .btn-personalize-toggle {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.8rem !important;
-  padding: 0.95rem 2.2rem !important;
-  background: linear-gradient(135deg, #00D4B2 0%, #0284C7 100%) !important;
+  gap: 0.65rem !important;
+  padding: 0.75rem 1.6rem !important;
+  background: var(--primary) !important;
   color: #FFFFFF !important;
-  border: 2px solid rgba(255, 255, 255, 0.45) !important;
-  border-radius: 50px !important;
-  font-size: 1.05rem !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.5px !important;
-  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
   cursor: pointer !important;
-  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.45) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 212, 178, 0.35) !important;
+  transition: all 0.2s ease-in-out !important;
 }
 
 .btn-personalize-toggle:hover {
-  transform: translateY(-3px) scale(1.03) !important;
-  box-shadow: 0 12px 35px rgba(0, 212, 178, 0.65) !important;
-  background: linear-gradient(135deg, #05E5C0 0%, #0396E3 100%) !important;
+  background: #00BCA0 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 212, 178, 0.5) !important;
 }
 
 .btn-personalize-toggle * {
@@ -3913,11 +3912,11 @@ body {
 }
 
 .btn-personalize-toggle .toggle-arrow {
-  transition: transform 0.3s ease !important;
+  transition: transform 0.2s ease !important;
 }
 
 .btn-personalize-toggle:hover .toggle-arrow {
-  transform: translateY(3px) !important;
+  transform: translateY(2px) !important;
 }
 
 

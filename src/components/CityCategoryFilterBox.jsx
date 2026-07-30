@@ -183,53 +183,58 @@ export default function CityCategoryFilterBox({
             </div>
           </div>
 
-          {/* 1. TIPO DE EXIBIÇÃO (Rótulo à Esquerda + Botões de Exibição) */}
-          <div className="view-mode-section-block">
+          {/* 1. TIPO DE EXIBIÇÃO (Mesmo estilo de RAIO DE BUSCA INICIAL) */}
+          <div className="distance-radius-row">
             <span className="radius-label align-left-label">
               <Layers size={14} color="var(--primary)" /> TIPO DE EXIBIÇÃO:
             </span>
-            <div className="view-mode-toggle">
+            <div className="radius-buttons-scroll">
               <button 
-                className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                type="button"
+                className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
                 onClick={() => setViewMode('list')}
                 title="Modo Lista (Padrão)"
               >
-                <List size={16} /> Lista
+                <List size={14} /> Lista
               </button>
 
               <button 
-                className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                type="button"
+                className={`radius-pill ${viewMode === 'grid' ? 'active' : ''}`}
                 onClick={() => setViewMode('grid')}
                 title="Modo Cards em Grid"
               >
-                <Grid size={16} /> Grid
+                <Grid size={14} /> Grid
               </button>
 
               <button 
-                className={`view-btn ${viewMode === 'city' ? 'active' : ''}`}
+                type="button"
+                className={`radius-pill ${viewMode === 'city' ? 'active' : ''}`}
                 onClick={() => setViewMode('city')}
                 title="Agrupado por Cidade"
               >
-                <MapPin size={16} /> Por Cidade
+                <MapPin size={14} /> Por Cidade
               </button>
 
               <button 
-                className={`view-btn ${viewMode === 'category' ? 'active' : ''}`}
+                type="button"
+                className={`radius-pill ${viewMode === 'category' ? 'active' : ''}`}
                 onClick={() => setViewMode('category')}
                 title="Agrupado por Categoria"
               >
-                <Layers size={16} /> Categorias
+                <Layers size={14} /> Categorias
               </button>
             </div>
           </div>
 
-          {/* 2. RAIO DE BUSCA INICIAL (Rótulo à Esquerda) */}
+          {/* 2. RAIO DE BUSCA INICIAL */}
           <div className="distance-radius-row">
             <span className="radius-label align-left-label">
               <Navigation size={14} color="var(--primary)" /> RAIO DE BUSCA INICIAL:
             </span>
             <div className="radius-buttons-scroll">
               <button 
+                type="button"
                 className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
                 onClick={() => setMaxDistanceKm(10)}
                 title="Exibir apenas locais a menos de 10 km (Opção inicial padrão)"
@@ -238,6 +243,7 @@ export default function CityCategoryFilterBox({
               </button>
 
               <button 
+                type="button"
                 className={`radius-pill ${maxDistanceKm === 25 ? 'active' : ''}`}
                 onClick={() => setMaxDistanceKm(25)}
                 title="Exibir locais a menos de 25 km"
@@ -246,6 +252,7 @@ export default function CityCategoryFilterBox({
               </button>
 
               <button 
+                type="button"
                 className={`radius-pill ${maxDistanceKm === 50 ? 'active' : ''}`}
                 onClick={() => setMaxDistanceKm(50)}
                 title="Exibir locais a menos de 50 km"
@@ -254,6 +261,7 @@ export default function CityCategoryFilterBox({
               </button>
 
               <button 
+                type="button"
                 className={`radius-pill ${maxDistanceKm === 100 ? 'active' : ''}`}
                 onClick={() => setMaxDistanceKm(100)}
                 title="Exibir locais a menos de 100 km"
@@ -262,6 +270,7 @@ export default function CityCategoryFilterBox({
               </button>
 
               <button 
+                type="button"
                 className={`radius-pill ${maxDistanceKm === null ? 'active' : ''}`}
                 onClick={() => setMaxDistanceKm(null)}
                 title="Exibir todos os locais do Estado"
@@ -279,6 +288,7 @@ export default function CityCategoryFilterBox({
               </span>
               {!isAllCitiesSelected && (
                 <button 
+                  type="button"
                   className="mini-clear-btn" 
                   onClick={clearAllCities}
                   title="Limpar seleção de cidades"
@@ -290,6 +300,7 @@ export default function CityCategoryFilterBox({
 
             <div className="selected-chips-row">
               <button 
+                type="button"
                 className={`chip-btn ${isAllCitiesSelected ? 'active' : ''}`}
                 onClick={selectAllCities}
               >
@@ -298,10 +309,11 @@ export default function CityCategoryFilterBox({
               {selectedCities.map(city => (
                 <span key={city} className="chip-badge active">
                   📍 {city}
-                  <button onClick={() => toggleCity(city)} className="chip-remove">✕</button>
+                  <button type="button" onClick={() => toggleCity(city)} className="chip-remove">✕</button>
                 </span>
               ))}
               <button 
+                type="button"
                 className="chip-btn"
                 onClick={() => setIsCityBoxOpen(!isCityBoxOpen)}
                 style={{ borderStyle: 'dashed' }}
@@ -327,18 +339,21 @@ export default function CityCategoryFilterBox({
                 <div className="city-sort-bar">
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Ordenar lista por:</span>
                   <button 
+                    type="button"
                     className={`sort-tab ${citySortBy === 'proximity' ? 'active' : ''}`}
                     onClick={() => setCitySortBy('proximity')}
                   >
                     Proximidade (Capital)
                   </button>
                   <button 
+                    type="button"
                     className={`sort-tab ${citySortBy === 'count' ? 'active' : ''}`}
                     onClick={() => setCitySortBy('count')}
                   >
                     Mais Atrações
                   </button>
                   <button 
+                    type="button"
                     className={`sort-tab ${citySortBy === 'name' ? 'active' : ''}`}
                     onClick={() => setCitySortBy('name')}
                   >
@@ -372,37 +387,73 @@ export default function CityCategoryFilterBox({
             )}
           </div>
 
-          {/* 4. CATEGORIAS */}
-          <div className="filter-box-section-block" style={{ marginTop: '0.75rem' }}>
+          {/* 4. ESCOLHA A CATEGORIA DESEJADA (Mesmo estilo da Cidade Desejada) */}
+          <div className="filter-box-section-block">
             <div className="filter-box-section-header">
               <span className="radius-label">
-                <Filter size={14} color="var(--accent-gold)" /> CATEGORIAS:
+                <Filter size={14} color="var(--primary)" /> ESCOLHA A CATEGORIA DESEJADA:
               </span>
               {!selectedCategories.includes('Todas') && (
                 <button 
+                  type="button"
                   className="mini-clear-btn" 
                   onClick={() => setSelectedCategories(['Todas'])}
+                  title="Limpar seleção de categorias"
                 >
-                  Resetar
+                  Limpar ({selectedCategories.length})
                 </button>
               )}
             </div>
 
-            <div className="categories-multi-chips">
-              {categoriesList.map(cat => {
-                const isSelected = selectedCategories.includes(cat);
-                return (
-                  <button
-                    key={cat}
-                    className={`category-multi-chip ${isSelected ? 'active' : ''}`}
-                    onClick={() => toggleCategory(cat)}
-                  >
-                    {cat === 'Todas' ? 'Todas as Categorias' : cat}
-                    {isSelected && <Check size={14} style={{ marginLeft: '4px' }} />}
-                  </button>
-                );
-              })}
+            <div className="selected-chips-row">
+              <button 
+                type="button"
+                className={`chip-btn ${selectedCategories.includes('Todas') ? 'active' : ''}`}
+                onClick={() => setSelectedCategories(['Todas'])}
+              >
+                Todas ({categoriesList.length - 1})
+              </button>
+              {!selectedCategories.includes('Todas') && selectedCategories.map(cat => (
+                <span key={cat} className="chip-badge active">
+                  🎯 {cat}
+                  <button type="button" onClick={() => toggleCategory(cat)} className="chip-remove">✕</button>
+                </span>
+              ))}
+              <button 
+                type="button"
+                className="chip-btn"
+                onClick={() => setIsCategoryBoxOpen(!isCategoryBoxOpen)}
+                style={{ borderStyle: 'dashed' }}
+              >
+                {isCategoryBoxOpen ? '▲ Fechar Lista' : '▼ Ver Lista de Categorias'}
+              </button>
             </div>
+
+            {/* Dropdown Painel de Categorias */}
+            {isCategoryBoxOpen && (
+              <div className="box-dropdown-panel animate-slide-down">
+                <div className="box-items-scroll">
+                  {categoriesList.slice(1).map(cat => {
+                    const isChecked = selectedCategories.includes(cat);
+                    const count = placesData.filter(p => p.category === cat).length;
+                    return (
+                      <label key={cat} className={`checkbox-item-row ${isChecked ? 'checked' : ''}`}>
+                        <input 
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => toggleCategory(cat)}
+                          className="custom-checkbox"
+                        />
+                        <span className="checkbox-city-name">{cat}</span>
+                        <div className="city-meta-tags">
+                          <span className="meta-badge-count">{count} {count === 1 ? 'local' : 'locais'}</span>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* BOTÃO FINAL: INICIAR A PESQUISA (RETRAI O CONTEÚDO) */}
