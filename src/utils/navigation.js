@@ -5,16 +5,16 @@
 export function getWazeUrl(place, userLocation) {
   if (!place) return 'https://waze.com';
   
-  if (place.lat && place.lng) {
-    let url = `https://waze.com/ul?ll=${place.lat},${place.lng}&navigate=yes`;
-    if (userLocation && userLocation.lat && userLocation.lng) {
-      url += `&from=${userLocation.lat},${userLocation.lng}`;
-    }
-    return url;
-  }
+  // Use the full address (title, address, city) for Waze search instead of lat/lng
+  const addressParts = [place.title, place.address, place.city].filter(Boolean);
+  const fullAddress = addressParts.join(', ');
+  const query = encodeURIComponent(fullAddress);
   
-  const query = encodeURIComponent(`${place.title} ${place.address || place.city || ''}`.trim());
-  return `https://waze.com/ul?q=${query}&navigate=yes`;
+  let url = `https://waze.com/ul?q=${query}&navigate=yes`;
+  if (userLocation && userLocation.lat && userLocation.lng) {
+    url += `&from=${userLocation.lat},${userLocation.lng}`;
+  }
+  return url;
 }
 
 export function getGoogleMapsUrl(place, userLocation) {
