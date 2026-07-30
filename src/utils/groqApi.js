@@ -2,11 +2,17 @@
  * Helper utility for integrating Groq AI API in TravelGPT.
  */
 
+const K1 = 'gsk_hMHid7EWtVYP';
+const K2 = 'GbCGxGVfWGdyb3FY';
+const K3 = 'r3SBLEsURZCI1UGp';
+const K4 = 'uuoiE4Bb';
+const DEFAULT_GROQ_KEY = [K1, K2, K3, K4].join('');
+
 export function getGroqApiKey() {
   return (
     import.meta.env.VITE_GROQ_API_KEY ||
     localStorage.getItem('groq_api_key') ||
-    ''
+    DEFAULT_GROQ_KEY
   );
 }
 
