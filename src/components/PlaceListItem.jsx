@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Heart, Navigation, Info } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
+import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
@@ -87,7 +88,7 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           {place.address}
         </div>
 
-        {/* 2. Botões "Saiba Mais" e "Favorito (Coração)" alinhados no CANTO INFERIOR ESQUERDO */}
+        {/* 2. Botões "Saiba Mais", Waze & Google Maps e "Favorito (Coração)" alinhados */}
         <div className="list-item-actions-row-left">
           <button 
             className="details-btn saiba-mais-framed-btn"
@@ -97,6 +98,8 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             <Info size={14} />
             <span>Saiba Mais</span>
           </button>
+
+          <NavButtons place={place} userLocation={userLocation} />
 
           <button 
             className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
@@ -113,6 +116,7 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
     </div>
   );
 }
+
 
 
 

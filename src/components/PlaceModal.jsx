@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
+import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
 export default function PlaceModal({ place, userLocation, onClose, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
@@ -10,7 +11,6 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
     e.target.src = place.backupImage;
   };
 
-  const wazeUrl = `https://waze.com/ul?ll=${place.lat},${place.lng}&navigate=yes`;
   const distanceKm = userLocation && place.lat && place.lng
     ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
     : null;
@@ -107,15 +107,7 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
               <span>Ver Informação Completa (No App)</span>
             </button>
 
-            <a 
-              href={wazeUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              <Navigation size={18} color="var(--primary)" />
-              <span>Navegar via Waze</span>
-            </a>
+            <NavButtons place={place} userLocation={userLocation} />
 
             {place.phone && (
               <a 
@@ -141,3 +133,4 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Heart, Phone, Mail, Star, Navigation, Info } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
+import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
@@ -88,19 +89,21 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
           )}
         </div>
 
-        {/* 5. Ações (Apenas Saiba Mais) */}
+        {/* 5. Ações (Saiba Mais + Botões de Navegação Waze e Google Maps) */}
         <div className="place-card-footer">
           <button 
             className="details-btn saiba-mais-btn"
             onClick={handleSaibaMais}
             title={`Abrir Listing URL (${listingUrl})`}
-            style={{ width: '100%', justifyContent: 'center' }}
+            style={{ flex: 1, justifyContent: 'center' }}
           >
             <Info size={14} />
             <span>Saiba Mais</span>
           </button>
+          <NavButtons place={place} userLocation={userLocation} />
         </div>
       </div>
     </div>
   );
 }
+
