@@ -266,6 +266,31 @@ export default function App() {
         />
       </div>
 
+      {/* Controle de GPS Ativo/Inativo e Mensagem de Preparação */}
+      <div className="gps-control-banner-container container">
+        <div className="gps-control-btn-wrap">
+          <button 
+            className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
+            onClick={handleGeolocateUser}
+            disabled={isGeolocating}
+            title={userLocation?.isGps ? "GPS Conectado e Ativo (Sua Posição). Clique para desativar." : "GPS Inativo (Sua Posição). Clique para ativar a localização."}
+          >
+            {isGeolocating ? (
+              <Loader2 size={16} className="animate-spin" color="#FFF" />
+            ) : (
+              <Navigation size={16} color="#FFF" />
+            )}
+            <span>{userLocation?.isGps ? '📍 GPS Ativo (Sua Posição)' : '📍 GPS Inativo (Sua Posição)'}</span>
+          </button>
+        </div>
+
+        {(isLoadingDb || isGeolocating || featuredPlaces.length === 0) && (
+          <div className="preparing-attractions-msg">
+            ... preparando as atrações mais próximas
+          </div>
+        )}
+      </div>
+
 
       {/* RENDER BY SCREEN TAB */}
       {activeTab === 'itinerary' ? (

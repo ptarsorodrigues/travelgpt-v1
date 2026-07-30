@@ -130,7 +130,7 @@ export default function CityCategoryFilterBox({
         </h2>
       </div>
 
-      {/* Busca e Botão de Controle de GPS */}
+      {/* Busca */}
       <div className="filter-header-row">
         <div className="search-input-wrap">
           <Search className="search-icon" size={18} />
@@ -147,21 +147,6 @@ export default function CityCategoryFilterBox({
             </button>
           )}
         </div>
-
-        {/* Botão de Controle de GPS do Smartphone (VERDE ATIVO / VERMELHO INATIVO) */}
-        <button 
-          className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
-          onClick={onGeolocateUser}
-          disabled={isGeolocating}
-          title={userLocation?.isGps ? "GPS Conectado e Ativo (Sua Posição). Clique para desativar." : "GPS Inativo (Sua Posição). Clique para ativar a localização."}
-        >
-          {isGeolocating ? (
-            <Loader2 size={16} className="animate-spin" color="#FFF" />
-          ) : (
-            <Navigation size={16} color="#FFF" />
-          )}
-          <span>{userLocation?.isGps ? '📍 GPS Ativo (Sua Posição)' : '📍 GPS Inativo (Sua Posição)'}</span>
-        </button>
       </div>
 
       {/* 1. TIPO DE EXIBIÇÃO (Rótulo à Esquerda + Botões de Exibição) */}

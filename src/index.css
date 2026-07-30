@@ -173,6 +173,42 @@ body {
   box-shadow: 0 8px 25px rgba(0, 212, 178, 0.3) !important;
 }
 
+/* Container do Controle de GPS abaixo da Imagem Inicial */
+.gps-control-banner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.gps-control-btn-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.preparing-attractions-msg {
+  margin-top: 0.6rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.3px;
+  animation: pulseMessage 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseMessage {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
 /* Hero Showcase */
 .hero-section {
   position: relative;
