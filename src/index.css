@@ -3790,38 +3790,126 @@ body {
   flex-shrink: 0 !important;
 }
 
-/* Centralized Personalize o seu TravelGPT Toggle Button */
+/* ==========================================================================
+   PERSONALIZE O SEU TRAVELGPT: TEMA INVERTIDO E ALTO DESTAQUE
+   ========================================================================== */
+
+/* 1. Alternância da cor de fundo por tema:
+   - Se o usuário está no modo ESCURO, a seção tem fundo BRANCO.
+   - Se o usuário está no modo CLARO, a seção tem fundo ESCURO.
+*/
+[data-theme="dark"] .filter-system-card {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 2px solid #E2E8F0 !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45) !important;
+}
+
+[data-theme="dark"] .filter-system-card .personalize-section-title,
+[data-theme="dark"] .filter-system-card .radius-label,
+[data-theme="dark"] .filter-system-card .checkbox-city-name {
+  color: #0F172A !important;
+}
+
+[data-theme="dark"] .filter-system-card .search-input {
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="dark"] .filter-system-card .view-btn,
+[data-theme="dark"] .filter-system-card .radius-pill,
+[data-theme="dark"] .filter-system-card .chip-btn,
+[data-theme="dark"] .filter-system-card .category-multi-chip {
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="dark"] .filter-system-card .view-btn.active,
+[data-theme="dark"] .filter-system-card .radius-pill.active,
+[data-theme="dark"] .filter-system-card .chip-badge.active,
+[data-theme="dark"] .filter-system-card .category-multi-chip.active {
+  background: #00D4B2 !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
+  border-color: #00D4B2 !important;
+}
+
+[data-theme="light"] .filter-system-card {
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  border: 2px solid #1E293B !important;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.3) !important;
+}
+
+[data-theme="light"] .filter-system-card .personalize-section-title,
+[data-theme="light"] .filter-system-card .radius-label,
+[data-theme="light"] .filter-system-card .checkbox-city-name {
+  color: #FFFFFF !important;
+}
+
+[data-theme="light"] .filter-system-card .search-input {
+  background: #1E293B !important;
+  color: #FFFFFF !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="light"] .filter-system-card .view-btn,
+[data-theme="light"] .filter-system-card .radius-pill,
+[data-theme="light"] .filter-system-card .chip-btn,
+[data-theme="light"] .filter-system-card .category-multi-chip {
+  background: #1E293B !important;
+  color: #CBD5E1 !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="light"] .filter-system-card .view-btn.active,
+[data-theme="light"] .filter-system-card .radius-pill.active,
+[data-theme="light"] .filter-system-card .chip-badge.active,
+[data-theme="light"] .filter-system-card .category-multi-chip.active {
+  background: #00D4B2 !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
+  border-color: #00D4B2 !important;
+}
+
+/* 2. Botão de Alto Destaque da Seção (Pill Gradient com Brilho) */
 .personalize-toggle-wrapper {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  padding: 0.25rem 0 !important;
+  padding: 0.15rem 0 !important;
 }
 
 .btn-personalize-toggle {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.65rem !important;
-  padding: 0.85rem 1.85rem !important;
-  background: var(--bg-card) !important;
-  border: 1px solid var(--border-glass) !important;
-  border-radius: var(--radius-lg, 16px) !important;
-  color: var(--text-main) !important;
+  gap: 0.8rem !important;
+  padding: 0.95rem 2.2rem !important;
+  background: linear-gradient(135deg, #00D4B2 0%, #0284C7 100%) !important;
+  color: #FFFFFF !important;
+  border: 2px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 50px !important;
   font-size: 1.05rem !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
   cursor: pointer !important;
-  transition: all 0.3s ease-in-out !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.45) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .btn-personalize-toggle:hover {
-  background: rgba(0, 212, 178, 0.12) !important;
-  border-color: var(--primary) !important;
-  color: var(--primary) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.3) !important;
+  transform: translateY(-3px) scale(1.03) !important;
+  box-shadow: 0 12px 35px rgba(0, 212, 178, 0.65) !important;
+  background: linear-gradient(135deg, #05E5C0 0%, #0396E3 100%) !important;
+}
+
+.btn-personalize-toggle * {
+  color: #FFFFFF !important;
 }
 
 .btn-personalize-toggle .toggle-arrow {
@@ -3829,7 +3917,7 @@ body {
 }
 
 .btn-personalize-toggle:hover .toggle-arrow {
-  transform: translateY(2px) !important;
+  transform: translateY(3px) !important;
 }
 
 

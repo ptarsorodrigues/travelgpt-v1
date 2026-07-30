@@ -139,9 +139,9 @@ export default function CityCategoryFilterBox({
             onClick={() => setIsExpanded(true)}
             title="Clique para abrir e personalizar suas preferências de busca"
           >
-            <SlidersHorizontal size={20} color="var(--primary)" />
-            <span>Personalize o seu TravelGPT</span>
-            <ChevronDown size={18} color="var(--primary)" className="toggle-arrow" />
+            <SlidersHorizontal size={22} color="#FFFFFF" />
+            <span>PERSONALIZE O SEU TRAVELGPT</span>
+            <ChevronDown size={22} color="#FFFFFF" className="toggle-arrow" />
           </button>
         </div>
       ) : (

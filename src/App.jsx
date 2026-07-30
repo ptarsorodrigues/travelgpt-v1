@@ -348,7 +348,7 @@ export default function App() {
           )}
 
           {/* DEDICATED CITY & CATEGORY MULTI-SELECTION FILTER SYSTEM */}
-          <section className="container" style={{ marginTop: '1.5rem' }}>
+          <section className="container" style={{ marginTop: '0.35rem', marginBottom: '1rem' }}>
             <CityCategoryFilterBox 
               placesData={places}
               userLocation={userLocation}
