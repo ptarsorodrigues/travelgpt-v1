@@ -1,11 +1,11 @@
 import React from 'react';
-import { MapPin, Heart, Phone, Mail, Star, Navigation, Info } from 'lucide-react';
+import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
-export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
+export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const handleImageError = (e) => {
     handlePlaceImageError(e, place);
   };
@@ -78,7 +78,7 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
           )}
         </div>
 
-        {/* 5. Ações (Saiba Mais + Waze + Google Maps no lado esquerdo, Coração no final do lado direito) */}
+        {/* 5. Ações (Saiba Mais + IA + Waze + Google Maps no lado esquerdo, Coração no final do lado direito) */}
         <div className="place-card-footer">
           <button 
             className="details-btn saiba-mais-btn"
@@ -88,6 +88,20 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
             <Info size={14} />
             <span>Saiba Mais</span>
           </button>
+          {onOpenPlaceAi && (
+            <button
+              type="button"
+              className="details-btn ia-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenPlaceAi(place);
+              }}
+              title="Gerar guia completo com IA"
+            >
+              <Sparkles size={14} />
+              <span>IA</span>
+            </button>
+          )}
           <NavButtons place={place} userLocation={userLocation} />
           <button 
             className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}

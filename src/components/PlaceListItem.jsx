@@ -1,11 +1,11 @@
 import React from 'react';
-import { MapPin, Heart, Navigation, Info } from 'lucide-react';
+import { MapPin, Heart, Navigation, Info, Sparkles } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 
-export default function PlaceListItem({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
+export default function PlaceListItem({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const handleImageError = (e) => {
     handlePlaceImageError(e, place);
   };
@@ -98,6 +98,21 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             <Info size={14} />
             <span>Saiba Mais</span>
           </button>
+
+          {onOpenPlaceAi && (
+            <button
+              type="button"
+              className="details-btn ia-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenPlaceAi(place);
+              }}
+              title="Gerar guia completo com IA"
+            >
+              <Sparkles size={14} />
+              <span>IA</span>
+            </button>
+          )}
 
           <NavButtons place={place} userLocation={userLocation} />
 

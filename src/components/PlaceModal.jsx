@@ -1,10 +1,10 @@
 import React from 'react';
-import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation } from 'lucide-react';
+import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation, Sparkles } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
-export default function PlaceModal({ place, userLocation, onClose, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
+export default function PlaceModal({ place, userLocation, onClose, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   if (!place) return null;
 
   const handleImageError = (e) => {
@@ -17,11 +17,12 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={onClose} title="Fechar">
           <X size={20} />
         </button>
 
+        {/* Modal Header / Banner Image */}
         <div className="modal-hero-img-wrap">
           <img 
             src={place.coverImage} 
@@ -29,49 +30,48 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
             className="modal-hero-img"
             onError={handleImageError}
           />
-          <div className="hero-overlay"></div>
+          <div className="modal-hero-overlay" />
           
-          <div style={{ position: 'absolute', bottom: '1.5rem', left: '2rem', right: '2rem', zIndex: 2 }}>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span className="badge-featured" style={{ margin: 0 }}>
-                {place.category}
-              </span>
-              {distanceKm !== null && (
-                <span className="badge-distance-hero" style={{ margin: 0 }}>
-                  <Navigation size={13} color="var(--primary)" /> {formatDistance(distanceKm)}
-                </span>
-              )}
+          {/* Tier Badge Overlay */}
+          {place.tier && (
+            <div className="tier-badge-overlay top-left" style={{ top: '1.25rem', left: '1.25rem' }}>
+              <ProductTierIcon tier={place.tier} isFeatured={place.isFeatured} />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-              <ProductTierIcon tier={place.tier} />
-              <h2 className="modal-title" style={{ margin: 0 }}>{place.title}</h2>
-            </div>
-          </div>
+          )}
         </div>
 
+        {/* Modal Body */}
         <div className="modal-body">
-          <p style={{ fontSize: '1.05rem', color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-            {place.description}
-          </p>
+          <h2 className="modal-title">{place.title}</h2>
 
-          <div className="modal-info-grid">
+          <div className="modal-meta-row">
             <div 
-              className="modal-info-item interactive-modal-city"
+              className="interactive-city-tag"
               onClick={() => {
-                if (onSelectCity) onSelectCity(place.city);
                 onClose();
+                if (onSelectCity) onSelectCity(place.city);
               }}
-              title={`Filtrar todas as atrações em ${place.city}`}
+              title={`Filtrar apenas atrações de ${place.city}`}
             >
-              <MapPin size={18} color="var(--primary)" />
-              <div>
-                <small style={{ color: 'var(--text-dim)', display: 'block' }}>Cidade / Região (Clique p/ filtrar)</small>
-                <strong style={{ color: 'var(--primary)', textDecoration: 'underline' }}>{place.city}</strong>
-              </div>
+              <MapPin size={16} />
+              <span>{place.city}</span>
             </div>
 
+            <span className="list-item-category">{place.category}</span>
+
+            {distanceKm !== null && (
+              <span className="card-distance-badge" title="Distância estimada até sua localização">
+                <Navigation size={12} className="distance-icon" />
+                <span>{formatDistance(distanceKm)}</span>
+              </span>
+            )}
+          </div>
+
+          <p className="modal-description">{place.description}</p>
+
+          <div className="modal-info-grid">
             <div className="modal-info-item">
-              <Compass size={18} color="var(--primary)" />
+              <MapPin size={18} color="var(--primary)" />
               <div>
                 <small style={{ color: 'var(--text-dim)', display: 'block' }}>Endereço Completo</small>
                 <strong>{place.address}</strong>
@@ -107,6 +107,26 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
               <span>Ver Informação Completa (No App)</span>
             </button>
 
+            {onOpenPlaceAi && (
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  onClose();
+                  onOpenPlaceAi(place);
+                }}
+                title="Gerar guia completo com IA Groq"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 184, 0, 0.25) 0%, rgba(245, 158, 11, 0.35) 100%)',
+                  border: '1px solid var(--accent-gold)',
+                  color: 'var(--accent-gold)'
+                }}
+              >
+                <Sparkles size={18} color="var(--accent-gold)" />
+                <span>IA</span>
+              </button>
+            )}
+
             <NavButtons place={place} userLocation={userLocation} />
 
             {place.phone && (
@@ -136,4 +156,3 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
     </div>
   );
 }
-

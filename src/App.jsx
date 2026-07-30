@@ -5,6 +5,7 @@ import PlaceCard from './components/PlaceCard';
 import PlaceListItem from './components/PlaceListItem';
 import MapView from './components/MapView';
 import PlaceModal from './components/PlaceModal';
+import PlaceAiModal from './components/PlaceAiModal';
 import ItineraryView from './components/ItineraryView';
 import AiAssistant from './components/AiAssistant';
 import ProfileView from './components/ProfileView';
@@ -104,6 +105,7 @@ export default function App() {
   
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [webViewerPlace, setWebViewerPlace] = useState(null); // In-App Web View Place state
+  const [selectedPlaceAi, setSelectedPlaceAi] = useState(null); // Groq AI Place Guide Modal state
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   // Favorites in localStorage
@@ -360,6 +362,7 @@ export default function App() {
               userLocation={userLocation}
               onSelectPlace={setSelectedPlace}
               onOpenWebView={setWebViewerPlace}
+              onOpenPlaceAi={setSelectedPlaceAi}
               onSelectCity={handleSelectSingleCity}
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}
@@ -441,6 +444,7 @@ export default function App() {
                     userLocation={userLocation}
                     onSelectPlace={setSelectedPlace}
                     onOpenWebView={setWebViewerPlace}
+                    onOpenPlaceAi={setSelectedPlaceAi}
                     onSelectCity={handleSelectSingleCity}
                     isFavorite={isFavorite}
                     toggleFavorite={toggleFavorite}
@@ -456,6 +460,7 @@ export default function App() {
                     userLocation={userLocation}
                     onSelectPlace={setSelectedPlace}
                     onOpenWebView={setWebViewerPlace}
+                    onOpenPlaceAi={setSelectedPlaceAi}
                     onSelectCity={handleSelectSingleCity}
                     isFavorite={isFavorite}
                     toggleFavorite={toggleFavorite}
@@ -493,6 +498,7 @@ export default function App() {
                           userLocation={userLocation}
                           onSelectPlace={setSelectedPlace}
                           onOpenWebView={setWebViewerPlace}
+                          onOpenPlaceAi={setSelectedPlaceAi}
                           onSelectCity={handleSelectSingleCity}
                           isFavorite={isFavorite}
                           toggleFavorite={toggleFavorite}
@@ -524,6 +530,7 @@ export default function App() {
                             userLocation={userLocation}
                             onSelectPlace={setSelectedPlace}
                             onOpenWebView={setWebViewerPlace}
+                            onOpenPlaceAi={setSelectedPlaceAi}
                             onSelectCity={handleSelectSingleCity}
                             isFavorite={isFavorite}
                             toggleFavorite={toggleFavorite}
@@ -534,25 +541,23 @@ export default function App() {
                   );
                 })}
               </div>
-            ) : (
-              <MapView 
-                places={sortedFilteredPlaces}
-                userLocation={userLocation}
-                onSelectPlace={setSelectedPlace}
-                onSelectCity={handleSelectSingleCity}
-              />
-            )}
+            ) : null}
           </main>
         </>
       )}
-
-      {/* Modal antigo desativado conforme solicitado: clique na imagem/card abre direto o Saiba Mais */}
 
       {/* In-App Web View Modal */}
       <InAppWebViewer 
         place={webViewerPlace}
         userLocation={userLocation}
         onClose={() => setWebViewerPlace(null)}
+      />
+
+      {/* Groq AI Place Guide Modal */}
+      <PlaceAiModal 
+        place={selectedPlaceAi}
+        onClose={() => setSelectedPlaceAi(null)}
+        onSelectCity={handleSelectSingleCity}
       />
 
       {/* Footer */}

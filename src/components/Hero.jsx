@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
-export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite }) {
+export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
@@ -20,13 +20,6 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
     ? getDistanceKm(userLocation.lat, userLocation.lng, currentPlace.lat, currentPlace.lng)
     : null;
 
-  const listingUrl = currentPlace.listingUrl || currentPlace.websiteUrl || currentPlace.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent(currentPlace.title + ' ' + currentPlace.city)}`;
-
-  const handleSaibaMais = (e) => {
-    if (e) e.stopPropagation();
-    window.open(listingUrl, '_blank', 'noopener,noreferrer');
-  };
-
   const handlePrev = (e) => {
     if (e) e.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + featuredPlaces.length) % featuredPlaces.length);
@@ -35,6 +28,16 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
   const handleNext = (e) => {
     if (e) e.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % featuredPlaces.length);
+  };
+
+  const handleSaibaMais = (e) => {
+    if (e) e.stopPropagation();
+    if (onOpenWebView) {
+      onOpenWebView(currentPlace);
+    } else {
+      const listingUrl = currentPlace.listingUrl || currentPlace.websiteUrl || currentPlace.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent(currentPlace.title + ' ' + currentPlace.city)}`;
+      window.open(listingUrl, '_blank', 'noopener,noreferrer');
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -137,6 +140,26 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
                 <Info size={18} />
                 <span>Saiba mais</span>
               </button>
+
+              {onOpenPlaceAi && (
+                <button
+                  type="button"
+                  className="btn-primary ia-btn-hero"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenPlaceAi(currentPlace);
+                  }}
+                  title="Gerar guia completo com IA Groq"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 184, 0, 0.25) 0%, rgba(245, 158, 11, 0.35) 100%)',
+                    border: '1px solid var(--accent-gold)',
+                    color: 'var(--accent-gold)'
+                  }}
+                >
+                  <Sparkles size={18} color="var(--accent-gold)" />
+                  <span>IA</span>
+                </button>
+              )}
 
               <NavButtons place={currentPlace} userLocation={userLocation} />
 
