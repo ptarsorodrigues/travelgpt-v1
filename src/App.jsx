@@ -179,8 +179,8 @@ export default function App() {
         ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
         : 9999;
 
-      // Initial < 10 km distance restriction applies when no explicit city filter AND no search query is active
-      if (!searchQuery.trim() && selectedCities.length === 0 && maxDistanceKm !== null) {
+      // Initial < 10 km distance restriction applies ONLY when no category, no city, and no search query is active
+      if (maxDistanceKm !== null && !searchQuery.trim() && selectedCities.length === 0 && selectedCategories.includes('Todas')) {
         if (distance > maxDistanceKm) {
           return false;
         }
