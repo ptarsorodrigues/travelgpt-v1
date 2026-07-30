@@ -10,7 +10,7 @@ import AiAssistant from './components/AiAssistant';
 import ProfileView from './components/ProfileView';
 import CityCategoryFilterBox from './components/CityCategoryFilterBox';
 import InAppWebViewer from './components/InAppWebViewer';
-import { getDistanceKm, formatDistance } from './utils/geo';
+import { getDistanceKm, formatDistance, normalizeText } from './utils/geo';
 import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -187,14 +187,15 @@ export default function App() {
         return false;
       }
 
-      // Search query filter
+      // Search query filter (Accent & Case Insensitive)
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchTitle = place.title.toLowerCase().includes(q);
-        const matchCity = place.city.toLowerCase().includes(q);
-        const matchCat = place.category.toLowerCase().includes(q);
-        const matchAddr = place.address.toLowerCase().includes(q);
-        return matchTitle || matchCity || matchCat || matchAddr;
+        const q = normalizeText(searchQuery);
+        const matchTitle = normalizeText(place.title).includes(q);
+        const matchCity = normalizeText(place.city).includes(q);
+        const matchCat = normalizeText(place.category).includes(q);
+        const matchAddr = normalizeText(place.address).includes(q);
+        const matchDesc = normalizeText(place.description).includes(q);
+        return matchTitle || matchCity || matchCat || matchAddr || matchDesc;
       }
 
       return true;

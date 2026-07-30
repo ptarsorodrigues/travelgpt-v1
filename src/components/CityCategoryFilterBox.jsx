@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { MapPin, Filter, Search, Check, X, ChevronDown, ChevronUp, Layers, List, Grid, Map as MapIcon, SlidersHorizontal, Navigation, Loader2 } from 'lucide-react';
-import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getDistanceKm, formatDistance, normalizeText } from '../utils/geo';
 
 // Default Reference point: São Paulo Capital Center (-23.5505, -46.6333)
 const REF_LAT = -23.5505;
@@ -70,11 +70,11 @@ export default function CityCategoryFilterBox({
     });
   }, [placesData, citySortBy, baseLat, baseLng]);
 
-  // Filtered cities in box search
+  // Filtered cities in box search (Accent & Case Insensitive)
   const filteredCitiesInBox = useMemo(() => {
     if (!citySearchText.trim()) return citiesWithStats;
-    const q = citySearchText.toLowerCase();
-    return citiesWithStats.filter(c => c.city.toLowerCase().includes(q));
+    const q = normalizeText(citySearchText);
+    return citiesWithStats.filter(c => normalizeText(c.city).includes(q));
   }, [citiesWithStats, citySearchText]);
 
   // Toggle individual city selection

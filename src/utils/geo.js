@@ -22,3 +22,17 @@ export function formatDistance(distKm, includeSuffix = false) {
   const formatted = distKm < 1 ? `${Math.round(distKm * 1000)} m` : `${distKm} km`;
   return includeSuffix ? `${formatted} de você` : formatted;
 }
+
+/**
+ * Normalizes text by removing diacritics/accents and converting to lowercase.
+ * Example: "Santo André" -> "santo andre"
+ */
+export function normalizeText(text) {
+  if (!text) return '';
+  return text
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
