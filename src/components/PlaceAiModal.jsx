@@ -127,9 +127,12 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               <h2 className="place-ai-modal-title">
                 {place.title}
               </h2>
-              <div className="place-ai-subtitle">
-                <MapPin size={13} color="var(--primary)" />
-                <span>{place.city} &bull; Guia TravelGPT by Gemini IA</span>
+              <div className="place-ai-city-line">
+                <MapPin size={12} color="var(--primary)" />
+                <span>{place.city}</span>
+              </div>
+              <div className="place-ai-tag-line">
+                Guia TravelGPT by Gemini IA
               </div>
             </div>
           </div>

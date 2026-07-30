@@ -1681,13 +1681,21 @@ body {
   line-height: 1.2;
 }
 
-.place-ai-subtitle {
-  font-size: 0.85rem;
-  color: #94A3B8;
+.place-ai-city-line {
+  font-size: 0.88rem;
+  color: var(--primary);
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 4px;
+  gap: 4px;
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+.place-ai-tag-line {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  margin-top: 2px;
+  font-weight: 500;
 }
 
 .place-ai-modal-body {
