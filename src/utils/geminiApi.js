@@ -31,24 +31,38 @@ export async function fetchGeminiPlaceGuide(place, customApiKey = null) {
     throw new Error('MISSING_KEY');
   }
 
-  const prompt = `Você é um concierge e especialista em turismo do Estado de São Paulo.
-Gere um guia turístico completo, extremamente envolvente, rico em detalhes e fascinante em português do Brasil para o seguinte local:
+  const prompt = `Atue como um guia turístico especialista e curador de viagens. 
 
-Nome do Local: ${place.title}
-Cidade: ${place.city}
-Endereço: ${place.address || 'Não informado'}
-Categoria: ${place.category}
-Avaliação Geral: ${place.rating ? place.rating + ' / 5.0 ★' : 'Não informada'}
-Descrição Base: ${place.description || ''}
+Forneça uma análise completa, detalhada e estruturada sobre o ponto turístico: ${place.title}, ${place.city} - SP.
+Endereço base: ${place.address || 'Não informado'}
+Categoria base: ${place.category}
+Descrição inicial: ${place.description || ''}
 
-Organize sua resposta em tópicos estruturados com emojis e formatação markdown:
-1. 📍 **Visão Geral & Destaque do Local**
-2. 🏛️ **História & Curiosidades**
-3. 🌟 **O Que Fazer & Principais Atrações Imperdíveis**
-4. 🕒 **Melhores Horários & Dicas de Visitação**
-5. 💡 **Informações Práticas (Acessibilidade, Ingressos, Estacionamento, Fotos)**
-6. 🚗 **Como Chegar & Acesso**
-7. 🍽️ **O Que Fazer e Onde Comer nos Arredores**`;
+Siga rigorosamente a estrutura abaixo:
+
+## 1. Visão Geral & Conceito
+- Descrição clara do local, sua relevância cultural/natural e o perfil de visitante ideal (famílias, casais, aventureiros, etc.).
+
+## 2. Destaques & O Que Fazer
+- Principais atrações internas, atividades, trilhas, monumentos ou pontos de interesse fotográfico.
+
+## 3. Informações Práticas (Logística)
+- **Endereço Completo:**
+- **Horário de Funcionamento:**
+- **Preço/Ingressos:** (Gratuito ou faixa de preço)
+- **Acessibilidade:** (Acessível para PCD, idosos, carrinhos de bebê)
+- **Pet Friendly:** (Sim/Não e regras)
+
+## 4. Como Chegar & Acesso
+- Opções de transporte público (metrô, ônibus mais próximo) e facilidade de estacionamento/aplicativos.
+
+## 5. Dicas de Ouro & Ponto Cego
+- **Melhor horário/dia para visitar:**
+- **Tempo médio de permanência:**
+- **Dica de Ouro:** O que não pode deixar de fazer.
+- **Ponto Cego/Atenção:** Um risco, limitação ou detalhe crucial que o turista pode negligenciar (ex: falta de quiosques, segurança no entorno em certos horários, necessidade de agendamento prévio).
+
+Tom de voz: Profissional, engajante e altamente prático. Evite adjetivos genéricos sem contexto.`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey.trim()}`;
 
@@ -66,8 +80,8 @@ Organize sua resposta em tópicos estruturados com emojis e formatação markdow
         }
       ],
       generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 2200
+        temperature: 0.6,
+        maxOutputTokens: 2500
       }
     })
   });
