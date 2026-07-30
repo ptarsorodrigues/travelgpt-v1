@@ -1832,14 +1832,14 @@ body {
   display: block;
 }
 
-.place-ai-modal-footer {
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+/* Spinner Animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite !important;
 }
 
 @media (max-width: 640px) {
@@ -1862,18 +1862,41 @@ body {
   }
   .place-ai-modal-body {
     padding: 0.5rem 0 !important;
+    width: 100% !important;
   }
   .ai-guide-rendered-box {
-    padding: 0.75rem 0.35rem !important;
+    padding: 0.5rem 0.2rem !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     width: 100% !important;
     margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .ai-modal-warning-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 1rem 0 !important;
+    padding: 0.85rem 0.75rem !important;
+    border-radius: 10px !important;
   }
   .ai-modal-paragraph, .ai-bullet-content {
     font-size: 0.96rem !important;
     line-height: 1.65 !important;
+  }
+  .place-ai-modal-footer {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 0.75rem 0 0 0 !important;
+  }
+  .place-ai-modal-footer button {
+    width: 100% !important;
+    margin-left: 0 !important;
+    justify-content: center !important;
+    padding: 0.7rem !important;
+    font-size: 0.95rem !important;
   }
 }
 
