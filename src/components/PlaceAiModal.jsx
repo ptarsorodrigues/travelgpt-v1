@@ -121,7 +121,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
         <div className="place-ai-modal-header">
           <div className="place-ai-header-left">
             <div className="place-ai-icon-badge">
-              <Sparkles size={22} color="var(--accent-gold)" />
+              <Sparkles size={22} color="#0B0F19" />
             </div>
             <div>
               <h2 className="place-ai-modal-title">
@@ -166,11 +166,15 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
             </div>
           )}
 
-          {/* Loading State */}
+          {/* Loading State with Animated Progress Bar */}
           {isLoading && (
             <div className="place-ai-loading-box">
-              <Loader2 size={42} color="var(--primary)" className="animate-spin" />
+              <Loader2 size={42} color="var(--primary)" className="animate-spin" style={{ margin: '0 auto 1rem auto' }} />
               <h4>Gerando Análise Completa & Curadoria...</h4>
+              <div className="ai-progress-bar-wrap">
+                <div className="ai-progress-bar-fill" />
+              </div>
+              <span className="ai-progress-text">Gerando resposta com IA...</span>
             </div>
           )}
 
@@ -201,7 +205,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               className="mini-clear-btn"
               onClick={() => loadAiGuide(currentKey)}
             >
-              <RefreshCw size={14} /> Regerar Resposta (Google Gemini)
+              <RefreshCw size={14} /> Regerar Resposta
             </button>
           )}
 
