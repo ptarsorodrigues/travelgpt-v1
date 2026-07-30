@@ -136,13 +136,58 @@ body {
   gap: 0.2rem !important; /* Espaçamento compacto e simétrico entre os comandos */
 }
 
+.header-left-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  margin-right: auto !important; /* Mantém o conjunto (Logo + GPS) na extrema ESQUERDA */
+  flex-shrink: 0 !important;
+}
+
 .brand-logo {
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
   text-decoration: none !important;
   flex-shrink: 0 !important;
-  margin-right: auto !important; /* Mantém a logo na extrema ESQUERDA */
+}
+
+/* Custom GPS Header Button aligned with header tabs */
+.gps-nav-tab-btn {
+  font-weight: 700 !important;
+  border: none !important;
+  transition: var(--transition) !important;
+}
+
+.gps-nav-tab-btn.active-green {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+}
+
+.gps-nav-tab-btn.inactive-red {
+  background: #EF4444 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
+}
+
+.gps-nav-tab-btn * {
+  color: #FFFFFF !important;
+}
+
+.gps-btn-text {
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+}
+
+@media (max-width: 768px) {
+  .gps-nav-tab-btn {
+    width: auto !important;
+    min-width: auto !important;
+    padding: 0 0.55rem !important;
+    height: 36px !important;
+    font-size: 0.75rem !important;
+  }
 }
 
 /* Sub-banner Image Styling (Sua viagem nunca mais será a mesma!) */

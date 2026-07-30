@@ -1,22 +1,37 @@
 import React from 'react';
-import { Sun, Moon, Heart, Map, Calendar, Sparkles, User, Home } from 'lucide-react';
+import { Sun, Moon, Heart, Map, Calendar, Sparkles, User, Home, Loader2 } from 'lucide-react';
 
 export default function Header({ 
   theme, 
   toggleTheme, 
   favoriteCount, 
   activeTab, 
-  setActiveTab 
+  setActiveTab,
+  userLocation,
+  handleGeolocateUser,
+  isGeolocating
 }) {
   return (
     <header className="app-header glass-panel">
       <div className="container header-container-responsive">
-        {/* Lado Esquerdo: Logo */}
-        <a href="#" className="brand-logo" onClick={(e) => { e.preventDefault(); setActiveTab('explore'); }}>
-          <img src="/logo.png" alt="TravelGPT Logo" className="header-logo-img" />
-        </a>
+        {/* Lado Esquerdo: Logo + Botão GPS */}
+        <div className="header-left-group">
+          <a href="#" className="brand-logo" onClick={(e) => { e.preventDefault(); setActiveTab('explore'); }}>
+            <img src="/logo.png" alt="TravelGPT Logo" className="header-logo-img" />
+          </a>
 
-        {/* Lado Direito: Toolbar Unificado com Todos os 5 Botões 100% Alinhados à DIREITA */}
+          <button 
+            className={`nav-tab-btn gps-nav-tab-btn ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
+            onClick={handleGeolocateUser}
+            disabled={isGeolocating}
+            title={userLocation?.isGps ? "GPS Ativo. Clique para desativar." : "GPS Inativo. Clique para ativar a localização."}
+          >
+            {isGeolocating && <Loader2 size={14} className="animate-spin" color="#FFF" />}
+            <span className="gps-btn-text">{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
+          </button>
+        </div>
+
+        {/* Lado Direito: Toolbar Unificado com Todos os Botões 100% Alinhados à DIREITA */}
         <nav className="header-nav-tabs">
           <button 
             className={`nav-tab-btn ${activeTab === 'explore' ? 'active' : ''}`}
