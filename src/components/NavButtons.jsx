@@ -1,7 +1,7 @@
 import React from 'react';
 import { handleOpenWaze, handleOpenGoogleMaps } from '../utils/navigation';
 
-export default function NavButtons({ place, userLocation, iconSize = 14, className = '' }) {
+export default function NavButtons({ place, userLocation, className = '' }) {
   if (!place) return null;
 
   const onWazeClick = (e) => {
@@ -26,34 +26,20 @@ export default function NavButtons({ place, userLocation, iconSize = 14, classNa
         e.stopPropagation();
       }}
     >
-      <button 
-        type="button"
-        className="nav-app-btn"
-        onClick={onWazeClick}
+      <img 
+        src="/waze-icon.png" 
+        alt="Navegar via Waze" 
         title="Navegar via Waze (origem ao destino)"
-        aria-label="Navegar via Waze"
-      >
-        <img 
-          src="/waze-icon.png" 
-          alt="Waze" 
-          className="nav-app-icon" 
-          style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-        />
-      </button>
-      <button 
-        type="button"
-        className="nav-app-btn"
-        onClick={onGmapsClick}
+        className="nav-icon-img nav-waze-img" 
+        onClick={onWazeClick}
+      />
+      <img 
+        src="/googlemaps-icon.png" 
+        alt="Navegar via Google Maps" 
         title="Navegar via Google Maps (origem ao destino)"
-        aria-label="Navegar via Google Maps"
-      >
-        <img 
-          src="/googlemaps-icon.png" 
-          alt="Google Maps" 
-          className="nav-app-icon" 
-          style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
-        />
-      </button>
+        className="nav-icon-img nav-gmaps-img" 
+        onClick={onGmapsClick}
+      />
     </div>
   );
 }
