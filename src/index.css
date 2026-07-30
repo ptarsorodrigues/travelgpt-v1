@@ -3683,41 +3683,57 @@ body {
   }
 }
 
-/* Padronização de Tamanho dos Botões do Menu Superior (Mesmo Tamanho do GPS) */
-.nav-tab-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 38px !important;
-  min-height: 38px !important;
-  padding: 0 0.95rem !important;
-  border-radius: 10px !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
-  flex-shrink: 0 !important;
-  box-sizing: border-box !important;
-}
-
-.nav-tab-text {
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  display: inline-block !important;
-}
-
-@media (max-width: 768px) {
-  .nav-tab-btn,
-  .gps-nav-tab-btn {
-    height: 34px !important;
-    min-height: 34px !important;
-    padding: 0 0.65rem !important;
-    font-size: 0.76rem !important;
+/* Padronização de Tamanho dos Botões do Menu Superior no Desktop (Mesmo Tamanho do GPS) */
+@media (min-width: 769px) {
+  .nav-tab-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 0.95rem !important;
     border-radius: 10px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
   }
 
-  .nav-tab-text,
+  .nav-tab-text {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+  }
+}
+
+/* No Celular: Ocultar o texto das abas e exibir APENAS os ícones elegantes */
+@media (max-width: 768px) {
+  .nav-tab-text {
+    display: none !important;
+  }
+
+  .nav-tab-btn {
+    padding: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .gps-nav-tab-btn {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 0.55rem !important;
+    font-size: 0.75rem !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
   .gps-btn-text {
-    font-size: 0.76rem !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
     display: inline-block !important;
   }

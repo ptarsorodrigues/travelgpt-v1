@@ -102,7 +102,7 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
               {distanceKm !== null && (
                 <div className="badge-distance-hero">
                   <Navigation size={14} color="#FFFFFF" />
-                  <span>a <strong>{formatDistance(distanceKm)}</strong></span>
+                  <span>a <strong>{formatDistance(distanceKm, false)}</strong></span>
                 </div>
               )}
             </div>

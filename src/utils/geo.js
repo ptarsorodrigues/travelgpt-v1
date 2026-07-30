@@ -17,7 +17,7 @@ export function getDistanceKm(lat1, lon1, lat2, lon2) {
   return dist < 10 ? Math.round(dist * 10) / 10 : Math.round(dist);
 }
 
-export function formatDistance(distKm, includeSuffix = true) {
+export function formatDistance(distKm, includeSuffix = false) {
   if (distKm === undefined || distKm === null || isNaN(distKm)) return '';
   const formatted = distKm < 1 ? `${Math.round(distKm * 1000)} m` : `${distKm} km`;
   return includeSuffix ? `${formatted} de você` : formatted;
