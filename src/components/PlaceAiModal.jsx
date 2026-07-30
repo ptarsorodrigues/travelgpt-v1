@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, CheckCircle, AlertTriangle, Cpu } from 'lucide-react';
+import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, CheckCircle, AlertTriangle, Cpu, Info, Compass, ExternalLink } from 'lucide-react';
 import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
@@ -46,33 +46,33 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
   if (!place) return null;
 
-  // Rich Markdown Formatter Helper for headers, bold, lists, and line breaks
+  // Custom High-Contrast Markdown Renderer following App Design System
   const renderFormattedMarkdown = (text) => {
     if (!text) return null;
     const lines = text.split('\n');
+
     return lines.map((line, index) => {
       const trimmed = line.trim();
-      if (!trimmed) return <div key={index} style={{ height: '8px' }} />;
+      if (!trimmed) return <div key={index} style={{ height: '10px' }} />;
 
-      // Header lines (#, ##, ###, 1. 📍)
-      if (trimmed.startsWith('#') || /^\d+\.\s+[^\w]*\*\*/.test(trimmed) || /^[📍🏛️🌟🕒💡🚗🍽️🌿📜🌳🦜]/.test(trimmed)) {
-        const cleanHeader = trimmed.replace(/^#+\s*/, '');
+      // Section Headers (## 1. Visão Geral & Conceito, ## 2. Destaques, etc.)
+      if (trimmed.startsWith('#') || /^##?\s+/.test(trimmed) || /^\d+\.\s+/.test(trimmed)) {
+        const cleanHeader = trimmed.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');
         return (
-          <h3 
-            key={index} 
-            style={{ 
-              fontSize: '1.12rem', 
-              fontFamily: 'var(--font-heading)', 
-              color: 'var(--primary)', 
-              marginTop: '1.25rem', 
-              marginBottom: '0.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            {cleanHeader.replace(/\*\*/g, '')}
-          </h3>
+          <div key={index} className="ai-modal-section-header">
+            <Sparkles size={18} color="var(--primary)" />
+            <h3>{cleanHeader.replace(/\*\*/g, '')}</h3>
+          </div>
+        );
+      }
+
+      // Special Callout for "Ponto Cego / Atenção" or "Dica de Ouro"
+      if (trimmed.toLowerCase().includes('ponto cego') || trimmed.toLowerCase().includes('atenção')) {
+        return (
+          <div key={index} className="ai-modal-warning-box">
+            <AlertTriangle size={18} color="#F59E0B" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>{parseBoldText(trimmed)}</div>
+          </div>
         );
       }
 
@@ -80,14 +80,16 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
       if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
         const content = trimmed.substring(2);
         return (
-          <li key={index} style={{ marginLeft: '1.2rem', marginBottom: '0.4rem', color: 'var(--text-main)', lineHeight: '1.65' }}>
-            {parseBoldText(content)}
-          </li>
+          <div key={index} className="ai-modal-bullet-row">
+            <span className="ai-bullet-dot">•</span>
+            <div className="ai-bullet-content">{parseBoldText(content)}</div>
+          </div>
         );
       }
 
+      // Regular Paragraphs
       return (
-        <p key={index} style={{ marginBottom: '0.65rem', lineHeight: '1.65', color: 'var(--text-main)' }}>
+        <p key={index} className="ai-modal-paragraph">
           {parseBoldText(trimmed)}
         </p>
       );
@@ -98,7 +100,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
     const parts = str.split(/(\*\*.*?\*\*)/g);
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={i} style={{ color: 'var(--accent-gold)' }}>{part.slice(2, -2)}</strong>;
+        return <strong key={i} className="ai-bold-highlight">{part.slice(2, -2)}</strong>;
       }
       return part;
     });
@@ -107,65 +109,52 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div 
-        className="modal-content glass-panel" 
+        className="modal-content place-ai-modal-container glass-panel animate-scale-up" 
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: '720px', maxHeight: '88vh', display: 'flex', flexDirection: 'column' }}
       >
-        {/* Top Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem', borderBottom: '1px solid var(--border-glass)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(66, 133, 244, 0.2) 0%, rgba(219, 68, 85, 0.2) 50%, rgba(244, 180, 0, 0.2) 100%)', border: '1px solid rgba(66, 133, 244, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {/* Top Bar Header */}
+        <div className="place-ai-modal-header">
+          <div className="place-ai-header-left">
+            <div className="place-ai-icon-badge">
               <Sparkles size={22} color="var(--accent-gold)" />
             </div>
             <div>
-              <h2 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', margin: 0, color: 'var(--text-main)' }}>
-                Guia Turístico — {place.title}
+              <h2 className="place-ai-modal-title">
+                {place.title}
               </h2>
-              <small style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                <Cpu size={13} color="var(--primary)" /> Gerado em tempo real via <strong>Google Gemini IA</strong>
-              </small>
+              <div className="place-ai-subtitle">
+                <MapPin size={13} color="var(--primary)" />
+                <span>{place.city} &bull; Guia Curado por Google Gemini IA</span>
+              </div>
             </div>
           </div>
-          <button className="modal-close-btn" onClick={onClose} title="Fechar">
+          <button className="modal-close-btn" onClick={onClose} title="Fechar Janela">
             <X size={20} />
           </button>
         </div>
 
-        {/* Scrollable Content */}
-        <div style={{ padding: '1.25rem 0', overflowY: 'auto', flex: 1 }}>
+        {/* Scrollable Body */}
+        <div className="place-ai-modal-body">
           {/* Missing API Key Warning / Input */}
           {(!currentKey || errorMsg?.includes('Chave')) && (
-            <div style={{ background: 'rgba(245, 158, 11, 0.12)', border: '1px solid var(--accent-gold)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.25rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--accent-gold)' }}>
-                <Key size={18} />
-                <strong style={{ fontSize: '0.98rem' }}>Informe sua Chave de API do Google Gemini</strong>
+            <div className="place-ai-key-box">
+              <div className="place-ai-key-title">
+                <Key size={18} color="var(--accent-gold)" />
+                <span>Informe sua Chave de API do Google Gemini</span>
               </div>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: '1.5' }}>
+              <p className="place-ai-key-desc">
                 Para ativarmos a IA do Google Gemini, informe abaixo sua chave de API (formato <code>AIzaSy...</code>). A chave fica salva de forma 100% segura apenas no seu navegador.
               </p>
 
-              <form onSubmit={handleSaveKey} style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <form onSubmit={handleSaveKey} className="place-ai-key-form">
                 <input 
                   type="password"
                   placeholder="Cole sua API Key do Google Gemini aqui (AIzaSy...)"
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
-                  style={{
-                    flex: 1,
-                    minWidth: '240px',
-                    padding: '0.65rem 1rem',
-                    borderRadius: '8px',
-                    border: '1px solid var(--border-glass)',
-                    background: 'var(--bg-glass, rgba(15, 23, 42, 0.8))',
-                    color: 'var(--text-main)',
-                    fontSize: '0.9rem'
-                  }}
+                  className="place-ai-key-input"
                 />
-                <button 
-                  type="submit"
-                  className="btn-primary"
-                  style={{ padding: '0.65rem 1.25rem', borderRadius: '8px' }}
-                >
+                <button type="submit" className="btn-primary">
                   Salvar Chave & Gerar
                 </button>
               </form>
@@ -174,44 +163,43 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
           {/* Loading State */}
           {isLoading && (
-            <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
-              <Loader2 size={38} color="var(--primary)" className="animate-spin" style={{ margin: '0 auto 1rem auto' }} />
-              <h4 style={{ color: 'var(--text-main)', margin: '0 0 0.5rem 0', fontSize: '1.1rem' }}>Gerando Guia Completo via Google Gemini IA...</h4>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto', lineHeight: '1.5' }}>
-                Processando informações históricas, dicas e atrações para <strong>{place.title}</strong> em {place.city}.
+            <div className="place-ai-loading-box">
+              <Loader2 size={42} color="var(--primary)" className="animate-spin" />
+              <h4>Gerando Análise Completa & Curadoria...</h4>
+              <p>
+                Consultando o <strong>Google Gemini IA</strong> para o ponto turístico <strong>{place.title}</strong> em {place.city}.
               </p>
             </div>
           )}
 
           {/* Error Message */}
           {!isLoading && errorMsg && currentKey && (
-            <div style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid #EF4444', borderRadius: '12px', padding: '1.25rem', color: '#EF4444', marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
-                <AlertTriangle size={18} />
+            <div className="place-ai-error-box">
+              <AlertTriangle size={20} />
+              <div>
                 <strong>Atenção</strong>
+                <p>{errorMsg}</p>
               </div>
-              <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.5' }}>{errorMsg}</p>
             </div>
           )}
 
           {/* Rendered AI Guide Text */}
           {!isLoading && guideText && (
-            <div className="ai-guide-rendered-box" style={{ background: 'rgba(15, 23, 42, 0.4)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1.5rem' }}>
+            <div className="ai-guide-rendered-box">
               {renderFormattedMarkdown(guideText)}
             </div>
           )}
         </div>
 
-        {/* Footer Actions */}
-        <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-glass)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+        {/* Footer Actions Bar */}
+        <div className="place-ai-modal-footer">
           {currentKey && !isLoading && (
             <button 
               type="button"
               className="mini-clear-btn"
               onClick={() => loadAiGuide(currentKey)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }}
             >
-              <RefreshCw size={14} /> Regerar Guia (Google Gemini)
+              <RefreshCw size={14} /> Regerar Resposta (Google Gemini)
             </button>
           )}
 
@@ -219,7 +207,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
             type="button"
             className="btn-primary"
             onClick={onClose}
-            style={{ marginLeft: 'auto', padding: '0.55rem 1.5rem', borderRadius: '8px' }}
+            style={{ marginLeft: 'auto' }}
           >
             Fechar Janela
           </button>
