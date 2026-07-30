@@ -1841,15 +1841,31 @@ body {
     height: 100vh !important;
     max-height: 100vh !important;
     border-radius: 0 !important;
-    padding: 1rem 0.65rem !important;
+    padding: 2.25rem 0.5rem 0.75rem 0.5rem !important;
     border: none !important;
   }
-  .ai-guide-rendered-box {
-    padding: 1rem 0.65rem !important;
-    border-radius: 10px;
+  .place-ai-modal-header {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.85rem !important;
   }
-  .ai-modal-section-header h3 {
-    font-size: 1.05rem !important;
+  .place-ai-modal-title {
+    font-size: 1.25rem !important;
+    line-height: 1.35 !important;
+  }
+  .place-ai-modal-body {
+    padding: 0.5rem 0 !important;
+  }
+  .ai-guide-rendered-box {
+    padding: 0.75rem 0.35rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .ai-modal-paragraph, .ai-bullet-content {
+    font-size: 0.96rem !important;
+    line-height: 1.65 !important;
   }
 }
 
