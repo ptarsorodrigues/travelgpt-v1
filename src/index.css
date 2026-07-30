@@ -1728,6 +1728,19 @@ body {
   .hero-title {
     font-size: 2.1rem;
   }
+  .hero-content {
+    padding: 2rem 3.75rem !important;
+  }
+  .hero-nav-arrow.left {
+    left: 0.65rem !important;
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .hero-nav-arrow.right {
+    right: 0.65rem !important;
+    width: 38px !important;
+    height: 38px !important;
+  }
   .list-item-contact {
     display: none;
   }
@@ -1738,17 +1751,17 @@ body {
     min-height: 380px;
   }
   .hero-content {
-    padding: 1.25rem 2.5rem;
+    padding: 1.25rem 3.25rem !important;
   }
   .hero-nav-arrow.left {
-    left: 0.5rem;
-    width: 36px;
-    height: 36px;
+    left: 0.5rem !important;
+    width: 34px !important;
+    height: 34px !important;
   }
   .hero-nav-arrow.right {
-    right: 0.5rem;
-    width: 36px;
-    height: 36px;
+    right: 0.5rem !important;
+    width: 34px !important;
+    height: 34px !important;
   }
   .hero-title {
     font-size: 1.65rem;
