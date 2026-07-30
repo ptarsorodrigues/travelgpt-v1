@@ -108,6 +108,7 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
               toggleFavorite(place.id);
             }}
             title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+            style={{ marginLeft: 'auto' }}
           >
             <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
           </button>

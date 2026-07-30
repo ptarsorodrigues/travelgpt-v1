@@ -138,15 +138,18 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
                 <span>Saiba mais</span>
               </button>
 
-              <NavButtons place={currentPlace} userLocation={userLocation} iconSize={18} />
+              <NavButtons place={currentPlace} userLocation={userLocation} />
 
               <button 
-                onClick={() => toggleFavorite(currentPlace.id)}
-                className="btn-secondary"
-                style={{ background: isFavorite(currentPlace.id) ? 'rgba(239, 68, 68, 0.25)' : undefined, borderColor: isFavorite(currentPlace.id) ? '#EF4444' : undefined }}
+                className={`fav-btn-icon ${isFavorite(currentPlace.id) ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(currentPlace.id);
+                }}
+                title={isFavorite(currentPlace.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+                style={{ marginLeft: 'auto' }}
               >
-                <Heart size={18} fill={isFavorite(currentPlace.id) ? '#EF4444' : 'none'} color={isFavorite(currentPlace.id) ? '#EF4444' : '#FFF'} />
-                <span>{isFavorite(currentPlace.id) ? 'Salvo no Roteiro' : 'Salvar no Roteiro'}</span>
+                <Heart size={18} fill={isFavorite(currentPlace.id) ? "#FFF" : "none"} />
               </button>
             </div>
           </div>

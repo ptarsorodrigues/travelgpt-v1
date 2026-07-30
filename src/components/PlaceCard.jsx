@@ -39,17 +39,6 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
         <div className={`place-badge-tier tier-${place.tier}`} title={`Plano ${place.tier ? place.tier.toUpperCase() : 'BRONZE'}`}>
           {place.tier === 'diamond' ? 'D' : place.tier === 'gold' ? 'G' : place.tier === 'silver' ? 'S' : 'B'}
         </div>
-
-        <button 
-          className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFavorite(place.id);
-          }}
-          title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
-        >
-          <Heart size={18} fill={isFavorite(place.id) ? "#FFF" : "none"} />
-        </button>
       </div>
 
       <div className="place-card-body">
@@ -89,18 +78,28 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
           )}
         </div>
 
-        {/* 5. Ações (Saiba Mais + Botões de Navegação Waze e Google Maps) */}
+        {/* 5. Ações (Saiba Mais + Waze + Google Maps no lado esquerdo, Coração no final do lado direito) */}
         <div className="place-card-footer">
           <button 
             className="details-btn saiba-mais-btn"
             onClick={handleSaibaMais}
             title={`Abrir Listing URL (${listingUrl})`}
-            style={{ flex: 1, justifyContent: 'center' }}
           >
             <Info size={14} />
             <span>Saiba Mais</span>
           </button>
           <NavButtons place={place} userLocation={userLocation} />
+          <button 
+            className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavorite(place.id);
+            }}
+            title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+            style={{ marginLeft: 'auto' }}
+          >
+            <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
+          </button>
         </div>
       </div>
     </div>

@@ -107,7 +107,7 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
               <span>Ver Informação Completa (No App)</span>
             </button>
 
-            <NavButtons place={place} userLocation={userLocation} iconSize={18} />
+            <NavButtons place={place} userLocation={userLocation} />
 
             {place.phone && (
               <a 
@@ -120,12 +120,15 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
             )}
 
             <button 
-              onClick={() => toggleFavorite(place.id)}
-              className="btn-secondary"
-              style={{ background: isFavorite(place.id) ? 'rgba(239, 68, 68, 0.25)' : undefined }}
+              className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(place.id);
+              }}
+              title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+              style={{ marginLeft: 'auto' }}
             >
-              <Heart size={18} fill={isFavorite(place.id) ? "#EF4444" : "none"} color={isFavorite(place.id) ? "#EF4444" : "currentColor"} />
-              <span>{isFavorite(place.id) ? 'Salvo no Roteiro' : 'Salvar no Roteiro'}</span>
+              <Heart size={18} fill={isFavorite(place.id) ? "#FFF" : "none"} />
             </button>
           </div>
         </div>
