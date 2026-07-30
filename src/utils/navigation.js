@@ -32,13 +32,21 @@ export function getGoogleMapsUrl(place, userLocation) {
 }
 
 export function handleOpenWaze(e, place, userLocation) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.nativeEvent) e.nativeEvent.stopImmediatePropagation();
+  }
   const url = getWazeUrl(place, userLocation);
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 export function handleOpenGoogleMaps(e, place, userLocation) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.nativeEvent) e.nativeEvent.stopImmediatePropagation();
+  }
   const url = getGoogleMapsUrl(place, userLocation);
   window.open(url, '_blank', 'noopener,noreferrer');
 }

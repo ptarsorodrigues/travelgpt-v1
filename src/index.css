@@ -4007,6 +4007,66 @@ body {
   transform: translateY(2px) !important;
 }
 
+/* ==========================================================================
+   Navegadores Waze & Google Maps (Ícones alinhados com tamanho idêntico ao Saiba Mais)
+   ========================================================================== */
+.nav-buttons-group {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+.nav-app-btn {
+  width: 30px !important;
+  height: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.15)) !important;
+  background: var(--bg-glass, rgba(15, 23, 42, 0.6)) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.nav-app-btn:hover {
+  transform: translateY(-1px) scale(1.06) !important;
+  box-shadow: 0 4px 8px rgba(0, 212, 178, 0.25) !important;
+  border-color: var(--primary) !important;
+}
+
+[data-theme="light"] .nav-app-btn {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .nav-app-btn:hover {
+  border-color: #008770 !important;
+  box-shadow: 0 3px 8px rgba(0, 135, 112, 0.2) !important;
+}
+
+.nav-app-icon {
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: 2px !important;
+  pointer-events: none !important;
+}
+
+/* Tamanho no Hero e Modal */
+.hero-actions .nav-app-btn,
+.modal-actions .nav-app-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+}
+
+
 
 
 

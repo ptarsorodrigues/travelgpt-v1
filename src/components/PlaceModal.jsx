@@ -107,7 +107,7 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
               <span>Ver Informação Completa (No App)</span>
             </button>
 
-            <NavButtons place={place} userLocation={userLocation} />
+            <NavButtons place={place} userLocation={userLocation} iconSize={18} />
 
             {place.phone && (
               <a 

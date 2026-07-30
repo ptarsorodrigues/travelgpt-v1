@@ -172,7 +172,7 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
                 <span>Saiba mais</span>
               </button>
 
-              <NavButtons place={currentPlace} userLocation={userLocation} />
+              <NavButtons place={currentPlace} userLocation={userLocation} iconSize={18} />
 
               <button 
                 onClick={() => toggleFavorite(currentPlace.id)}
