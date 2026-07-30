@@ -373,7 +373,7 @@ export default function CityCategoryFilterBox({
                         />
                         <span className="checkbox-city-name">{c.city}</span>
                         <div className="city-meta-tags">
-                          <span className="meta-badge-count">{c.count} {c.count === 1 ? 'local' : 'locais'}</span>
+                          <span className="meta-badge-count">{c.count}</span>
                           <span className="meta-badge-dist">
                             {c.distance === 0 ? 'Capital' : `~${c.distance} km`}
                           </span>
@@ -445,7 +445,7 @@ export default function CityCategoryFilterBox({
                         />
                         <span className="checkbox-city-name">{cat}</span>
                         <div className="city-meta-tags">
-                          <span className="meta-badge-count">{count} {count === 1 ? 'local' : 'locais'}</span>
+                          <span className="meta-badge-count">{count}</span>
                         </div>
                       </label>
                     );
