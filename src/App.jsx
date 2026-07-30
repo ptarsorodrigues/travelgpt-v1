@@ -269,12 +269,16 @@ export default function App() {
         />
       </div>
 
-      {/* Mensagem de Preparação de Atrações */}
-      {(isLoadingDb || isGeolocating || featuredPlaces.length === 0) && (
-        <div className="preparing-attractions-msg container" style={{ marginTop: '0.5rem', marginBottom: '0.75rem' }}>
-          ... preparando as atrações mais próximas
-        </div>
-      )}
+      {/* Mensagem Dinâmica do Estado do GPS abaixo da Imagem Inicial */}
+      <div className="gps-status-banner-msg container">
+        {isLoadingDb || isGeolocating ? (
+          <span className="gps-msg-text">... preparando as atrações mais próximas</span>
+        ) : userLocation?.isGps ? (
+          <span className="gps-msg-text active">Exibindo locais próximos a sua posição atual.</span>
+        ) : (
+          <span className="gps-msg-text inactive">Exibindo locais a partir do centro da cidade.</span>
+        )}
+      </div>
 
 
       {/* RENDER BY SCREEN TAB */}

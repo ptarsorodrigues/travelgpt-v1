@@ -191,9 +191,10 @@ body {
 }
 
 /* Sub-banner Image Styling (Sua viagem nunca mais será a mesma!) */
+/* Sub-banner Image Styling (Sua viagem nunca mais será a mesma!) */
 .app-subbanner-phrase {
   margin-top: 0.6rem !important;
-  margin-bottom: 0.6rem !important;
+  margin-bottom: 0.3rem !important;
   text-align: center !important;
   padding: 0 1rem !important;
   width: 100% !important;
@@ -201,6 +202,8 @@ body {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .app-subbanner-img {
@@ -208,14 +211,64 @@ body {
   max-width: 600px !important;
   height: auto !important;
   border-radius: 16px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+  border: none !important;
+  background: transparent !important;
   object-fit: contain !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.2s ease !important;
 }
 
-.app-subbanner-img:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 25px rgba(0, 212, 178, 0.3) !important;
+[data-theme="light"] .app-subbanner-img {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] .app-subbanner-img {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Mensagem do Estado do GPS abaixo da Imagem Inicial */
+.gps-status-banner-msg {
+  text-align: center !important;
+  margin-top: 0.3rem !important;
+  margin-bottom: 0.6rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.gps-msg-text {
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+  padding: 0.45rem 1.1rem !important;
+  border-radius: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Quando GPS Ativado */
+.gps-msg-text.active {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #10B981 !important;
+}
+
+/* Quando GPS Inativado */
+.gps-msg-text.inactive {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #EF4444 !important;
+}
+
+[data-theme="light"] .gps-msg-text.active {
+  color: #059669 !important;
+}
+
+[data-theme="light"] .gps-msg-text.inactive {
+  color: #DC2626 !important;
 }
 
 /* Container do Controle de GPS abaixo da Imagem Inicial */
