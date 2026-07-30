@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, CheckCircle, AlertTriangle, Cpu, Info, Compass, ExternalLink } from 'lucide-react';
+import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, AlertTriangle, Cpu } from 'lucide-react';
 import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
@@ -53,7 +53,12 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
     return lines.map((line, index) => {
       const trimmed = line.trim();
-      if (!trimmed) return <div key={index} style={{ height: '10px' }} />;
+      if (!trimmed) return <div key={index} style={{ height: '8px' }} />;
+
+      // Convert raw markdown dividers (---) into subtle clean <hr /> lines
+      if (trimmed === '---' || trimmed === '***' || trimmed === '___') {
+        return <hr key={index} className="ai-modal-hr" />;
+      }
 
       // Section Headers (## 1. Visão Geral & Conceito, ## 2. Destaques, etc.)
       if (trimmed.startsWith('#') || /^##?\s+/.test(trimmed) || /^\d+\.\s+/.test(trimmed)) {
@@ -124,7 +129,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               </h2>
               <div className="place-ai-subtitle">
                 <MapPin size={13} color="var(--primary)" />
-                <span>{place.city} &bull; Guia Curado por Google Gemini IA</span>
+                <span>{place.city} &bull; Guia TravelGPT by Gemini IA</span>
               </div>
             </div>
           </div>
@@ -166,9 +171,6 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
             <div className="place-ai-loading-box">
               <Loader2 size={42} color="var(--primary)" className="animate-spin" />
               <h4>Gerando Análise Completa & Curadoria...</h4>
-              <p>
-                Consultando o <strong>Google Gemini IA</strong> para o ponto turístico <strong>{place.title}</strong> em {place.city}.
-              </p>
             </div>
           )}
 

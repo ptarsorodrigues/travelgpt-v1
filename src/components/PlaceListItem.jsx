@@ -102,15 +102,14 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           {onOpenPlaceAi && (
             <button
               type="button"
-              className="details-btn ia-btn"
+              className="ia-icon-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 onOpenPlaceAi(place);
               }}
-              title="Gerar guia completo com IA"
+              title="Guia TravelGPT by Gemini IA"
             >
-              <Sparkles size={14} />
-              <span>IA</span>
+              <Sparkles size={15} color="var(--accent-gold)" />
             </button>
           )}
 

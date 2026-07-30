@@ -1584,13 +1584,51 @@ body {
   transform: translateY(-1px);
 }
 
+.ia-icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(11, 15, 25, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .ia-icon-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.ia-icon-btn:hover {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #0B0F19;
+  transform: scale(1.08);
+}
+
+.hero-actions .ia-icon-btn,
+.modal-actions .ia-icon-btn,
+.ia-icon-btn.hero-ia-btn {
+  width: 36px !important;
+  height: 36px !important;
+}
+
 /* ==========================================
    Place AI Modal Styling (High Contrast & Crystal Clear Text)
    ========================================== */
 .place-ai-modal-container {
-  max-width: 760px !important;
-  width: 92% !important;
-  max-height: 88vh !important;
+  max-width: 950px !important;
+  width: 96% !important;
+  max-height: 90vh !important;
   display: flex !important;
   flex-direction: column !important;
   background: #0B0F19 !important; /* Always crisp dark background for guaranteed 100% text contrast */
@@ -1756,6 +1794,20 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .place-ai-modal-container {
+    width: 98% !important;
+    padding: 0.85rem !important;
+    max-height: 94vh !important;
+  }
+  .ai-guide-rendered-box {
+    padding: 1rem 0.85rem !important;
+  }
+  .ai-modal-section-header h3 {
+    font-size: 1.05rem !important;
+  }
 }
 
 /* Category Section View */

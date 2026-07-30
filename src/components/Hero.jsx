@@ -144,20 +144,14 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
               {onOpenPlaceAi && (
                 <button
                   type="button"
-                  className="btn-primary ia-btn-hero"
+                  className="ia-icon-btn hero-ia-btn"
                   onClick={(e) => {
                     e.stopPropagation();
                     onOpenPlaceAi(currentPlace);
                   }}
-                  title="Gerar guia completo com IA Groq"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255, 184, 0, 0.25) 0%, rgba(245, 158, 11, 0.35) 100%)',
-                    border: '1px solid var(--accent-gold)',
-                    color: 'var(--accent-gold)'
-                  }}
+                  title="Guia TravelGPT by Gemini IA"
                 >
                   <Sparkles size={18} color="var(--accent-gold)" />
-                  <span>IA</span>
                 </button>
               )}
 
