@@ -3798,83 +3798,104 @@ body {
    - Se o usuário está no modo ESCURO, a seção tem fundo BRANCO.
    - Se o usuário está no modo CLARO, a seção tem fundo ESCURO.
 */
-[data-theme="dark"] .filter-system-card {
+/* ==========================================================================
+   PERSONALIZE O SEU TRAVELGPT: ESTADO RETRAÍDO SEM MOLDURA
+   ========================================================================== */
+
+/* Quando retraído: Apenas o botão verde aparece, sem moldura nem fundo branco */
+.filter-system-card.collapsed-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+}
+
+[data-theme="dark"] .filter-system-card.collapsed-card,
+[data-theme="light"] .filter-system-card.collapsed-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Quando expandido: Painel com alto contraste por tema */
+[data-theme="dark"] .filter-system-card.expanded-card {
   background: #FFFFFF !important;
   color: #0F172A !important;
   border: 2px solid #E2E8F0 !important;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45) !important;
 }
 
-[data-theme="dark"] .filter-system-card .personalize-section-title,
-[data-theme="dark"] .filter-system-card .radius-label,
-[data-theme="dark"] .filter-system-card .checkbox-city-name {
+[data-theme="dark"] .filter-system-card.expanded-card .personalize-section-title,
+[data-theme="dark"] .filter-system-card.expanded-card .radius-label,
+[data-theme="dark"] .filter-system-card.expanded-card .checkbox-city-name {
   color: #0F172A !important;
 }
 
-[data-theme="dark"] .filter-system-card .search-input {
+[data-theme="dark"] .filter-system-card.expanded-card .search-input {
   background: #F8FAFC !important;
   color: #0F172A !important;
   border-color: #CBD5E1 !important;
 }
 
-[data-theme="dark"] .filter-system-card .view-btn,
-[data-theme="dark"] .filter-system-card .radius-pill,
-[data-theme="dark"] .filter-system-card .chip-btn,
-[data-theme="dark"] .filter-system-card .category-multi-chip {
+[data-theme="dark"] .filter-system-card.expanded-card .view-btn,
+[data-theme="dark"] .filter-system-card.expanded-card .radius-pill,
+[data-theme="dark"] .filter-system-card.expanded-card .chip-btn,
+[data-theme="dark"] .filter-system-card.expanded-card .category-multi-chip {
   background: #F1F5F9 !important;
   color: #334155 !important;
   border-color: #CBD5E1 !important;
 }
 
-[data-theme="dark"] .filter-system-card .view-btn.active,
-[data-theme="dark"] .filter-system-card .radius-pill.active,
-[data-theme="dark"] .filter-system-card .chip-badge.active,
-[data-theme="dark"] .filter-system-card .category-multi-chip.active {
-  background: #00D4B2 !important;
-  color: #0F172A !important;
+[data-theme="dark"] .filter-system-card.expanded-card .view-btn.active,
+[data-theme="dark"] .filter-system-card.expanded-card .radius-pill.active,
+[data-theme="dark"] .filter-system-card.expanded-card .chip-badge.active,
+[data-theme="dark"] .filter-system-card.expanded-card .category-multi-chip.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
   font-weight: 800 !important;
-  border-color: #00D4B2 !important;
+  border-color: #10B981 !important;
 }
 
-[data-theme="light"] .filter-system-card {
+[data-theme="light"] .filter-system-card.expanded-card {
   background: #0F172A !important;
   color: #F8FAFC !important;
   border: 2px solid #1E293B !important;
   box-shadow: 0 12px 35px rgba(15, 23, 42, 0.3) !important;
 }
 
-[data-theme="light"] .filter-system-card .personalize-section-title,
-[data-theme="light"] .filter-system-card .radius-label,
-[data-theme="light"] .filter-system-card .checkbox-city-name {
+[data-theme="light"] .filter-system-card.expanded-card .personalize-section-title,
+[data-theme="light"] .filter-system-card.expanded-card .radius-label,
+[data-theme="light"] .filter-system-card.expanded-card .checkbox-city-name {
   color: #FFFFFF !important;
 }
 
-[data-theme="light"] .filter-system-card .search-input {
+[data-theme="light"] .filter-system-card.expanded-card .search-input {
   background: #1E293B !important;
   color: #FFFFFF !important;
   border-color: #334155 !important;
 }
 
-[data-theme="light"] .filter-system-card .view-btn,
-[data-theme="light"] .filter-system-card .radius-pill,
-[data-theme="light"] .filter-system-card .chip-btn,
-[data-theme="light"] .filter-system-card .category-multi-chip {
+[data-theme="light"] .filter-system-card.expanded-card .view-btn,
+[data-theme="light"] .filter-system-card.expanded-card .radius-pill,
+[data-theme="light"] .filter-system-card.expanded-card .chip-btn,
+[data-theme="light"] .filter-system-card.expanded-card .category-multi-chip {
   background: #1E293B !important;
   color: #CBD5E1 !important;
   border-color: #334155 !important;
 }
 
-[data-theme="light"] .filter-system-card .view-btn.active,
-[data-theme="light"] .filter-system-card .radius-pill.active,
-[data-theme="light"] .filter-system-card .chip-badge.active,
-[data-theme="light"] .filter-system-card .category-multi-chip.active {
-  background: #00D4B2 !important;
-  color: #0F172A !important;
+[data-theme="light"] .filter-system-card.expanded-card .view-btn.active,
+[data-theme="light"] .filter-system-card.expanded-card .radius-pill.active,
+[data-theme="light"] .filter-system-card.expanded-card .chip-badge.active,
+[data-theme="light"] .filter-system-card.expanded-card .category-multi-chip.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
   font-weight: 800 !important;
-  border-color: #00D4B2 !important;
+  border-color: #10B981 !important;
 }
 
-/* 2. Botão Retangular com Bordas Arredondadas (sem moldura exagerada) */
+/* Botão Verde Retangular com bordas arredondadas (sem molduras ao redor) */
 .personalize-toggle-wrapper {
   display: flex !important;
   justify-content: center !important;
@@ -3888,23 +3909,25 @@ body {
   align-items: center !important;
   justify-content: center !important;
   gap: 0.65rem !important;
-  padding: 0.75rem 1.6rem !important;
-  background: var(--primary) !important;
+  padding: 0.8rem 1.75rem !important;
+  background: #10B981 !important;
   color: #FFFFFF !important;
   border: none !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.3px !important;
   cursor: pointer !important;
-  box-shadow: 0 4px 14px rgba(0, 212, 178, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
   transition: all 0.2s ease-in-out !important;
+  width: 100% !important;
+  max-width: 420px !important;
 }
 
 .btn-personalize-toggle:hover {
-  background: #00BCA0 !important;
+  background: #059669 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 18px rgba(0, 212, 178, 0.5) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5) !important;
 }
 
 .btn-personalize-toggle * {

@@ -129,7 +129,7 @@ export default function CityCategoryFilterBox({
   };
 
   return (
-    <section className="filter-system-card glass-panel">
+    <section className={`filter-system-card ${isExpanded ? 'expanded-card glass-panel' : 'collapsed-card'}`}>
       {!isExpanded ? (
         /* 1. BOTÃO CENTRALIZADO (ESTADO RETRAÍDO) */
         <div className="personalize-toggle-wrapper">
