@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, CheckCircle, AlertTriangle } from 'lucide-react';
-import { getGroqApiKey, saveGroqApiKey, fetchGroqPlaceGuide } from '../utils/groqApi';
+import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, CheckCircle, AlertTriangle, Cpu } from 'lucide-react';
+import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
   const [apiKeyInput, setApiKeyInput] = useState('');
-  const [currentKey, setCurrentKey] = useState(getGroqApiKey());
+  const [currentKey, setCurrentKey] = useState(getGeminiApiKey());
   const [isLoading, setIsLoading] = useState(false);
   const [guideText, setGuideText] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
@@ -19,15 +19,15 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
     setIsLoading(true);
     setErrorMsg(null);
     try {
-      const guide = await fetchGroqPlaceGuide(place, keyToUse);
+      const guide = await fetchGeminiPlaceGuide(place, keyToUse);
       setGuideText(guide);
     } catch (err) {
       if (err.message === 'MISSING_KEY') {
-        setErrorMsg('Por favor, informe sua Chave de API do Groq abaixo para utilizar a Inteligência Artificial.');
+        setErrorMsg('Por favor, informe sua Chave de API do Google Gemini abaixo para ativar a IA.');
       } else if (err.message === 'INVALID_KEY') {
-        setErrorMsg('Chave de API do Groq inválida ou expirada (401 Unauthorized). Verifique a chave informada.');
+        setErrorMsg('Chave de API do Google Gemini inválida ou não autorizada. Verifique a chave informada.');
       } else {
-        setErrorMsg(`Erro ao consultar a IA Groq: ${err.message}`);
+        setErrorMsg(`Erro ao consultar o Google Gemini: ${err.message}`);
       }
     } finally {
       setIsLoading(false);
@@ -38,7 +38,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
     e.preventDefault();
     if (!apiKeyInput.trim()) return;
     const cleanKey = apiKeyInput.trim();
-    saveGroqApiKey(cleanKey);
+    saveGeminiApiKey(cleanKey);
     setCurrentKey(cleanKey);
     setApiKeyInput('');
     loadAiGuide(cleanKey);
@@ -46,7 +46,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
   if (!place) return null;
 
-  // Simple Markdown Formatter Helper for rendering headers, bold text and lists nicely
+  // Rich Markdown Formatter Helper for headers, bold, lists, and line breaks
   const renderFormattedMarkdown = (text) => {
     if (!text) return null;
     const lines = text.split('\n');
@@ -54,14 +54,14 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
       const trimmed = line.trim();
       if (!trimmed) return <div key={index} style={{ height: '8px' }} />;
 
-      // Header lines (### or ## or 1. 🌟)
-      if (trimmed.startsWith('#') || /^\d+\.\s+[^\w]*\*\*/.test(trimmed) || /^[🏛️🌟🕒💡🍽️]/.test(trimmed)) {
+      // Header lines (#, ##, ###, 1. 📍)
+      if (trimmed.startsWith('#') || /^\d+\.\s+[^\w]*\*\*/.test(trimmed) || /^[📍🏛️🌟🕒💡🚗🍽️🌿📜🌳🦜]/.test(trimmed)) {
         const cleanHeader = trimmed.replace(/^#+\s*/, '');
         return (
           <h3 
             key={index} 
             style={{ 
-              fontSize: '1.1rem', 
+              fontSize: '1.12rem', 
               fontFamily: 'var(--font-heading)', 
               color: 'var(--primary)', 
               marginTop: '1.25rem', 
@@ -80,14 +80,14 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
       if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
         const content = trimmed.substring(2);
         return (
-          <li key={index} style={{ marginLeft: '1.2rem', marginBottom: '0.4rem', color: 'var(--text-main)', lineHeight: '1.6' }}>
+          <li key={index} style={{ marginLeft: '1.2rem', marginBottom: '0.4rem', color: 'var(--text-main)', lineHeight: '1.65' }}>
             {parseBoldText(content)}
           </li>
         );
       }
 
       return (
-        <p key={index} style={{ marginBottom: '0.6rem', lineHeight: '1.6', color: 'var(--text-main)' }}>
+        <p key={index} style={{ marginBottom: '0.65rem', lineHeight: '1.65', color: 'var(--text-main)' }}>
           {parseBoldText(trimmed)}
         </p>
       );
@@ -109,19 +109,21 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
       <div 
         className="modal-content glass-panel" 
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: '680px', maxHeight: '88vh', display: 'flex', flexDirection: 'column' }}
+        style={{ maxWidth: '720px', maxHeight: '88vh', display: 'flex', flexDirection: 'column' }}
       >
         {/* Top Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem', borderBottom: '1px solid var(--border-glass)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(255, 184, 0, 0.15)', border: '1px solid var(--accent-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Sparkles size={20} color="var(--accent-gold)" />
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(66, 133, 244, 0.2) 0%, rgba(219, 68, 85, 0.2) 50%, rgba(244, 180, 0, 0.2) 100%)', border: '1px solid rgba(66, 133, 244, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Sparkles size={22} color="var(--accent-gold)" />
             </div>
             <div>
               <h2 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', margin: 0, color: 'var(--text-main)' }}>
-                Guia Inteligente — {place.title}
+                Guia Turístico — {place.title}
               </h2>
-              <small style={{ color: 'var(--text-muted)' }}>Gerado em tempo real pela IA Groq</small>
+              <small style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                <Cpu size={13} color="var(--primary)" /> Gerado em tempo real via <strong>Google Gemini IA</strong>
+              </small>
             </div>
           </div>
           <button className="modal-close-btn" onClick={onClose} title="Fechar">
@@ -136,16 +138,16 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
             <div style={{ background: 'rgba(245, 158, 11, 0.12)', border: '1px solid var(--accent-gold)', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--accent-gold)' }}>
                 <Key size={18} />
-                <strong style={{ fontSize: '0.98rem' }}>Informe sua Chave de API do Groq</strong>
+                <strong style={{ fontSize: '0.98rem' }}>Informe sua Chave de API do Google Gemini</strong>
               </div>
               <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: '1.5' }}>
-                Para que a IA gere a descrição completa e personalizada deste local, cole abaixo sua chave de API Groq (formato <code>gsk_...</code>). A chave será salva de forma segura apenas no seu navegador.
+                Para ativarmos a IA do Google Gemini, informe abaixo sua chave de API (formato <code>AIzaSy...</code>). A chave fica salva de forma 100% segura apenas no seu navegador.
               </p>
 
               <form onSubmit={handleSaveKey} style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <input 
                   type="password"
-                  placeholder="Cole sua API Key do Groq aqui (gsk_...)"
+                  placeholder="Cole sua API Key do Google Gemini aqui (AIzaSy...)"
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
                   style={{
@@ -172,11 +174,11 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
           {/* Loading State */}
           {isLoading && (
-            <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <Loader2 size={36} color="var(--primary)" className="animate-spin" style={{ margin: '0 auto 1rem auto' }} />
-              <h4 style={{ color: 'var(--text-main)', margin: '0 0 0.5rem 0' }}>Consultando a IA Groq...</h4>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto' }}>
-                Elaborando um guia turístico exclusivo sobre <strong>{place.title}</strong> em {place.city}.
+            <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
+              <Loader2 size={38} color="var(--primary)" className="animate-spin" style={{ margin: '0 auto 1rem auto' }} />
+              <h4 style={{ color: 'var(--text-main)', margin: '0 0 0.5rem 0', fontSize: '1.1rem' }}>Gerando Guia Completo via Google Gemini IA...</h4>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto', lineHeight: '1.5' }}>
+                Processando informações históricas, dicas e atrações para <strong>{place.title}</strong> em {place.city}.
               </p>
             </div>
           )}
@@ -194,7 +196,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
           {/* Rendered AI Guide Text */}
           {!isLoading && guideText && (
-            <div className="ai-guide-rendered-box" style={{ background: 'rgba(15, 23, 42, 0.4)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1.25rem' }}>
+            <div className="ai-guide-rendered-box" style={{ background: 'rgba(15, 23, 42, 0.4)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1.5rem' }}>
               {renderFormattedMarkdown(guideText)}
             </div>
           )}
@@ -209,7 +211,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               onClick={() => loadAiGuide(currentKey)}
               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }}
             >
-              <RefreshCw size={14} /> Regerar Resposta
+              <RefreshCw size={14} /> Regerar Guia (Google Gemini)
             </button>
           )}
 
