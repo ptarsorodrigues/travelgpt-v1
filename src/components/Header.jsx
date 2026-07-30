@@ -14,19 +14,20 @@ export default function Header({
   return (
     <header className="app-header glass-panel">
       <div className="container header-container-responsive">
-        {/* Lado Esquerdo: Logo + Botão GPS */}
+        {/* Lado Esquerdo: Logo + Botão GPS (Alinhamento Perfeito) */}
         <div className="header-left-group">
           <a href="#" className="brand-logo" onClick={(e) => { e.preventDefault(); setActiveTab('explore'); }}>
             <img src="/logo.png" alt="TravelGPT Logo" className="header-logo-img" />
           </a>
 
           <button 
-            className={`nav-tab-btn gps-nav-tab-btn ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
+            type="button"
+            className={`gps-nav-tab-btn ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
             onClick={handleGeolocateUser}
             disabled={isGeolocating}
             title={userLocation?.isGps ? "GPS Ativo. Clique para desativar." : "GPS Inativo. Clique para ativar a localização."}
           >
-            {isGeolocating && <Loader2 size={14} className="animate-spin" color="#FFF" />}
+            {isGeolocating && <Loader2 size={14} className="animate-spin" color="#FFF" style={{ marginRight: '4px' }} />}
             <span className="gps-btn-text">{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
           </button>
         </div>
