@@ -10,7 +10,7 @@ import AiAssistant from './components/AiAssistant';
 import ProfileView from './components/ProfileView';
 import CityCategoryFilterBox from './components/CityCategoryFilterBox';
 import InAppWebViewer from './components/InAppWebViewer';
-import { getDistanceKm, formatDistance, normalizeText } from './utils/geo';
+import { getDistanceKm, formatDistance, normalizeText, fuzzyPhoneticMatch } from './utils/geo';
 import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -165,8 +165,8 @@ export default function App() {
         ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
         : 9999;
 
-      // Initial < 10 km distance restriction applies when no explicit city filter is active
-      if (selectedCities.length === 0 && maxDistanceKm !== null) {
+      // Initial < 10 km distance restriction applies when no explicit city filter AND no search query is active
+      if (!searchQuery.trim() && selectedCities.length === 0 && maxDistanceKm !== null) {
         if (distance > maxDistanceKm) {
           return false;
         }
@@ -187,14 +187,14 @@ export default function App() {
         return false;
       }
 
-      // Search query filter (Accent & Case Insensitive)
+      // Search query filter (Fuzzy & Phonetic Matching for PT-BR)
       if (searchQuery.trim()) {
-        const q = normalizeText(searchQuery);
-        const matchTitle = normalizeText(place.title).includes(q);
-        const matchCity = normalizeText(place.city).includes(q);
-        const matchCat = normalizeText(place.category).includes(q);
-        const matchAddr = normalizeText(place.address).includes(q);
-        const matchDesc = normalizeText(place.description).includes(q);
+        const q = searchQuery;
+        const matchTitle = fuzzyPhoneticMatch(place.title, q);
+        const matchCity = fuzzyPhoneticMatch(place.city, q);
+        const matchCat = fuzzyPhoneticMatch(place.category, q);
+        const matchAddr = fuzzyPhoneticMatch(place.address, q);
+        const matchDesc = fuzzyPhoneticMatch(place.description, q);
         return matchTitle || matchCity || matchCat || matchAddr || matchDesc;
       }
 

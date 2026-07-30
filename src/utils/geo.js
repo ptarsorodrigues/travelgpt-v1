@@ -36,3 +36,63 @@ export function normalizeText(text) {
     .toLowerCase()
     .trim();
 }
+
+/**
+ * Portuguese Phonetic Key Generator (Metaphone-like for PT-BR)
+ */
+export function getPhoneticKey(text) {
+  if (!text) return '';
+  let str = normalizeText(text);
+
+  str = str
+    .replace(/ph/g, 'f')
+    .replace(/ch/g, 'x')
+    .replace(/sh/g, 'x')
+    .replace(/lh/g, 'l')
+    .replace(/nh/g, 'n')
+    .replace(/ç/g, 's')
+    .replace(/c([ei])/g, 's$1')
+    .replace(/c([aou])/g, 'k$1')
+    .replace(/q/g, 'k')
+    .replace(/w/g, 'v')
+    .replace(/y/g, 'i')
+    .replace(/z/g, 's')
+    .replace(/ge/g, 'je')
+    .replace(/gi/g, 'ji')
+    .replace(/h/g, '')
+    .replace(/([bcdfghjklmnpqrstvwxyz])\1+/g, '$1');
+
+  return str;
+}
+
+/**
+ * Checks if target string matches query using exact normalization AND Portuguese phonetic rules.
+ */
+export function fuzzyPhoneticMatch(target, query) {
+  if (!target || !query) return false;
+  
+  const normTarget = normalizeText(target);
+  const normQuery = normalizeText(query);
+  
+  // 1. Direct normalized substring match
+  if (normTarget.includes(normQuery)) return true;
+  
+  // 2. Phonetic string match
+  const targetPhonetic = getPhoneticKey(target);
+  const queryPhonetic = getPhoneticKey(query);
+  
+  if (targetPhonetic.includes(queryPhonetic)) return true;
+  
+  // 3. Word token matching
+  const targetWords = normTarget.split(/\s+/);
+  const queryWords = normQuery.split(/\s+/);
+  
+  return queryWords.every(qw => {
+    const qwPhonetic = getPhoneticKey(qw);
+    return targetWords.some(tw => {
+      if (tw.includes(qw)) return true;
+      const twPhonetic = getPhoneticKey(tw);
+      return twPhonetic.includes(qwPhonetic);
+    });
+  });
+}
