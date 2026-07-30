@@ -95,12 +95,9 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
 
           <div className="hero-content">
             <div className="hero-top-badges">
-              <img 
-                src="/badge_destaque.jpg" 
-                alt="DESTAQUE" 
-                className="hero-badge-destaque-img"
-                title="Atração em Destaque"
-              />
+              <span className="hero-badge-proximo">
+                PRÓXIMO A VOCÊ
+              </span>
 
               {distanceKm !== null && (
                 <div className="badge-distance-hero">
