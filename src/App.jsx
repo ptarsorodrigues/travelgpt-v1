@@ -44,18 +44,29 @@ export default function App() {
         return res.json();
       })
       .then(data => {
-        if (Array.isArray(data)) {
+        if (Array.isArray(data) && data.length > 0) {
           setPlaces(data);
           setDbError(null);
+          setIsLoadingDb(false);
         } else {
           throw new Error('Formato de resposta inválido do Banco de Dados.');
         }
-        setIsLoadingDb(false);
       })
       .catch(err => {
-        console.error('Erro ao conectar ao Banco de Dados Vercel Postgres:', err);
-        setDbError(err.message);
-        setIsLoadingDb(false);
+        console.warn('Servidor de banco de dados offline ou desenvolvimento local sem API. Utilizando fallback local places.json:', err.message);
+        import('./data/places.json')
+          .then(fallbackModule => {
+            const fallbackData = fallbackModule.default || fallbackModule;
+            setPlaces(fallbackData);
+            setDbError(null);
+          })
+          .catch(importErr => {
+            console.error('Erro ao carregar fallback de places.json:', importErr);
+            setDbError(err.message);
+          })
+          .finally(() => {
+            setIsLoadingDb(false);
+          });
       });
   }, []);
 
