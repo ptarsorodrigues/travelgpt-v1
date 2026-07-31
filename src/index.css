@@ -108,14 +108,23 @@ body {
   border: 1px solid var(--border-glass);
 }
 
-/* Header */
+/* Header (Fixo/Sticky no Topo para Desktop e Celular) */
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid var(--border-glass);
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  border-bottom: 1px solid var(--border-glass) !important;
   padding: 0.4rem 0 !important;
-  transition: var(--transition);
+  transition: var(--transition) !important;
+  background: rgba(11, 15, 25, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+[data-theme="light"] .app-header {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 }
 
 .header-container-responsive {
@@ -3361,9 +3370,14 @@ body {
 
 /* Mobile Responsiveness Improvements & Overflow Prevention */
 @media (max-width: 768px) {
-  html, body, .app-root {
+  html, body {
     max-width: 100vw;
-    overflow-x: hidden !important;
+    overflow-x: clip;
+  }
+
+  .app-root {
+    max-width: 100vw;
+    overflow-x: visible;
   }
 
   .container {
@@ -3373,7 +3387,13 @@ body {
   }
 
   .app-header {
-    padding: 0.5rem 0;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    padding: 0.4rem 0 !important;
+    background: rgba(11, 15, 25, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
   }
 
   .header-content {
