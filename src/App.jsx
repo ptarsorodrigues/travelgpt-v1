@@ -161,12 +161,22 @@ export default function App() {
     localStorage.setItem('travel_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
+  // Regra do Usuário: sempre que o usuário ativar o GPS nenhuma cidade pode retomar como selecionada
+  useEffect(() => {
+    if (userLocation?.isGps) {
+      setSelectedCities([]);
+    }
+  }, [userLocation?.isGps]);
+
   const handleGeolocateUser = () => {
     // Se o GPS já estiver ATIVO, ao clicar ele DESATIVA (desconecta e volta para a Capital padrão)
     if (userLocation?.isGps) {
       setUserLocation(DEFAULT_LOCATION);
       return;
     }
+
+    // Regra do Usuário: sempre que o usuário ativar o GPS nenhuma cidade pode retomar como selecionada
+    setSelectedCities([]);
 
     // Se o GPS estiver INATIVO, ao clicar ele ATIVA (solicita as coordenadas GPS ao navegador)
     if ('geolocation' in navigator) {

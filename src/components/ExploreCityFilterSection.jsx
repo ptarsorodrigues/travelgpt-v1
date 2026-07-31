@@ -88,6 +88,14 @@ export default function ExploreCityFilterSection({
 
   const isAllCitiesSelected = selectedCities.length === 0;
 
+  const handleIniciarPesquisa = () => {
+    setIsExpanded(false); // Retrai a seção (mesmo efeito do botão RETRAIR)
+    const element = document.getElementById('search-results-anchor');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       {!isExpanded ? (
@@ -230,6 +238,17 @@ export default function ExploreCityFilterSection({
                 </div>
               )}
             </div>
+
+            {/* Botão Final Solicitado: INICIE A PESQUISA (com o mesmo efeito de RETRAIR) */}
+            <button 
+              type="button"
+              className="btn-iniciar-pesquisa"
+              onClick={handleIniciarPesquisa}
+              title="Iniciar a pesquisa e retrair o painel"
+            >
+              <span>INICIE A PESQUISA</span>
+              <ChevronUp size={18} color="#FFFFFF" />
+            </button>
           </div>
         </section>
       )}
