@@ -923,24 +923,28 @@ body {
   color: #FFFFFF !important;
 }
 
-/* Regras de Alta Legibilidade com Texto em Branco (#FFFFFF) para Botões Ativos */
+/* Regras de Alta Legibilidade com Texto em Destaque para Distância em KM */
 .badge-distance-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.22) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.45rem 1rem !important;
+  border-radius: 12px !important;
+  background: rgba(15, 23, 42, 0.88) !important; /* Fundo escuro sólido de alto contraste */
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
   color: #FFFFFF !important;
-  font-size: 0.85rem;
-  font-weight: 700 !important;
-  backdrop-filter: blur(8px);
+  font-size: 0.9rem !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
 }
 
-.badge-distance-hero *,
-.badge-distance-hero strong {
-  color: #FFFFFF !important;
+.badge-distance-hero strong,
+.badge-distance-hero span {
+  color: #10B981 !important; /* Verde Esmeralda vibrante para o número de km */
+  font-weight: 800 !important;
 }
 
 .hero-category-white-badge {
@@ -1427,20 +1431,25 @@ body {
 .card-distance-badge {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.25rem !important;
-  padding: 2px 8px !important;
+  gap: 0.3rem !important;
+  padding: 3px 10px !important;
   border-radius: 12px !important;
-  background: rgba(0, 212, 178, 0.12) !important;
-  color: var(--primary);
-  font-size: 0.8rem !important;
-  font-weight: 700 !important;
+  background: #10B981 !important; /* Verde Esmeralda vibrante de alto destaque */
+  color: #FFFFFF !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
   width: fit-content !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4) !important;
+  border: none !important;
+}
+
+.card-distance-badge * {
+  color: #FFFFFF !important;
 }
 
 [data-theme="light"] .card-distance-badge {
-  background: #E6F7F5 !important;
-  color: #006E5D !important;
-  border: 1px solid #B2EBE4 !important;
+  background: #059669 !important;
+  color: #FFFFFF !important;
 }
 
 .list-item-category-wrap {

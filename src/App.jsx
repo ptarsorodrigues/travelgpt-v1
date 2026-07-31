@@ -202,12 +202,58 @@ export default function App() {
 
   const isFavorite = (id) => favorites.includes(id);
 
+  // Precompute center (marco zero) for each city in the dataset
+  const cityCenters = useMemo(() => {
+    const map = {};
+    places.forEach(p => {
+      if (p.city && p.lat && p.lng) {
+        if (!map[p.city]) {
+          map[p.city] = { lats: [], lngs: [] };
+        }
+        map[p.city].lats.push(p.lat);
+        map[p.city].lngs.push(p.lng);
+      }
+    });
+    const centers = {};
+    Object.keys(map).forEach(city => {
+      const lats = map[city].lats;
+      const lngs = map[city].lngs;
+      centers[city] = {
+        lat: lats.reduce((a, b) => a + b, 0) / lats.length,
+        lng: lngs.reduce((a, b) => a + b, 0) / lngs.length
+      };
+    });
+    return centers;
+  }, [places]);
+
+  // Effective location used for computing distances & map center (marco zero da cidade desejada quando GPS desativado)
+  const activeUserLocation = useMemo(() => {
+    // Se o GPS está ativo, usa as coordenadas exatas do dispositivo do usuário
+    if (userLocation?.isGps) {
+      return userLocation;
+    }
+    // Se o GPS está inativo E uma cidade foi selecionada, usa o marco zero (centro) da cidade desejada
+    if (selectedCities && selectedCities.length > 0) {
+      const primaryCity = selectedCities[0];
+      if (cityCenters[primaryCity]) {
+        return {
+          lat: cityCenters[primaryCity].lat,
+          lng: cityCenters[primaryCity].lng,
+          isGps: false,
+          cityName: primaryCity
+        };
+      }
+    }
+    // Padrão: São Paulo Capital (Centro - Praça da Sé)
+    return DEFAULT_LOCATION;
+  }, [userLocation, selectedCities, cityCenters]);
+
   // Multi-filtering logic with initial < 10 km distance constraint
   const filteredPlaces = useMemo(() => {
     return places.filter(place => {
-      // Calculate distance to user reference/GPS location
-      const distance = (userLocation && place.lat && place.lng)
-        ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
+      // Calculate distance to active user reference / GPS location
+      const distance = (activeUserLocation && place.lat && place.lng)
+        ? getDistanceKm(activeUserLocation.lat, activeUserLocation.lng, place.lat, place.lng)
         : 9999;
 
       // Initial < 10 km distance restriction applies ONLY when no category, no city, and no search query is active
@@ -245,17 +291,17 @@ export default function App() {
 
       return true;
     });
-  }, [places, selectedCities, selectedCategories, searchQuery, showFavoritesOnly, favorites, userLocation, maxDistanceKm]);
+  }, [places, selectedCities, selectedCategories, searchQuery, showFavoritesOnly, favorites, activeUserLocation, maxDistanceKm]);
 
   // Sort filtered places by ASCENDING DISTANCE to user (menor até a maior distância)
   const sortedFilteredPlaces = useMemo(() => {
     return [...filteredPlaces].map(place => {
       const distance = (place.lat && place.lng)
-        ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
+        ? getDistanceKm(activeUserLocation.lat, activeUserLocation.lng, place.lat, place.lng)
         : 9999;
       return { ...place, distanceKm: distance };
     }).sort((a, b) => a.distanceKm - b.distanceKm);
-  }, [filteredPlaces, userLocation]);
+  }, [filteredPlaces, activeUserLocation]);
 
   // Group sorted places by city for the "city" view mode
   const placesByCity = useMemo(() => {
@@ -272,9 +318,9 @@ export default function App() {
     const featured = places.filter(p => p.tier && (p.tier.toLowerCase() === 'gold' || p.tier.toLowerCase() === 'diamond'));
     return featured.map(p => ({
       ...p,
-      distanceKm: getDistanceKm(userLocation.lat, userLocation.lng, p.lat, p.lng)
+      distanceKm: getDistanceKm(activeUserLocation.lat, activeUserLocation.lng, p.lat, p.lng)
     })).sort((a, b) => a.distanceKm - b.distanceKm);
-  }, [places, userLocation]);
+  }, [places, activeUserLocation]);
 
   // Calculated Detected City / Location when GPS is Active
   const detectedCityName = useMemo(() => {
@@ -304,7 +350,7 @@ export default function App() {
   // Reference Location text when GPS is Inactive (apenas a localização)
   const referenceLocationName = useMemo(() => {
     if (selectedCities.length === 1) {
-      return `📍 ${selectedCities[0]} (Centro da Cidade)`;
+      return `📍 ${selectedCities[0]} (Marco Zero / Centro)`;
     } else if (selectedCities.length > 1) {
       return `📍 ${selectedCities.join(', ')} (Centros Urbanos)`;
     }
@@ -391,10 +437,10 @@ export default function App() {
         </div>
       </div>
 
-      {/* Seção Retrátil Solicitada pelo Usuário: DESEJA EXPLORAR OUTRA CIDADE ? */}
+      {/* Seção Retrátil: EXPLORAR OUTRA CIDADE? */}
       <ExploreCityFilterSection 
         placesData={places}
-        userLocation={userLocation}
+        userLocation={activeUserLocation}
         setUserLocation={setUserLocation}
         DEFAULT_LOCATION={DEFAULT_LOCATION}
         selectedCities={selectedCities}
@@ -408,7 +454,7 @@ export default function App() {
           <ItineraryView 
             favorites={favorites}
             placesData={places}
-            userLocation={userLocation}
+            userLocation={activeUserLocation}
             onSelectPlace={setSelectedPlace}
             onSelectCity={handleSelectSingleCity}
           />
@@ -417,7 +463,7 @@ export default function App() {
         <main className="container" style={{ minHeight: '80vh', paddingTop: '2rem' }}>
           <AiAssistant 
             placesData={places}
-            userLocation={userLocation}
+            userLocation={activeUserLocation}
             onSelectPlace={setSelectedPlace}
             onSelectCity={handleSelectSingleCity}
             toggleFavorite={toggleFavorite}
@@ -429,7 +475,7 @@ export default function App() {
           <ProfileView 
             favorites={favorites}
             placesData={places}
-            userLocation={userLocation}
+            userLocation={activeUserLocation}
             theme={theme}
             toggleTheme={toggleTheme}
             onSelectPlace={setSelectedPlace}
@@ -443,14 +489,14 @@ export default function App() {
                 <MapIcon size={28} color="var(--primary)" /> Mapa Turístico Interativo do Estado de SP
               </h1>
               <p className="screen-subtitle">
-                {userLocation.isGps ? '📍 Exibindo sua posição GPS atual e os pontos turísticos ordenados.' : 'Explore a localização precisa das atrações no mapa.'}
+                {activeUserLocation.isGps ? '📍 Exibindo sua posição GPS atual e os pontos turísticos ordenados.' : `📍 Exibindo atrações turísticas em relação a ${activeUserLocation.cityName || 'São Paulo'}.`}
               </p>
             </div>
           </div>
           <div style={{ height: '70vh', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-glass)' }}>
             <MapView 
               places={sortedFilteredPlaces}
-              userLocation={userLocation}
+              userLocation={activeUserLocation}
               onSelectPlace={setSelectedPlace}
               onSelectCity={handleSelectSingleCity}
             />
@@ -463,7 +509,7 @@ export default function App() {
           {!showFavoritesOnly && (
             <Hero 
               featuredPlaces={featuredPlaces}
-              userLocation={userLocation}
+              userLocation={activeUserLocation}
               onSelectPlace={setSelectedPlace}
               onOpenWebView={setWebViewerPlace}
               onOpenPlaceAi={setSelectedPlaceAi}
@@ -477,7 +523,7 @@ export default function App() {
           <section className="container" style={{ marginTop: '0.35rem', marginBottom: '1rem' }}>
             <CityCategoryFilterBox 
               placesData={places}
-              userLocation={userLocation}
+              userLocation={activeUserLocation}
               onGeolocateUser={handleGeolocateUser}
               isGeolocating={isGeolocating}
               maxDistanceKm={maxDistanceKm}
