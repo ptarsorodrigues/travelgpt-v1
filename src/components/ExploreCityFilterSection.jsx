@@ -14,6 +14,7 @@ export default function ExploreCityFilterSection({
   setSelectedCities
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isCityBoxOpen, setIsCityBoxOpen] = useState(true); // padrão aberto para fácil acesso ao expandir
   const [citySearchText, setCitySearchText] = useState('');
   const [citySortBy, setCitySortBy] = useState('proximity'); // 'proximity', 'count', 'name'
 
@@ -85,141 +86,153 @@ export default function ExploreCityFilterSection({
     setSelectedCities([]);
   };
 
+  const isAllCitiesSelected = selectedCities.length === 0;
+
   return (
-    <section className={`filter-system-card explore-city-section-card ${isExpanded ? 'expanded-card glass-panel' : 'collapsed-card'}`}>
+    <>
       {!isExpanded ? (
-        <div className="personalize-toggle-wrapper">
+        <div className="personalize-toggle-wrapper container" style={{ marginTop: '0.6rem', marginBottom: '0.8rem' }}>
           <button 
             type="button"
             className="btn-personalize-toggle explore-city-toggle-btn"
             onClick={() => setIsExpanded(true)}
             title="Clique para abrir e escolher a cidade desejada"
           >
-            <MapPin size={20} color="#FFFFFF" />
+            <MapPin size={22} color="#FFFFFF" />
             <span>EXPLORAR OUTRA CIDADE?</span>
-            <ChevronDown size={20} color="#FFFFFF" className="toggle-arrow" />
+            <ChevronDown size={22} color="#FFFFFF" className="toggle-arrow" />
           </button>
         </div>
       ) : (
-        <div className="personalize-expanded-content animate-slide-down">
-          <div className="personalize-section-title-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 className="personalize-section-title">
-              <MapPin size={20} color="var(--primary)" />
-              <span>EXPLORAR OUTRA CIDADE?</span>
-            </h2>
-            <button 
-              type="button"
-              className="mini-clear-btn" 
-              onClick={() => setIsExpanded(false)}
-              title="Retrair painel"
-              style={{ fontSize: '0.85rem' }}
-            >
-              ▲ Retrair
-            </button>
-          </div>
-
-          <div className="filter-box-section-block" style={{ marginTop: '1rem' }}>
-            <div className="filter-box-section-header">
-              <span className="section-label align-left-label">
-                📍 ESCOLHA A CIDADE DESEJADA:
-              </span>
-              <span className="section-badge-counter">
-                {selectedCities.length === 0 
-                  ? `Todas as ${citiesWithStats.length} cidades ativas` 
-                  : `${selectedCities.length} de ${citiesWithStats.length} selecionadas`}
-              </span>
+        <section className="container filter-system-card expanded-card glass-panel" style={{ marginTop: '0.6rem', marginBottom: '1.25rem' }}>
+          <div className="personalize-expanded-content animate-slide-down">
+            {/* Título da Seção + Botão Retrair */}
+            <div className="personalize-section-title-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 className="personalize-section-title">
+                <MapPin size={20} color="var(--primary)" />
+                <span>EXPLORAR OUTRA CIDADE?</span>
+              </h2>
+              <button 
+                type="button"
+                className="mini-clear-btn" 
+                onClick={() => setIsExpanded(false)}
+                title="Retrair painel"
+                style={{ fontSize: '0.85rem' }}
+              >
+                ▲ Retrair
+              </button>
             </div>
 
-            {/* Sub-toolbar de Busca e Ordenação de Cidades */}
-            <div className="city-search-sort-toolbar">
-              <div className="city-search-input-wrap">
-                <Search size={16} color="var(--text-dim)" />
-                <input 
-                  type="text"
-                  placeholder="Buscar cidade pelo nome..."
-                  value={citySearchText}
-                  onChange={(e) => setCitySearchText(e.target.value)}
-                  className="city-search-input"
-                />
-                {citySearchText && (
-                  <button type="button" onClick={() => setCitySearchText('')} className="clear-city-search-btn">
-                    <X size={14} />
+            {/* ESCOLHA A CIDADE DESEJADA - REPLICA EXATA DO PERSONALIZE O SEU TRAVELGPT */}
+            <div className="filter-box-section-block" style={{ marginTop: '0.75rem' }}>
+              <div className="filter-box-section-header">
+                <span className="radius-label align-left-label">
+                  <MapPin size={14} color="var(--primary)" /> ESCOLHA A CIDADE DESEJADA:
+                </span>
+                {!isAllCitiesSelected && (
+                  <button 
+                    type="button"
+                    className="mini-clear-btn" 
+                    onClick={clearAllCities}
+                    title="Limpar seleção de cidades"
+                  >
+                    Limpar ({selectedCities.length})
                   </button>
                 )}
               </div>
 
-              <div className="city-sort-buttons-wrap">
-                <span className="sort-label-text">Ordenar por:</span>
+              {/* Chips de Cidades Selecionadas */}
+              <div className="selected-chips-row">
                 <button 
                   type="button"
-                  className={`sort-pill-btn ${citySortBy === 'proximity' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('proximity')}
+                  className={`chip-btn ${isAllCitiesSelected ? 'active' : ''}`}
+                  onClick={selectAllCities}
                 >
-                  Proximidade
+                  Todas ({placesData.length})
                 </button>
+                {selectedCities.map(city => (
+                  <span key={city} className="chip-badge active">
+                    📍 {city}
+                    <button type="button" onClick={() => toggleCity(city)} className="chip-remove">✕</button>
+                  </span>
+                ))}
                 <button 
                   type="button"
-                  className={`sort-pill-btn ${citySortBy === 'count' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('count')}
+                  className="chip-btn"
+                  onClick={() => setIsCityBoxOpen(!isCityBoxOpen)}
+                  style={{ borderStyle: 'dashed' }}
                 >
-                  Qtd Atrações
-                </button>
-                <button 
-                  type="button"
-                  className={`sort-pill-btn ${citySortBy === 'name' ? 'active' : ''}`}
-                  onClick={() => setCitySortBy('name')}
-                >
-                  A-Z
+                  {isCityBoxOpen ? '▲ Fechar Lista' : '▼ Ver Lista de Cidades'}
                 </button>
               </div>
-            </div>
 
-            {/* Ações de Seleção de Cidades */}
-            <div className="city-selection-actions-bar">
-              <button 
-                type="button"
-                className={`action-chip-btn ${selectedCities.length === 0 ? 'active' : ''}`}
-                onClick={selectAllCities}
-              >
-                <Check size={14} /> Todas as Cidades
-              </button>
-              {selectedCities.length > 0 && (
-                <button 
-                  type="button"
-                  className="action-chip-btn clear"
-                  onClick={clearAllCities}
-                >
-                  <X size={14} /> Limpar Seleção ({selectedCities.length})
-                </button>
+              {/* Painel Dropdown de Cidades com Lista de Checkboxes (idêntica ao Personallize) */}
+              {isCityBoxOpen && (
+                <div className="box-dropdown-panel animate-slide-down">
+                  <div className="box-search-bar">
+                    <Search size={14} color="var(--text-muted)" />
+                    <input 
+                      type="text" 
+                      placeholder="Pesquisar cidade..."
+                      value={citySearchText}
+                      onChange={(e) => setCitySearchText(e.target.value)}
+                      className="box-search-input"
+                    />
+                  </div>
+
+                  <div className="city-sort-bar">
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Ordenar lista por:</span>
+                    <button 
+                      type="button"
+                      className={`sort-tab ${citySortBy === 'proximity' ? 'active' : ''}`}
+                      onClick={() => setCitySortBy('proximity')}
+                    >
+                      Proximidade (Capital)
+                    </button>
+                    <button 
+                      type="button"
+                      className={`sort-tab ${citySortBy === 'count' ? 'active' : ''}`}
+                      onClick={() => setCitySortBy('count')}
+                    >
+                      Mais Atrações
+                    </button>
+                    <button 
+                      type="button"
+                      className={`sort-tab ${citySortBy === 'name' ? 'active' : ''}`}
+                      onClick={() => setCitySortBy('name')}
+                    >
+                      Nome (A-Z)
+                    </button>
+                  </div>
+
+                  <div className="box-items-scroll">
+                    {filteredCitiesInBox.map(c => {
+                      const isChecked = selectedCities.includes(c.city);
+                      return (
+                        <label key={c.city} className={`checkbox-item-row ${isChecked ? 'checked' : ''}`}>
+                          <input 
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => toggleCity(c.city)}
+                            className="custom-checkbox"
+                          />
+                          <span className="checkbox-city-name">{c.city}</span>
+                          <div className="city-meta-tags">
+                            <span className="meta-badge-count">{c.count}</span>
+                            <span className="meta-badge-dist">
+                              {c.distance === 0 ? 'Capital' : `~${c.distance} km`}
+                            </span>
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
-
-            {/* Grid de Cidades Selecionáveis */}
-            <div className="cities-checkbox-grid">
-              {filteredCitiesInBox.map(c => {
-                const isSelected = selectedCities.includes(c.city);
-                return (
-                  <button
-                    key={c.city}
-                    type="button"
-                    className={`city-item-chip ${isSelected ? 'selected' : ''}`}
-                    onClick={() => toggleCity(c.city)}
-                  >
-                    <div className="city-chip-checkbox">
-                      {isSelected && <Check size={12} color="#FFF" />}
-                    </div>
-                    <span className="city-chip-name">{c.city}</span>
-                    <span className="city-chip-badge">{c.count}</span>
-                    {c.distance < 999 && (
-                      <span className="city-chip-dist">{c.distance}km</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
           </div>
-        </div>
+        </section>
       )}
-    </section>
+    </>
   );
 }

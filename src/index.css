@@ -307,15 +307,29 @@ body {
 }
 
 .explore-city-toggle-btn {
-  background: var(--primary) !important; /* COR AZUL PADRONIZADA DO APP */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.65rem !important;
+  padding: 0.8rem 1.75rem !important;
+  background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%) !important; /* COR AZUL PADRONIZADA DO APP */
   color: #FFFFFF !important;
-  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4) !important;
+  transition: all 0.2s ease-in-out !important;
+  width: 100% !important;
+  max-width: 420px !important;
 }
 
 .explore-city-toggle-btn:hover {
-  background: #0284C7 !important;
-  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
   transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.55) !important;
 }
 
 .explore-city-toggle-btn * {
