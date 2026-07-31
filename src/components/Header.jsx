@@ -16,7 +16,7 @@ export default function Header({
       <div className="container header-container-responsive">
         {/* Lado Esquerdo: Logo em box botão com bordas arredondadas e mesmo alinhamento */}
         <div className="header-left-group">
-          <a href="#" className="brand-logo-btn nav-tab-btn" onClick={(e) => { e.preventDefault(); setActiveTab('explore'); }} title="TravelGPT Início">
+          <a href="#" className="brand-logo-btn" onClick={(e) => { e.preventDefault(); setActiveTab('explore'); }} title="TravelGPT Início">
             <img src="/logo.png" alt="TravelGPT Logo" className="header-logo-img" />
           </a>
         </div>
