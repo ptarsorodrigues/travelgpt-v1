@@ -232,10 +232,10 @@ export default function Hero({
 
         {/* CONTROLES DE EXIBIÇÃO, RAIO DE BUSCA E SELEÇÃO DE CATEGORIAS INTEGRADOS NA MESMA SEÇÃO */}
         <div className="carousel-quick-filter-bar">
-          {/* LINHA 1: TIPO DE EXIBIÇÃO + DIVIDER + RAIO DE BUSCA */}
-          <div className="quick-filter-row-top">
-            {/* 1. TIPO DE EXIBIÇÃO */}
-            <div className="quick-filter-row-wrapper">
+          {/* GRUPO DE LINHAS DE FILTRO (LINHAS 1 E 2 NO CELULAR) */}
+          <div className="quick-filter-rows-group">
+            {/* LINHA 1 (CELULAR): TIPO DE EXIBIÇÃO (À ESQUERDA COM ROLAGEM HORIZONTAL) */}
+            <div className="quick-filter-row-wrapper row-line-1">
               <div className="quick-filter-pills-scroll" ref={row1Ref}>
                 <button 
                   type="button"
@@ -286,10 +286,10 @@ export default function Hero({
               )}
             </div>
 
-            <div className="quick-filter-divider" />
+            <div className="quick-filter-divider desktop-only-divider" />
 
-            {/* 2. RAIO DE BUSCA INICIAL */}
-            <div className="quick-filter-row-wrapper">
+            {/* LINHA 2 (CELULAR): RAIO DE DISTÂNCIA (À ESQUERDA COM ROLAGEM HORIZONTAL) */}
+            <div className="quick-filter-row-wrapper row-line-2">
               <div className="quick-filter-pills-scroll" ref={row2Ref}>
                 <button 
                   type="button"
@@ -350,8 +350,8 @@ export default function Hero({
             </div>
           </div>
 
-          {/* LINHA 2 (LINHA DE BAIXO): SELECIONE AS CATEGORIAS */}
-          <div className="quick-filter-row-bottom">
+          {/* LINHA 3 (CELULAR): BOTÃO DE SELECIONE AS CATEGORIAS CENTRALIZADO */}
+          <div className="quick-filter-row-bottom row-line-3">
             <button 
               type="button"
               className={`btn-personalize-toggle ${isCategoryBoxExpanded ? 'active' : ''}`}
