@@ -111,8 +111,9 @@ export default function Hero({
     <section className="hero-section" id="first-place-anchor">
       <div className="container">
         <div 
-          className="hero-featured-card"
-          onClick={() => onSelectPlace && onSelectPlace(currentPlace)}
+          className="hero-card"
+          onClick={(e) => handleSaibaMais(e)}
+          title={`Saiba mais sobre ${currentPlace.title}`}
           style={{ cursor: 'pointer' }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
