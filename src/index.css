@@ -144,12 +144,30 @@ body {
   flex-shrink: 0 !important;
 }
 
-.brand-logo {
-  display: flex !important;
+.brand-logo-btn {
+  display: inline-flex !important;
   align-items: center !important;
-  gap: 0.5rem !important;
+  justify-content: center !important;
+  padding: 0.4rem 0.85rem !important;
+  border-radius: var(--radius-full) !important;
+  background: var(--bg-card-hover) !important;
+  border: 1px solid var(--border-glass) !important;
+  height: 42px !important;
+  box-sizing: border-box !important;
+  transition: var(--transition) !important;
   text-decoration: none !important;
   flex-shrink: 0 !important;
+}
+
+.brand-logo-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: var(--primary) !important;
+}
+
+.header-logo-img {
+  height: 24px !important;
+  width: auto !important;
+  object-fit: contain !important;
 }
 
 /* Custom GPS Header Button aligned with header tabs */
@@ -277,8 +295,24 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: 0.8rem !important;
-  margin-bottom: 1.2rem !important;
+  margin-bottom: 0.8rem !important;
   width: 100%;
+}
+
+/* Nova Seção Retrátil: DESEJA EXPLORAR OUTRA CIDADE ? */
+.explore-city-section-card {
+  margin-top: 0.35rem !important;
+  margin-bottom: 1.25rem !important;
+  width: 100%;
+}
+
+.explore-city-toggle-btn {
+  background: linear-gradient(135deg, var(--primary), #059669) !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35) !important;
+}
+
+.explore-city-toggle-btn:hover {
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.5) !important;
 }
 
 .gps-control-row {

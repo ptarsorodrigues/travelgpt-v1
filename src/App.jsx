@@ -10,6 +10,7 @@ import ItineraryView from './components/ItineraryView';
 import AiAssistant from './components/AiAssistant';
 import ProfileView from './components/ProfileView';
 import CityCategoryFilterBox from './components/CityCategoryFilterBox';
+import ExploreCityFilterSection from './components/ExploreCityFilterSection';
 import InAppWebViewer from './components/InAppWebViewer';
 import { getDistanceKm, formatDistance, normalizeText, fuzzyPhoneticMatch } from './utils/geo';
 import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
@@ -389,6 +390,16 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Seção Retrátil Solicitada pelo Usuário: DESEJA EXPLORAR OUTRA CIDADE ? */}
+      <ExploreCityFilterSection 
+        placesData={places}
+        userLocation={userLocation}
+        setUserLocation={setUserLocation}
+        DEFAULT_LOCATION={DEFAULT_LOCATION}
+        selectedCities={selectedCities}
+        setSelectedCities={setSelectedCities}
+      />
 
 
       {/* RENDER BY SCREEN TAB */}
