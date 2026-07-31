@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
@@ -11,7 +11,11 @@ export default function Hero({
   onSelectCity, 
   isFavorite, 
   toggleFavorite, 
-  onOpenPlaceAi
+  onOpenPlaceAi,
+  viewMode,
+  setViewMode,
+  maxDistanceKm,
+  setMaxDistanceKm
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
@@ -177,6 +181,102 @@ export default function Hero({
                 style={{ marginLeft: 'auto' }}
               >
                 <Heart size={18} fill={isFavorite(currentPlace.id) ? "#FFF" : "none"} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* CONTROLES DE EXIBIÇÃO E RAIO DE BUSCA INICIAL LOGO ABAIXO DO CARROSSEL DE DESTAQUE (SEM TÍTULOS DE TEXTO) */}
+        <div className="carousel-quick-filter-bar">
+          {/* 1. TIPO DE EXIBIÇÃO (APENAS BOTÕES) */}
+          <div className="quick-filter-group">
+            <div className="quick-filter-pills">
+              <button 
+                type="button"
+                className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('list'); }}
+                title="Modo Lista (Padrão)"
+              >
+                <List size={14} /> Lista
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('grid'); }}
+                title="Modo Cards em Grid"
+              >
+                <Grid size={14} /> Grid
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${viewMode === 'city' ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('city'); }}
+                title="Agrupado por Cidade"
+              >
+                <MapPin size={14} /> Por Cidade
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${viewMode === 'category' ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('category'); }}
+                title="Agrupado por Categoria"
+              >
+                <Layers size={14} /> Categorias
+              </button>
+            </div>
+          </div>
+
+          <div className="quick-filter-divider" />
+
+          {/* 2. RAIO DE BUSCA INICIAL (APENAS BOTÕES) */}
+          <div className="quick-filter-group">
+            <div className="quick-filter-pills">
+              <button 
+                type="button"
+                className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(10); }}
+                title="Exibir apenas locais a menos de 10 km (Opção inicial padrão)"
+              >
+                🎯 Até 10 km (Inicial)
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${maxDistanceKm === 25 ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(25); }}
+                title="Exibir locais a menos de 25 km"
+              >
+                🚗 Até 25 km
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${maxDistanceKm === 50 ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(50); }}
+                title="Exibir locais a menos de 50 km"
+              >
+                🛣️ Até 50 km
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${maxDistanceKm === 100 ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(100); }}
+                title="Exibir locais a menos de 100 km"
+              >
+                🗺️ Até 100 km
+              </button>
+
+              <button 
+                type="button"
+                className={`radius-pill ${maxDistanceKm === null ? 'active' : ''}`}
+                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(null); }}
+                title="Exibir todos os locais do Estado"
+              >
+                🌐 Todas
               </button>
             </div>
           </div>
