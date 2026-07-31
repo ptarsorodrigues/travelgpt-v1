@@ -275,6 +275,41 @@ export default function App() {
     })).sort((a, b) => a.distanceKm - b.distanceKm);
   }, [places, userLocation]);
 
+  // Calculated Detected City / Location when GPS is Active
+  const detectedCityName = useMemo(() => {
+    if (!userLocation?.isGps || !userLocation.lat || !userLocation.lng) return null;
+    if (gpsLocationName && !gpsLocationName.includes('NaN')) return gpsLocationName;
+    
+    // Find closest city in dataset as instant offline fallback
+    if (places && places.length > 0) {
+      let minDistance = Infinity;
+      let closestCity = null;
+      for (const p of places) {
+        if (p.lat && p.lng) {
+          const dist = getDistanceKm(userLocation.lat, userLocation.lng, p.lat, p.lng);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestCity = p.city;
+          }
+        }
+      }
+      if (closestCity) {
+        return `${closestCity}, SP`;
+      }
+    }
+    return `${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
+  }, [userLocation, gpsLocationName, places]);
+
+  // Reference Location when GPS is Inactive
+  const referenceLocationName = useMemo(() => {
+    if (selectedCities.length === 1) {
+      return `${selectedCities[0]} (Centro da Cidade)`;
+    } else if (selectedCities.length > 1) {
+      return `${selectedCities.join(', ')}`;
+    }
+    return 'São Paulo Capital (Centro - Praça da Sé)';
+  }, [selectedCities]);
+
   // Single city select shortcut
   const handleSelectSingleCity = (city) => {
     setSelectedCities([city]);
@@ -336,15 +371,15 @@ export default function App() {
             {isLoadingDb || isGeolocating ? (
               <span className="gps-info-text">
                 <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '6px' }} />
-                Obtendo localização via GPS...
+                Detectando localização GPS...
               </span>
             ) : userLocation?.isGps ? (
               <span className="gps-info-text active">
-                📍 Localização detectada pelo GPS: <strong>{gpsLocationName || `Posição Atual (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`}</strong>
+                📍 Localização detectada pelo GPS: <strong>{detectedCityName}</strong>
               </span>
             ) : (
               <span className="gps-info-text inactive">
-                📍 Referência para pontos de interesse: <strong>São Paulo Capital (Centro)</strong>
+                📍 Localização de referência para os pontos de interesse: <strong>{referenceLocationName}</strong>
               </span>
             )}
           </div>
