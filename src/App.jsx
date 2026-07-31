@@ -303,11 +303,11 @@ export default function App() {
   // Reference Location when GPS is Inactive
   const referenceLocationName = useMemo(() => {
     if (selectedCities.length === 1) {
-      return `${selectedCities[0]} (Centro da Cidade)`;
+      return selectedCities[0];
     } else if (selectedCities.length > 1) {
-      return `${selectedCities.join(', ')}`;
+      return selectedCities.join(', ');
     }
-    return 'São Paulo Capital (Centro - Praça da Sé)';
+    return 'São Paulo Capital';
   }, [selectedCities]);
 
   // Single city select shortcut
@@ -349,10 +349,10 @@ export default function App() {
         />
       </div>
 
-      {/* Seção do Controle de GPS e Exibição da Localização (Conforme Mockup MS Paint do Usuário) */}
+      {/* Seção do Controle de GPS e Exibição do Local (Mesma altura, fundo verde, letras brancas) */}
       <div className="gps-control-banner-container container">
         <div className="gps-control-row">
-          {/* Botão de Controle do GPS (Verde Ativo / Vermelho Inativo) */}
+          {/* Botão 1: Controle do GPS (Verde Ativo / Vermelho Inativo) */}
           <button 
             type="button"
             className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
@@ -368,34 +368,19 @@ export default function App() {
             <span>{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
           </button>
 
-          {/* Caixa Retangular de Exibição da Localização (Borda de Destaque) */}
-          <div className={`gps-location-display-box ${userLocation?.isGps ? 'active' : 'inactive'}`}>
+          {/* Botão 2: Pílula Verde do Local em Letras Brancas (Alinhado e mesma altura) */}
+          <div className="gps-location-pill-green">
             {isLoadingDb || isGeolocating ? (
-              <span className="gps-display-text">
-                <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '6px' }} />
-                Detectando localização pelo GPS...
-              </span>
-            ) : userLocation?.isGps ? (
-              <span className="gps-display-text active">
-                Localização detectada pelo GPS: <strong>{detectedCityName}</strong>
+              <span className="gps-location-pill-text">
+                <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '4px' }} color="#FFF" />
+                Obtendo localização...
               </span>
             ) : (
-              <span className="gps-display-text inactive">
-                Localização de referência: <strong>{referenceLocationName}</strong>
+              <span className="gps-location-pill-text">
+                📍 {userLocation?.isGps ? (detectedCityName || 'Sua Posição Atual') : referenceLocationName}
               </span>
             )}
           </div>
-        </div>
-
-        {/* Mensagem Dinâmica do Estado do GPS */}
-        <div className="gps-status-banner-msg">
-          {isLoadingDb || isGeolocating ? (
-            <span className="gps-msg-text">... preparando as atrações mais próximas</span>
-          ) : userLocation?.isGps ? (
-            <span className="gps-msg-text active">Exibindo locais próximos a sua posição atual.</span>
-          ) : (
-            <span className="gps-msg-text inactive">Exibindo locais a partir do centro da cidade.</span>
-          )}
         </div>
       </div>
 
