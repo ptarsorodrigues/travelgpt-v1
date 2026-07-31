@@ -271,21 +271,66 @@ body {
   color: #DC2626 !important;
 }
 
-/* Container do Controle de GPS abaixo da Imagem Inicial */
+/* Container e Barra de Controle do GPS abaixo do Banner Inicial */
 .gps-control-banner-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.75rem;
-  text-align: center;
+  align-items: center;
+  margin-top: 0.6rem !important;
+  margin-bottom: 1.1rem !important;
+  width: 100%;
 }
 
-.gps-control-btn-wrap {
-  display: flex;
+.gps-banner-control-bar {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.gps-location-info-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.gps-location-info-badge.active {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #10B981 !important;
+}
+
+.gps-location-info-badge.inactive {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #EF4444 !important;
+}
+
+[data-theme="light"] .gps-location-info-badge.active {
+  color: #059669 !important;
+}
+
+[data-theme="light"] .gps-location-info-badge.inactive {
+  color: #DC2626 !important;
+}
+
+.gps-info-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  word-break: break-word;
 }
 
 .preparing-attractions-msg {

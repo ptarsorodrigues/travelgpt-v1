@@ -88,6 +88,7 @@ export default function App() {
   // User GPS Location State
   const [userLocation, setUserLocation] = useState(DEFAULT_LOCATION);
   const [isGeolocating, setIsGeolocating] = useState(false);
+  const [gpsLocationName, setGpsLocationName] = useState(null);
 
   // Distance Radius Filter state: default 10 km (Requirement 2: "apresentar inicialmente apenas as opções a menos de 10km")
   const [maxDistanceKm, setMaxDistanceKm] = useState(10);
@@ -117,6 +118,33 @@ export default function App() {
       return [];
     }
   });
+
+  // Reverse Geocoding Effect when GPS is active
+  useEffect(() => {
+    if (userLocation?.isGps && userLocation.lat && userLocation.lng) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${userLocation.lat}&lon=${userLocation.lng}&format=json`)
+        .then(res => {
+          if (!res.ok) throw new Error('Falha na resposta da geocodificação');
+          return res.json();
+        })
+        .then(data => {
+          const addr = data.address || {};
+          const city = addr.city || addr.town || addr.municipality || addr.suburb || addr.village || addr.county;
+          const state = addr.state;
+          if (city) {
+            setGpsLocationName(state ? `${city}, ${state}` : city);
+          } else {
+            setGpsLocationName(`${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`);
+          }
+        })
+        .catch(err => {
+          console.warn('Geocodificação reversa offline ou indisponível:', err);
+          setGpsLocationName(`${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`);
+        });
+    } else {
+      setGpsLocationName(null);
+    }
+  }, [userLocation]);
 
   // Automatically request GPS position on mount
   useEffect(() => {
@@ -286,15 +314,41 @@ export default function App() {
         />
       </div>
 
-      {/* Mensagem Dinâmica do Estado do GPS abaixo da Imagem Inicial */}
-      <div className="gps-status-banner-msg container">
-        {isLoadingDb || isGeolocating ? (
-          <span className="gps-msg-text">... preparando as atrações mais próximas</span>
-        ) : userLocation?.isGps ? (
-          <span className="gps-msg-text active">Exibindo locais próximos a sua posição atual.</span>
-        ) : (
-          <span className="gps-msg-text inactive">Exibindo locais a partir do centro da cidade.</span>
-        )}
+      {/* Botão de Controle do GPS + Informação da Localização detectada / referência */}
+      <div className="gps-control-banner-container container">
+        <div className="gps-banner-control-bar">
+          <button 
+            type="button"
+            className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
+            onClick={handleGeolocateUser}
+            disabled={isGeolocating}
+            title={userLocation?.isGps ? "GPS Ativo. Clique para desativar." : "GPS Inativo. Clique para ativar a localização."}
+          >
+            {isGeolocating ? (
+              <Loader2 size={16} className="animate-spin" color="#FFF" />
+            ) : (
+              <Navigation size={16} color="#FFF" />
+            )}
+            <span>{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
+          </button>
+
+          <div className={`gps-location-info-badge ${userLocation?.isGps ? 'active' : 'inactive'}`}>
+            {isLoadingDb || isGeolocating ? (
+              <span className="gps-info-text">
+                <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '6px' }} />
+                Obtendo localização via GPS...
+              </span>
+            ) : userLocation?.isGps ? (
+              <span className="gps-info-text active">
+                📍 Localização detectada pelo GPS: <strong>{gpsLocationName || `Posição Atual (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`}</strong>
+              </span>
+            ) : (
+              <span className="gps-info-text inactive">
+                📍 Referência para pontos de interesse: <strong>São Paulo Capital (Centro)</strong>
+              </span>
+            )}
+          </div>
+        </div>
       </div>
 
 
