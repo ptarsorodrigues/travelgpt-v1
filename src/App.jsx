@@ -526,6 +526,10 @@ export default function App() {
               onSelectCity={handleSelectSingleCity}
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              maxDistanceKm={maxDistanceKm}
+              setMaxDistanceKm={setMaxDistanceKm}
             />
           )}
 
@@ -536,15 +540,11 @@ export default function App() {
               userLocation={activeUserLocation}
               onGeolocateUser={handleGeolocateUser}
               isGeolocating={isGeolocating}
-              maxDistanceKm={maxDistanceKm}
-              setMaxDistanceKm={setMaxDistanceKm}
               selectedCities={selectedCities}
               setSelectedCities={setSelectedCities}
               selectedCategories={selectedCategories}
               setSelectedCategories={setSelectedCategories}
               categoriesList={CATEGORIES}
-              viewMode={viewMode}
-              setViewMode={setViewMode}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               onResetAll={handleResetAllFilters}
