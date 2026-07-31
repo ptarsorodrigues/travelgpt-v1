@@ -140,8 +140,8 @@ body {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
-  justify-content: center !important;
-  margin: 0 auto !important; /* Centraliza todos os botões do menu na seção */
+  justify-content: flex-end !important;
+  margin-left: auto !important; /* Alinhado à extrema DIREITA */
   gap: 0.35rem !important;
 }
 
@@ -149,7 +149,7 @@ body {
   display: flex !important;
   align-items: center !important;
   gap: 0.6rem !important;
-  margin-right: 0 !important;
+  margin-right: auto !important; /* Mantém o logo na extrema ESQUERDA */
   flex-shrink: 0 !important;
 }
 
@@ -4416,7 +4416,7 @@ body {
   flex-direction: row !important;
   align-items: center !important;
   gap: 0.75rem !important;
-  margin-right: 0 !important;
+  margin-right: auto !important;
   flex-shrink: 0 !important;
 }
 
