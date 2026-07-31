@@ -3469,39 +3469,55 @@ body {
 
   .carousel-quick-filter-bar {
     display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding: 0.45rem 0.65rem !important;
-    gap: 0.65rem !important;
-    scrollbar-width: none !important;
-    -webkit-overflow-scrolling: touch;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+    padding: 0.55rem 0.65rem !important;
+    overflow-x: hidden !important;
+    white-space: normal !important;
   }
 
   .carousel-quick-filter-bar::-webkit-scrollbar {
     display: none !important;
   }
 
-  .quick-filter-group {
-    gap: 0.4rem !important;
-    flex-shrink: 0 !important;
+  .quick-filter-divider {
+    display: none !important;
   }
 
-  .quick-filter-label {
-    font-size: 0.72rem !important;
-    letter-spacing: 0.02em !important;
+  .quick-filter-group {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .quick-filter-group::-webkit-scrollbar {
+    display: none !important;
   }
 
   .quick-filter-pills {
-    gap: 0.3rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
     flex-shrink: 0 !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+  }
+
+  .quick-filter-pills::-webkit-scrollbar {
+    display: none !important;
   }
 
   .quick-filter-pills .radius-pill {
-    padding: 0.28rem 0.6rem !important;
-    font-size: 0.73rem !important;
+    padding: 0.3rem 0.65rem !important;
+    font-size: 0.76rem !important;
     flex-shrink: 0 !important;
+    white-space: nowrap !important;
   }
 
   .distance-radius-row {
