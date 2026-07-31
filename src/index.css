@@ -3874,6 +3874,27 @@ body {
   margin: 0 0.15rem;
 }
 
+.personalize-quick-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+.carousel-quick-filter-bar .btn-personalize-toggle {
+  height: 38px !important;
+  padding: 0.45rem 0.95rem !important;
+  font-size: 0.82rem !important;
+  border-radius: 12px !important;
+  white-space: nowrap !important;
+  max-width: none !important;
+  width: auto !important;
+  box-shadow: 0 2px 10px rgba(0, 212, 178, 0.3) !important;
+}
+
+.carousel-quick-filter-bar .btn-personalize-toggle.active {
+  box-shadow: 0 4px 16px rgba(0, 212, 178, 0.6) !important;
+}
+
 [data-theme="light"] .carousel-quick-filter-bar {
   background: rgba(255, 255, 255, 0.88);
   border-color: rgba(0, 168, 140, 0.3);

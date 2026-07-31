@@ -21,9 +21,14 @@ export default function CityCategoryFilterBox({
   setViewMode,
   searchQuery,
   setSearchQuery,
-  onResetAll
+  onResetAll,
+  isExpanded: isExpandedControlled,
+  setIsExpanded: setIsExpandedControlled
 }) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isExpanded = isExpandedControlled !== undefined ? isExpandedControlled : internalExpanded;
+  const setIsExpanded = setIsExpandedControlled !== undefined ? setIsExpandedControlled : setInternalExpanded;
+
   const [isCityBoxOpen, setIsCityBoxOpen] = useState(false);
   const [isCategoryBoxOpen, setIsCategoryBoxOpen] = useState(false);
   const [citySearchText, setCitySearchText] = useState('');
@@ -127,25 +132,12 @@ export default function CityCategoryFilterBox({
     }
   };
 
+  if (!isExpanded) return null;
+
   return (
-    <section className={`filter-system-card ${isExpanded ? 'expanded-card glass-panel' : 'collapsed-card'}`}>
-      {!isExpanded ? (
-        /* 1. BOTÃO CENTRALIZADO (ESTADO RETRAÍDO) */
-        <div className="personalize-toggle-wrapper">
-          <button 
-            type="button"
-            className="btn-personalize-toggle"
-            onClick={() => setIsExpanded(true)}
-            title="Clique para abrir e selecionar as categorias"
-          >
-            <SlidersHorizontal size={22} color="#FFFFFF" />
-            <span>SELECIONE AS CATEGORIAS</span>
-            <ChevronDown size={22} color="#FFFFFF" className="toggle-arrow" />
-          </button>
-        </div>
-      ) : (
-        /* 2. CONTEÚDO EXPANDIDO COM TODAS AS OPÇÕES */
-        <div className="personalize-expanded-content animate-slide-down">
+    <section className="filter-system-card expanded-card glass-panel" style={{ marginTop: '0.35rem', marginBottom: '1rem' }}>
+      <div className="personalize-expanded-content animate-slide-down">
+        {/* Título da Seção + Botão Retrair */}
           {/* Título da Seção + Botão Retrair */}
           <div className="personalize-section-title-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 className="personalize-section-title">
@@ -262,7 +254,6 @@ export default function CityCategoryFilterBox({
             <span>INICIAR A PESQUISA</span>
           </button>
         </div>
-      )}
     </section>
   );
 }

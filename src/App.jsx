@@ -102,6 +102,9 @@ export default function App() {
   
   const [searchQuery, setSearchQuery] = useState('');
   
+  // State for expanding/collapsing Category Filter Box
+  const [isCategoryBoxExpanded, setIsCategoryBoxExpanded] = useState(false);
+  
   // Default view mode is LIST (Requirement 3: "sendo a opção lista a default")
   const [viewMode, setViewMode] = useState('list'); // 'list', 'grid', 'city', 'category', 'map'
   
@@ -530,26 +533,28 @@ export default function App() {
               setViewMode={setViewMode}
               maxDistanceKm={maxDistanceKm}
               setMaxDistanceKm={setMaxDistanceKm}
+              isCategoryBoxExpanded={isCategoryBoxExpanded}
+              setIsCategoryBoxExpanded={setIsCategoryBoxExpanded}
             />
           )}
 
           {/* DEDICATED CITY & CATEGORY MULTI-SELECTION FILTER SYSTEM */}
-          <section className="container" style={{ marginTop: '0.35rem', marginBottom: '1rem' }}>
-            <CityCategoryFilterBox 
-              placesData={places}
-              userLocation={activeUserLocation}
-              onGeolocateUser={handleGeolocateUser}
-              isGeolocating={isGeolocating}
-              selectedCities={selectedCities}
-              setSelectedCities={setSelectedCities}
-              selectedCategories={selectedCategories}
-              setSelectedCategories={setSelectedCategories}
-              categoriesList={CATEGORIES}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              onResetAll={handleResetAllFilters}
-            />
-          </section>
+          <CityCategoryFilterBox 
+            placesData={places}
+            userLocation={activeUserLocation}
+            onGeolocateUser={handleGeolocateUser}
+            isGeolocating={isGeolocating}
+            selectedCities={selectedCities}
+            setSelectedCities={setSelectedCities}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            categoriesList={CATEGORIES}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            onResetAll={handleResetAllFilters}
+            isExpanded={isCategoryBoxExpanded}
+            setIsExpanded={setIsCategoryBoxExpanded}
+          />
 
           {/* Main Content Area */}
           <main className="container" id="search-results-anchor" style={{ minHeight: '60vh', paddingTop: '1rem' }}>

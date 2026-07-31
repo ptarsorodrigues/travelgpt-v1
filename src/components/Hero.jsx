@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid } from 'lucide-react';
+import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
@@ -15,7 +15,9 @@ export default function Hero({
   viewMode,
   setViewMode,
   maxDistanceKm,
-  setMaxDistanceKm
+  setMaxDistanceKm,
+  isCategoryBoxExpanded,
+  setIsCategoryBoxExpanded
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
@@ -119,13 +121,15 @@ export default function Hero({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <img 
-            src={currentPlace.coverImage} 
-            alt={currentPlace.title}
-            className="hero-bg-img"
-            onError={handleImageError}
-          />
-          <div className="hero-overlay"></div>
+          <div className="hero-backdrop">
+            <img 
+              src={currentPlace.coverImage || currentPlace.image} 
+              alt={currentPlace.title} 
+              onError={handleImageError}
+              className="hero-bg-img"
+            />
+            <div className="hero-overlay"></div>
+          </div>
 
           {featuredPlaces.length > 1 && (
             <>
@@ -226,9 +230,9 @@ export default function Hero({
           </div>
         </div>
 
-        {/* CONTROLES DE EXIBIÇÃO E RAIO DE BUSCA INICIAL LOGO ABAIXO DO CARROSSEL DE DESTAQUE */}
+        {/* CONTROLES DE EXIBIÇÃO, RAIO DE BUSCA E SELEÇÃO DE CATEGORIAS INTEGRADOS NA MESMA SEÇÃO */}
         <div className="carousel-quick-filter-bar">
-          {/* 1. TIPO DE EXIBIÇÃO (LINHA 1 NO CELULAR) */}
+          {/* 1. TIPO DE EXIBIÇÃO */}
           <div className="quick-filter-row-wrapper">
             <div className="quick-filter-pills-scroll" ref={row1Ref}>
               <button 
@@ -282,7 +286,7 @@ export default function Hero({
 
           <div className="quick-filter-divider" />
 
-          {/* 2. RAIO DE BUSCA INICIAL (LINHA 2 NO CELULAR) */}
+          {/* 2. RAIO DE BUSCA INICIAL */}
           <div className="quick-filter-row-wrapper">
             <div className="quick-filter-pills-scroll" ref={row2Ref}>
               <button 
@@ -341,6 +345,29 @@ export default function Hero({
                 <ChevronRight size={15} />
               </button>
             )}
+          </div>
+
+          <div className="quick-filter-divider" />
+
+          {/* 3. SELECIONE AS CATEGORIAS */}
+          <div className="quick-filter-row-wrapper personalize-quick-wrapper">
+            <button 
+              type="button"
+              className={`btn-personalize-toggle ${isCategoryBoxExpanded ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsCategoryBoxExpanded && setIsCategoryBoxExpanded(!isCategoryBoxExpanded);
+              }}
+              title="Clique para abrir e selecionar as categorias"
+            >
+              <SlidersHorizontal size={14} color="#FFFFFF" />
+              <span>SELECIONE AS CATEGORIAS</span>
+              {isCategoryBoxExpanded ? (
+                <ChevronUp size={14} color="#FFFFFF" className="toggle-arrow" />
+              ) : (
+                <ChevronDown size={14} color="#FFFFFF" className="toggle-arrow" />
+              )}
+            </button>
           </div>
         </div>
       </div>
