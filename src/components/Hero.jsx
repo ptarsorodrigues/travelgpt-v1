@@ -186,11 +186,11 @@ export default function Hero({
           </div>
         </div>
 
-        {/* CONTROLES DE EXIBIÇÃO E RAIO DE BUSCA INICIAL LOGO ABAIXO DO CARROSSEL DE DESTAQUE (SEM TÍTULOS DE TEXTO) */}
+        {/* CONTROLES DE EXIBIÇÃO E RAIO DE BUSCA INICIAL LOGO ABAIXO DO CARROSSEL DE DESTAQUE */}
         <div className="carousel-quick-filter-bar">
-          {/* 1. TIPO DE EXIBIÇÃO (APENAS BOTÕES) */}
-          <div className="quick-filter-group scrollable-row">
-            <div className="quick-filter-pills">
+          {/* 1. TIPO DE EXIBIÇÃO (LINHA 1 NO CELULAR) */}
+          <div className="quick-filter-row-wrapper">
+            <div className="quick-filter-pills-scroll">
               <button 
                 type="button"
                 className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
@@ -227,16 +227,16 @@ export default function Hero({
                 <Layers size={14} /> Categorias
               </button>
             </div>
-            <span className="scroll-hint-badge" title="Deslize horizontalmente para ver mais opções">
-              ↔ Deslize
-            </span>
+            <div className="scroll-edge-fade" title="Deslize para ver mais opções">
+              <ChevronRight size={18} color="var(--primary)" />
+            </div>
           </div>
 
           <div className="quick-filter-divider" />
 
-          {/* 2. RAIO DE BUSCA INICIAL (APENAS BOTÕES) */}
-          <div className="quick-filter-group scrollable-row">
-            <div className="quick-filter-pills">
+          {/* 2. RAIO DE BUSCA INICIAL (LINHA 2 NO CELULAR) */}
+          <div className="quick-filter-row-wrapper">
+            <div className="quick-filter-pills-scroll">
               <button 
                 type="button"
                 className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
@@ -282,9 +282,9 @@ export default function Hero({
                 🌐 Todas
               </button>
             </div>
-            <span className="scroll-hint-badge" title="Deslize horizontalmente para ver mais opções">
-              ↔ Deslize
-            </span>
+            <div className="scroll-edge-fade" title="Deslize para ver mais opções">
+              <ChevronRight size={18} color="var(--primary)" />
+            </div>
           </div>
         </div>
       </div>
