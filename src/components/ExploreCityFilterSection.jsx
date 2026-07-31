@@ -86,42 +86,43 @@ export default function ExploreCityFilterSection({
   };
 
   return (
-    <div className="explore-city-section-card container">
+    <section className={`filter-system-card explore-city-section-card ${isExpanded ? 'expanded-card glass-panel' : 'collapsed-card'}`}>
       {!isExpanded ? (
         <div className="personalize-toggle-wrapper">
           <button 
             type="button"
             className="btn-personalize-toggle explore-city-toggle-btn"
             onClick={() => setIsExpanded(true)}
-            title="Clique para abrir e escolher as cidades desejadas"
+            title="Clique para abrir e escolher a cidade desejada"
           >
             <MapPin size={20} color="#FFFFFF" />
-            <span>DESEJA EXPLORAR OUTRA CIDADE ?</span>
+            <span>EXPLORAR OUTRA CIDADE?</span>
             <ChevronDown size={20} color="#FFFFFF" className="toggle-arrow" />
           </button>
         </div>
       ) : (
-        <div className="personalize-expanded-content animate-slide-down glass-panel" style={{ padding: '1.25rem', borderRadius: 'var(--radius-lg)' }}>
+        <div className="personalize-expanded-content animate-slide-down">
           <div className="personalize-section-title-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <MapPin size={22} color="var(--primary)" />
-              <h3 style={{ margin: 0, fontSize: '1.1rem', color: 'var(--text-main)', fontFamily: 'var(--font-heading)' }}>
-                DESEJA EXPLORAR OUTRA CIDADE ?
-              </h3>
-            </div>
+            <h2 className="personalize-section-title">
+              <MapPin size={20} color="var(--primary)" />
+              <span>EXPLORAR OUTRA CIDADE?</span>
+            </h2>
             <button 
               type="button"
-              className="btn-retract-section"
+              className="mini-clear-btn" 
               onClick={() => setIsExpanded(false)}
+              title="Retrair painel"
+              style={{ fontSize: '0.85rem' }}
             >
-              <span>Retrair</span>
-              <ChevronUp size={18} />
+              ▲ Retrair
             </button>
           </div>
 
           <div className="filter-box-section-block" style={{ marginTop: '1rem' }}>
             <div className="filter-box-section-header">
-              <span className="section-label">📍 ESCOLHA A CIDADE DESEJADA:</span>
+              <span className="section-label align-left-label">
+                📍 ESCOLHA A CIDADE DESEJADA:
+              </span>
               <span className="section-badge-counter">
                 {selectedCities.length === 0 
                   ? `Todas as ${citiesWithStats.length} cidades ativas` 
@@ -219,6 +220,6 @@ export default function ExploreCityFilterSection({
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

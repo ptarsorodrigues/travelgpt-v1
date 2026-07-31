@@ -307,12 +307,19 @@ body {
 }
 
 .explore-city-toggle-btn {
-  background: linear-gradient(135deg, var(--primary), #059669) !important;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35) !important;
+  background: var(--primary) !important; /* COR AZUL PADRONIZADA DO APP */
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35) !important;
 }
 
 .explore-city-toggle-btn:hover {
-  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.5) !important;
+  background: #0284C7 !important;
+  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+.explore-city-toggle-btn * {
+  color: #FFFFFF !important;
 }
 
 .gps-control-row {
