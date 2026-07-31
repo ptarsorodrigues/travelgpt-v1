@@ -300,14 +300,14 @@ export default function App() {
     return `${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
   }, [userLocation, gpsLocationName, places]);
 
-  // Reference Location text when GPS is Inactive
+  // Reference Location text when GPS is Inactive (apenas a localização)
   const referenceLocationName = useMemo(() => {
     if (selectedCities.length === 1) {
-      return `Com GPS Desativado: 📍 ${selectedCities[0]} (Centro da Cidade)`;
+      return `📍 ${selectedCities[0]} (Centro da Cidade)`;
     } else if (selectedCities.length > 1) {
-      return `Com GPS Desativado: 📍 ${selectedCities.join(', ')} (Centros Urbanos)`;
+      return `📍 ${selectedCities.join(', ')} (Centros Urbanos)`;
     }
-    return 'Com GPS Desativado: 📍 São Paulo Capital (Centro - Praça da Sé)';
+    return '📍 São Paulo Capital (Centro - Praça da Sé)';
   }, [selectedCities]);
 
   // Active Location text when GPS is Active (apenas a localização)
