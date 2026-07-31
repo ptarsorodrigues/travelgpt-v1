@@ -546,6 +546,18 @@ export default function App() {
         </>
       )}
 
+      {/* Place Detail Modal */}
+      <PlaceModal 
+        place={selectedPlace}
+        userLocation={userLocation}
+        onClose={() => setSelectedPlace(null)}
+        onOpenWebView={setWebViewerPlace}
+        onSelectCity={handleSelectSingleCity}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
+        onOpenPlaceAi={setSelectedPlaceAi}
+      />
+
       {/* In-App Web View Modal */}
       <InAppWebViewer 
         place={webViewerPlace}

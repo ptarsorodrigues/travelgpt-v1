@@ -98,13 +98,14 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
           <div className="modal-actions">
             <button 
               onClick={() => {
-                if (onOpenWebView) onOpenWebView(place);
+                const listingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent(place.title + ' ' + place.city)}`;
+                window.open(listingUrl, '_blank', 'noopener,noreferrer');
               }}
               className="btn-primary"
-              title="Abrir informação completa em janela dentro do app"
+              title="Abrir informação completa em nova aba"
             >
               <ExternalLink size={18} />
-              <span>Ver Informação Completa (No App)</span>
+              <span>Ver Informação Completa ↗</span>
             </button>
 
             {onOpenPlaceAi && (

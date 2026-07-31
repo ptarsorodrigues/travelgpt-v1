@@ -32,12 +32,8 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
 
   const handleSaibaMais = (e) => {
     if (e) e.stopPropagation();
-    if (onOpenWebView) {
-      onOpenWebView(currentPlace);
-    } else {
-      const listingUrl = currentPlace.listingUrl || currentPlace.websiteUrl || currentPlace.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent(currentPlace.title + ' ' + currentPlace.city)}`;
-      window.open(listingUrl, '_blank', 'noopener,noreferrer');
-    }
+    const listingUrl = currentPlace.listingUrl || currentPlace.websiteUrl || currentPlace.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent(currentPlace.title + ' ' + currentPlace.city)}`;
+    window.open(listingUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleTouchStart = (e) => {
@@ -64,6 +60,8 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
       <div className="container">
         <div 
           className="hero-featured-card"
+          onClick={() => onSelectPlace && onSelectPlace(currentPlace)}
+          style={{ cursor: 'pointer' }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -116,7 +114,10 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
             <div className="hero-meta">
               <div 
                 className="hero-meta-item interactive-city-tag-hero"
-                onClick={() => onSelectCity && onSelectCity(currentPlace.city)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectCity && onSelectCity(currentPlace.city);
+                }}
                 title={`Filtrar apenas atrações de ${currentPlace.city}`}
               >
                 <MapPin size={16} color="#FFFFFF" />

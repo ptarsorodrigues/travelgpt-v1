@@ -16,8 +16,8 @@ export default function InAppWebViewer({ place, userLocation, onClose }) {
     : `https://maps.google.com/maps?q=${encodeURIComponent(place.title + ', ' + place.city + ' ' + place.address)}&output=embed`;
 
   // Exact Listing URL from dataset
-  const rawListingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl;
-  const isGoogleMaps = rawListingUrl.includes('google.com/maps');
+  const rawListingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl || `https://www.google.com/search?q=${encodeURIComponent((place.title || '') + ' ' + (place.city || ''))}`;
+  const isGoogleMaps = rawListingUrl ? rawListingUrl.includes('google.com/maps') : false;
   const listingSrc = isGoogleMaps ? embedMapUrl : rawListingUrl;
 
   const [activeTab, setActiveTab] = useState('listing'); // 'listing' (Listing URL), 'map' (Mapa Incorporado)
