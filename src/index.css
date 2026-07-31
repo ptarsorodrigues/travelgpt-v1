@@ -5027,6 +5027,93 @@ body {
   border-radius: 8px !important;
 }
 
+/* ==========================================
+   App Main Footer Styling (Centered & Elegant Layout)
+   ========================================== */
+.app-main-footer {
+  border-top: 1px solid var(--border-glass);
+  padding: 3.5rem 0 2rem 0;
+  background: var(--bg-card);
+  margin-top: 4rem;
+  color: var(--text-muted);
+}
+
+.app-footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.footer-logo-img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.footer-logo-img:hover {
+  transform: scale(1.04);
+}
+
+.footer-about-text {
+  max-width: 780px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin: 0 auto 2rem auto;
+  opacity: 0.9;
+}
+
+.footer-disclaimer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto 2rem auto;
+}
+
+.footer-disclaimer-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  text-align: left;
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .footer-disclaimer-card {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.footer-disclaimer-card strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.footer-copyright {
+  width: 100%;
+  max-width: 960px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
 
 
 

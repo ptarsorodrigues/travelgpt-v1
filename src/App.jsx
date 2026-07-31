@@ -12,6 +12,7 @@ import ProfileView from './components/ProfileView';
 import CityCategoryFilterBox from './components/CityCategoryFilterBox';
 import ExploreCityFilterSection from './components/ExploreCityFilterSection';
 import InAppWebViewer from './components/InAppWebViewer';
+import Footer from './components/Footer';
 import { getDistanceKm, formatDistance, normalizeText, fuzzyPhoneticMatch } from './utils/geo';
 import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
 
@@ -761,29 +762,7 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-glass)', padding: '2.5rem 0', background: 'var(--bg-card)', marginTop: '4rem', color: 'var(--text-muted)' }}>
-        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-          <div>
-            <img 
-              src="/logo.png" 
-              alt="TravelGPT Logo" 
-              style={{ 
-                height: '40px', 
-                background: '#FFFFFF', 
-                padding: '5px 12px', 
-                borderRadius: '10px', 
-                marginBottom: '0.5rem', 
-                display: 'block',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)'
-              }} 
-            />
-            <p style={{ fontSize: '0.85rem' }}>Guia inteligente com 100+ pontos de interesse, parques aquáticos, cachoeiras e ecoturismo.</p>
-          </div>
-          <div style={{ fontSize: '0.85rem' }}>
-            &copy; {new Date().getFullYear()} TravelGPT. Todos os direitos reservados.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
