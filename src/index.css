@@ -148,11 +148,11 @@ body {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 0.4rem 0.85rem !important;
-  border-radius: var(--radius-full) !important;
-  background: var(--bg-card-hover) !important;
+  padding: 0.25rem 0.5rem !important;
+  border-radius: 10px !important;
+  background: var(--bg-card) !important;
   border: 1px solid var(--border-glass) !important;
-  height: 42px !important;
+  height: 38px !important;
   box-sizing: border-box !important;
   transition: var(--transition) !important;
   text-decoration: none !important;
@@ -160,14 +160,16 @@ body {
 }
 
 .brand-logo-btn:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: var(--bg-card-hover) !important;
   border-color: var(--primary) !important;
 }
 
 .header-logo-img {
-  height: 24px !important;
+  height: 30px !important;
   width: auto !important;
   object-fit: contain !important;
+  border-radius: 6px !important;
+  display: block !important;
 }
 
 /* Custom GPS Header Button aligned with header tabs */
@@ -4353,12 +4355,12 @@ body {
 }
 
 .header-logo-img {
-  height: 38px !important;
+  height: 30px !important;
   width: auto !important;
   object-fit: contain !important;
   background: transparent !important;
   padding: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 6px !important;
   border: none !important;
   box-shadow: none !important;
   transition: var(--transition) !important;
@@ -4420,8 +4422,13 @@ body {
     gap: 0.4rem !important;
   }
 
+  .brand-logo-btn {
+    height: 36px !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
   .header-logo-img {
-    height: 34px !important;
+    height: 28px !important;
     padding: 0 !important;
   }
 
