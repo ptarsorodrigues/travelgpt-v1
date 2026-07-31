@@ -3834,29 +3834,34 @@ body {
   flex-shrink: 0;
 }
 
-.scroll-edge-fade {
+.quick-filter-scroll-arrow-btn {
   position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 4px;
-  width: 36px;
-  background: linear-gradient(to right, rgba(11, 15, 25, 0) 0%, rgba(11, 15, 25, 0.95) 80%);
-  pointer-events: none;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #0B0F19;
+  border: none;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 2px;
-  z-index: 3;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 212, 178, 0.5);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 5;
+  padding: 0;
 }
 
-.scroll-edge-fade svg {
-  animation: pulse-arrow-right 1.2s infinite alternate ease-in-out;
-  filter: drop-shadow(0 0 5px var(--primary));
+.quick-filter-scroll-arrow-btn:hover {
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 4px 14px rgba(0, 212, 178, 0.7);
 }
 
-@keyframes pulse-arrow-right {
-  0% { transform: translateX(-3px); opacity: 0.5; }
-  100% { transform: translateX(2px); opacity: 1; }
+.quick-filter-scroll-arrow-btn:active {
+  transform: translateY(-50%) scale(0.92);
 }
 
 .quick-filter-divider {
@@ -3877,13 +3882,15 @@ body {
   background: rgba(0, 168, 140, 0.3);
 }
 
-[data-theme="light"] .scroll-edge-fade {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 80%) !important;
+[data-theme="light"] .quick-filter-scroll-arrow-btn {
+  background: #00A88C;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 168, 140, 0.4);
 }
 
-[data-theme="light"] .scroll-edge-fade svg {
-  color: #00897B !important;
-  filter: drop-shadow(0 0 3px rgba(0, 168, 140, 0.3)) !important;
+[data-theme="light"] .quick-filter-scroll-arrow-btn:hover {
+  background: #00897B;
+  box-shadow: 0 4px 14px rgba(0, 168, 140, 0.6);
 }
 
 [data-theme="light"] .carousel-quick-filter-bar .radius-pill,

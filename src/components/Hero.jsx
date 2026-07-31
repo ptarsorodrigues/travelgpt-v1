@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
@@ -20,6 +20,45 @@ export default function Hero({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
+
+  const row1Ref = useRef(null);
+  const row2Ref = useRef(null);
+  const [canScrollRow1, setCanScrollRow1] = useState(false);
+  const [canScrollRow2, setCanScrollRow2] = useState(false);
+
+  const checkScrollable = useCallback(() => {
+    if (row1Ref.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = row1Ref.current;
+      setCanScrollRow1(scrollWidth - clientWidth - scrollLeft > 8);
+    }
+    if (row2Ref.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = row2Ref.current;
+      setCanScrollRow2(scrollWidth - clientWidth - scrollLeft > 8);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkScrollable();
+    const timer = setTimeout(checkScrollable, 200);
+    const r1 = row1Ref.current;
+    const r2 = row2Ref.current;
+    if (r1) r1.addEventListener('scroll', checkScrollable);
+    if (r2) r2.addEventListener('scroll', checkScrollable);
+    window.addEventListener('resize', checkScrollable);
+
+    return () => {
+      clearTimeout(timer);
+      if (r1) r1.removeEventListener('scroll', checkScrollable);
+      if (r2) r2.removeEventListener('scroll', checkScrollable);
+      window.removeEventListener('resize', checkScrollable);
+    };
+  }, [checkScrollable]);
+
+  const handleScrollRow = (ref) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: 160, behavior: 'smooth' });
+    }
+  };
 
   const currentPlace = featuredPlaces[currentIndex] || featuredPlaces[0];
 
@@ -190,7 +229,7 @@ export default function Hero({
         <div className="carousel-quick-filter-bar">
           {/* 1. TIPO DE EXIBIÇÃO (LINHA 1 NO CELULAR) */}
           <div className="quick-filter-row-wrapper">
-            <div className="quick-filter-pills-scroll">
+            <div className="quick-filter-pills-scroll" ref={row1Ref}>
               <button 
                 type="button"
                 className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
@@ -227,16 +266,24 @@ export default function Hero({
                 <Layers size={14} /> Categorias
               </button>
             </div>
-            <div className="scroll-edge-fade" title="Deslize para ver mais opções">
-              <ChevronRight size={18} color="var(--primary)" />
-            </div>
+            {canScrollRow1 && (
+              <button 
+                type="button"
+                className="quick-filter-scroll-arrow-btn"
+                onClick={() => handleScrollRow(row1Ref)}
+                title="Deslize para ver mais opções"
+                aria-label="Ver mais opções"
+              >
+                <ChevronRight size={15} />
+              </button>
+            )}
           </div>
 
           <div className="quick-filter-divider" />
 
           {/* 2. RAIO DE BUSCA INICIAL (LINHA 2 NO CELULAR) */}
           <div className="quick-filter-row-wrapper">
-            <div className="quick-filter-pills-scroll">
+            <div className="quick-filter-pills-scroll" ref={row2Ref}>
               <button 
                 type="button"
                 className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
@@ -282,9 +329,17 @@ export default function Hero({
                 🌐 Todas
               </button>
             </div>
-            <div className="scroll-edge-fade" title="Deslize para ver mais opções">
-              <ChevronRight size={18} color="var(--primary)" />
-            </div>
+            {canScrollRow2 && (
+              <button 
+                type="button"
+                className="quick-filter-scroll-arrow-btn"
+                onClick={() => handleScrollRow(row2Ref)}
+                title="Deslize para ver mais opções"
+                aria-label="Ver mais opções"
+              >
+                <ChevronRight size={15} />
+              </button>
+            )}
           </div>
         </div>
       </div>
