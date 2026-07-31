@@ -97,8 +97,8 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
 
           <div className="hero-content">
             <div className="hero-top-badges">
-              <span className="hero-badge-proximo">
-                PRÓXIMO A VOCÊ
+              <span className={`hero-badge-proximo ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}>
+                {userLocation?.isGps ? 'PRÓXIMO A VOCÊ' : 'NÃO DEIXE DE VER'}
               </span>
 
               {distanceKm !== null && (

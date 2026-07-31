@@ -300,15 +300,21 @@ export default function App() {
     return `${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`;
   }, [userLocation, gpsLocationName, places]);
 
-  // Reference Location when GPS is Inactive
+  // Reference Location text when GPS is Inactive
   const referenceLocationName = useMemo(() => {
     if (selectedCities.length === 1) {
-      return selectedCities[0];
+      return `Com GPS Desativado: 📍 ${selectedCities[0]} (Centro da Cidade)`;
     } else if (selectedCities.length > 1) {
-      return selectedCities.join(', ');
+      return `Com GPS Desativado: 📍 ${selectedCities.join(', ')} (Centros Urbanos)`;
     }
-    return 'São Paulo Capital';
+    return 'Com GPS Desativado: 📍 São Paulo Capital (Centro - Praça da Sé)';
   }, [selectedCities]);
+
+  // Active Location text when GPS is Active
+  const activeLocationName = useMemo(() => {
+    const cityStr = detectedCityName || 'Sua Posição Atual';
+    return `Com GPS Ativo: 📍 ${cityStr}`;
+  }, [detectedCityName]);
 
   // Single city select shortcut
   const handleSelectSingleCity = (city) => {
@@ -349,7 +355,7 @@ export default function App() {
         />
       </div>
 
-      {/* Seção do Controle de GPS e Exibição do Local (Mesma altura, fundo verde, letras brancas) */}
+      {/* Seção do Controle de GPS e Exibição do Local (Cor idêntica ao estado do GPS: Verde Ativo / Vermelho Inativo) */}
       <div className="gps-control-banner-container container">
         <div className="gps-control-row">
           {/* Botão 1: Controle do GPS (Verde Ativo / Vermelho Inativo) */}
@@ -368,8 +374,8 @@ export default function App() {
             <span>{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
           </button>
 
-          {/* Botão 2: Pílula Verde do Local em Letras Brancas (Alinhado e mesma altura) */}
-          <div className="gps-location-pill-green">
+          {/* Botão 2: Pílula da Localização com cor idêntica ao GPS Ativo/Inativo e Letras Brancas */}
+          <div className={`gps-location-pill ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}>
             {isLoadingDb || isGeolocating ? (
               <span className="gps-location-pill-text">
                 <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '4px' }} color="#FFF" />
@@ -377,7 +383,7 @@ export default function App() {
               </span>
             ) : (
               <span className="gps-location-pill-text">
-                📍 {userLocation?.isGps ? (detectedCityName || 'Sua Posição Atual') : referenceLocationName}
+                {userLocation?.isGps ? activeLocationName : referenceLocationName}
               </span>
             )}
           </div>
