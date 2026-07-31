@@ -310,10 +310,10 @@ export default function App() {
     return 'Com GPS Desativado: 📍 São Paulo Capital (Centro - Praça da Sé)';
   }, [selectedCities]);
 
-  // Active Location text when GPS is Active
+  // Active Location text when GPS is Active (apenas a localização)
   const activeLocationName = useMemo(() => {
     const cityStr = detectedCityName || 'Sua Posição Atual';
-    return `Com GPS Ativo: 📍 ${cityStr}`;
+    return `📍 ${cityStr}`;
   }, [detectedCityName]);
 
   // Single city select shortcut
