@@ -4495,16 +4495,22 @@ body {
     font-size: 0.76rem !important;
   }
 
-  /* ESTRUTURA DE 4 LINHAS NO CELULAR SOLICITADA PELO USUÁRIO:
+  /* ESTRUTURA DE 4 LINHAS NO CELULAR (DISTÂNCIAS VERTICAIS 100% HARMONIOSAS E ALINHAMENTO PERFEITO):
      LINHA 1: TIPO DE EXIBIÇÃO (ROLAGEM HORIZONTAL À ESQUERDA)
      LINHA 2: RAIO DE DISTÂNCIA (ROLAGEM HORIZONTAL À ESQUERDA)
      LINHA 3: BOTÃO SELECIONE AS CATEGORIAS (CENTRALIZADO)
      LINHA 4: STATUS / RESUMO (Exibindo X atrações...)
   */
+  .carousel-quick-filter-bar {
+    padding: 0.75rem 0.85rem !important;
+    gap: 0.75rem !important;
+  }
+
   .quick-filter-rows-group {
+    display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 0.65rem !important;
+    gap: 0.75rem !important; /* Espaçamento idêntico entre Linha 1 e Linha 2 */
     width: 100% !important;
   }
 
@@ -4514,23 +4520,39 @@ body {
 
   .quick-filter-row-wrapper {
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .quick-filter-pills-scroll {
     justify-content: flex-start !important;
-    padding-right: 2rem !important;
+    padding-right: 2.2rem !important;
+    padding-bottom: 6px !important;
+  }
+
+  .quick-filter-scroll-arrow-btn {
+    top: 19px !important; /* Centralizado perfeitamente na altura de 38px dos botões */
+    transform: translateY(-50%) !important;
   }
 
   .quick-filter-row-bottom {
     justify-content: center !important;
     width: 100% !important;
-    padding-top: 0.2rem !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
   }
 
   .carousel-quick-filter-bar .btn-personalize-toggle {
     width: 100% !important;
     max-width: 100% !important;
     justify-content: center !important;
+    height: 40px !important;
+  }
+
+  /* Espaçamento vertical harmonizado para a Linha 4 (Exibindo...) */
+  .active-filters-summary-container-mobile {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
   }
 }
 

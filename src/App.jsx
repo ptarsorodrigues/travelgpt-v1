@@ -564,8 +564,8 @@ export default function App() {
             setIsExpanded={setIsCategoryBoxExpanded}
           />
 
-          {/* Status & Active Filter Summary Bar na seção de cima, abaixo de SELECIONE AS CATEGORIAS */}
-          <div className="container" style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
+          {/* Status & Active Filter Summary Bar na seção de cima, abaixo de SELECIONE AS CATEGORIAS (LINHA 4 NO CELULAR) */}
+          <div className="container active-filters-summary-container-mobile" style={{ marginTop: '0.75rem', marginBottom: '0.5rem' }}>
             <div className="active-filters-summary-bar">
               <div>
                 Exibindo <strong style={{ color: 'var(--primary)' }}>{sortedFilteredPlaces.length}</strong> atrações ordenadas da <strong>menor para a maior distância</strong>
