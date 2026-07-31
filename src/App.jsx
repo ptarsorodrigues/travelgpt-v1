@@ -313,16 +313,6 @@ export default function App() {
     }).sort((a, b) => a.distanceKm - b.distanceKm);
   }, [filteredPlaces, activeUserLocation]);
 
-  // Group sorted places by city for the "city" view mode
-  const placesByCity = useMemo(() => {
-    const map = {};
-    sortedFilteredPlaces.forEach(p => {
-      if (!map[p.city]) map[p.city] = [];
-      map[p.city].push(p);
-    });
-    return map;
-  }, [sortedFilteredPlaces]);
-
   // Featured places for Hero Banner (only POIs classified as 'gold' in Product column, sorted by closest to user)
   const featuredPlaces = useMemo(() => {
     const featured = places.filter(p => p.tier && (p.tier.toLowerCase() === 'gold' || p.tier.toLowerCase() === 'diamond'));
@@ -526,10 +516,6 @@ export default function App() {
               onSelectCity={handleSelectSingleCity}
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}
-              viewMode={viewMode}
-              setViewMode={setViewMode}
-              maxDistanceKm={maxDistanceKm}
-              setMaxDistanceKm={setMaxDistanceKm}
             />
           )}
 
@@ -611,7 +597,7 @@ export default function App() {
                   />
                 ))}
               </div>
-            ) : viewMode === 'grid' ? (
+            ) : (
               <div className="places-grid">
                 {sortedFilteredPlaces.map(place => (
                   <PlaceCard 
@@ -627,81 +613,7 @@ export default function App() {
                   />
                 ))}
               </div>
-            ) : viewMode === 'city' ? (
-              <div className="city-grouped-container">
-                {Object.keys(placesByCity).map(cityName => (
-                  <div key={cityName} className="city-section">
-                    <div className="city-section-header">
-                      <h2 className="city-section-title">
-                        <MapPin size={22} className="city-icon" color="var(--primary)" />
-                        <span>{cityName}</span>
-                        <span className="city-count-badge">
-                          {placesByCity[cityName].length} {placesByCity[cityName].length === 1 ? 'ponto de interesse' : 'pontos de interesse'}
-                        </span>
-                      </h2>
-                      {!selectedCities.includes(cityName) && (
-                        <button 
-                          className="city-filter-only-btn" 
-                          onClick={() => handleSelectSingleCity(cityName)}
-                          title={`Filtrar apenas por ${cityName}`}
-                        >
-                          Filtrar apenas {cityName}
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="places-grid">
-                      {placesByCity[cityName].map(place => (
-                        <PlaceCard 
-                          key={place.id}
-                          place={place}
-                          userLocation={userLocation}
-                          onSelectPlace={setSelectedPlace}
-                          onOpenWebView={setWebViewerPlace}
-                          onOpenPlaceAi={setSelectedPlaceAi}
-                          onSelectCity={handleSelectSingleCity}
-                          isFavorite={isFavorite}
-                          toggleFavorite={toggleFavorite}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : viewMode === 'category' ? (
-              <div>
-                {CATEGORIES.slice(1).map(catName => {
-                  const catPlaces = sortedFilteredPlaces.filter(p => p.category === catName);
-                  if (catPlaces.length === 0) return null;
-                  return (
-                    <div key={catName} className="category-section">
-                      <div className="category-section-header">
-                        <h2 className="category-section-title">
-                          {catName}
-                          <span className="category-count-badge">{catPlaces.length}</span>
-                        </h2>
-                      </div>
-
-                      <div className="places-grid">
-                        {catPlaces.map(place => (
-                          <PlaceCard 
-                            key={place.id}
-                            place={place}
-                            userLocation={userLocation}
-                            onSelectPlace={setSelectedPlace}
-                            onOpenWebView={setWebViewerPlace}
-                            onOpenPlaceAi={setSelectedPlaceAi}
-                            onSelectCity={handleSelectSingleCity}
-                            isFavorite={isFavorite}
-                            toggleFavorite={toggleFavorite}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : null}
+            )}
           </main>
         </>
       )}
