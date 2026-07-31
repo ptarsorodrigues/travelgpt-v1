@@ -90,10 +90,14 @@ export default function ExploreCityFilterSection({
 
   const handleIniciarPesquisa = () => {
     setIsExpanded(false); // Retrai a seção (mesmo efeito do botão RETRAIR)
-    const element = document.getElementById('search-results-anchor');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const element = document.getElementById('first-place-anchor') || document.getElementById('search-results-anchor');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 320, behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (
@@ -102,7 +106,7 @@ export default function ExploreCityFilterSection({
         <div className="personalize-toggle-wrapper container" style={{ marginTop: '0.6rem', marginBottom: '0.8rem' }}>
           <button 
             type="button"
-            className="btn-personalize-toggle explore-city-toggle-btn"
+            className="explore-city-toggle-btn"
             onClick={() => setIsExpanded(true)}
             title="Clique para abrir e escolher a cidade desejada"
           >

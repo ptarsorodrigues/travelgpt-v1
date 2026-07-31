@@ -56,7 +56,7 @@ export default function Hero({ featuredPlaces, userLocation, onSelectPlace, onOp
   };
 
   return (
-    <section className="hero-section">
+    <section className="hero-section" id="first-place-anchor">
       <div className="container">
         <div 
           className="hero-featured-card"
