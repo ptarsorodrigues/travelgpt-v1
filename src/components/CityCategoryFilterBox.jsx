@@ -136,10 +136,10 @@ export default function CityCategoryFilterBox({
             type="button"
             className="btn-personalize-toggle"
             onClick={() => setIsExpanded(true)}
-            title="Clique para abrir e personalizar suas preferências de busca"
+            title="Clique para abrir e selecionar as categorias"
           >
             <SlidersHorizontal size={22} color="#FFFFFF" />
-            <span>PERSONALIZE O SEU TRAVELGPT</span>
+            <span>SELECIONE AS CATEGORIAS</span>
             <ChevronDown size={22} color="#FFFFFF" className="toggle-arrow" />
           </button>
         </div>
@@ -150,7 +150,7 @@ export default function CityCategoryFilterBox({
           <div className="personalize-section-title-wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 className="personalize-section-title">
               <SlidersHorizontal size={20} color="var(--primary)" />
-              <span>PERSONALIZE O SEU TRAVELGPT</span>
+              <span>SELECIONE AS CATEGORIAS</span>
             </h2>
             <button 
               type="button"
