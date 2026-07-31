@@ -239,13 +239,9 @@ export default function App() {
     return centers;
   }, [places]);
 
-  // Effective location used for computing distances & map center (marco zero da cidade desejada quando GPS desativado)
+  // Effective location used for computing distances & map center
   const activeUserLocation = useMemo(() => {
-    // Se o GPS está ativo, usa as coordenadas exatas do dispositivo do usuário
-    if (userLocation?.isGps) {
-      return userLocation;
-    }
-    // Se o GPS está inativo E uma cidade foi selecionada, usa o marco zero (centro) da cidade desejada
+    // 1. Se o usuário selecionou uma cidade específica, essa cidade É a referência para o cálculo de distâncias!
     if (selectedCities && selectedCities.length > 0) {
       const primaryCity = selectedCities[0];
       if (cityCenters[primaryCity]) {
@@ -257,7 +253,11 @@ export default function App() {
         };
       }
     }
-    // Padrão: São Paulo Capital (Centro - Praça da Sé)
+    // 2. Se nenhuma cidade foi especificamente selecionada E o GPS está ativo, usa as coordenadas exatas do GPS
+    if (userLocation?.isGps) {
+      return userLocation;
+    }
+    // 3. Padrão: São Paulo Capital (Centro - Praça da Sé)
     return DEFAULT_LOCATION;
   }, [userLocation, selectedCities, cityCenters]);
 
@@ -383,6 +383,14 @@ export default function App() {
     if (activeTab !== 'explore' && activeTab !== 'map') {
       setActiveTab('explore');
     }
+  };
+
+  const handleResetSearchAndCategories = () => {
+    // Limpa a busca textual, categorias e travas de raio, MANTENDO as cidades que o usuário escolheu!
+    setSelectedCategories(['Todas']);
+    setSearchQuery('');
+    setShowFavoritesOnly(false);
+    setMaxDistanceKm(null);
   };
 
   const handleResetAllFilters = () => {
@@ -556,21 +564,15 @@ export default function App() {
             setIsExpanded={setIsCategoryBoxExpanded}
           />
 
-          {/* Main Content Area */}
-          <main className="container" id="search-results-anchor" style={{ minHeight: '60vh', paddingTop: '1rem' }}>
-            {showFavoritesOnly && (
-              <div style={{ margin: '1.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#EF4444' }}>
-                <Heart size={24} fill="#EF4444" />
-                <h2 style={{ fontFamily: 'var(--font-heading)' }}>Seus Locais Salvos no Roteiro ({sortedFilteredPlaces.length})</h2>
-              </div>
-            )}
-
-            {/* Status & Active Filter Summary Bar */}
+          {/* Status & Active Filter Summary Bar na seção de cima, abaixo de SELECIONE AS CATEGORIAS */}
+          <div className="container" style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
             <div className="active-filters-summary-bar">
               <div>
                 Exibindo <strong style={{ color: 'var(--primary)' }}>{sortedFilteredPlaces.length}</strong> atrações ordenadas da <strong>menor para a maior distância</strong>
                 <span className="location-indicator-tag">
-                  {userLocation.isGps ? '📍 GPS Ativo (Sua localização exata)' : '📍 Referência: São Paulo Capital'}
+                  {userLocation.isGps 
+                    ? (selectedCities.length > 0 ? `📍 Filtrando por: ${selectedCities[0]}` : '📍 GPS Ativo (Sua localização exata)')
+                    : (selectedCities.length > 0 ? `📍 Referência: Marco Zero de ${selectedCities[0]}` : '📍 Referência: São Paulo Capital')}
                 </span>
                 {selectedCities.length > 0 && (
                   <span className="summary-tag">
@@ -589,15 +591,36 @@ export default function App() {
                 </button>
               )}
             </div>
+          </div>
+
+          {/* Main Content Area */}
+          <main className="container" id="search-results-anchor" style={{ minHeight: '60vh', paddingTop: '0.5rem' }}>
+            {showFavoritesOnly && (
+              <div style={{ margin: '1.5rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#EF4444' }}>
+                <Heart size={24} fill="#EF4444" />
+                <h2 style={{ fontFamily: 'var(--font-heading)' }}>Seus Locais Salvos no Roteiro ({sortedFilteredPlaces.length})</h2>
+              </div>
+            )}
 
             {sortedFilteredPlaces.length === 0 ? (
               <div style={{ textBaseline: 'center', textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-muted)' }}>
                 <Filter size={48} color="var(--text-dim)" style={{ marginBottom: '1rem' }} />
                 <h3>Nenhum ponto de interesse encontrado com os filtros selecionados</h3>
-                <p>Tente remover algumas cidades ou categorias para expandir sua busca.</p>
-                <button className="btn-primary" style={{ marginTop: '1rem' }} onClick={handleResetAllFilters}>
-                  Resetar Filtros
-                </button>
+                <p style={{ marginTop: '0.5rem' }}>
+                  {selectedCities.length > 0 
+                    ? `Nenhuma atração encontrada para as categorias selecionadas em ${selectedCities.join(', ')}.`
+                    : 'Tente remover algumas cidades ou categorias para expandir sua busca.'}
+                </p>
+                <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+                  <button className="btn-primary" onClick={handleResetSearchAndCategories}>
+                    Ver atrações de {selectedCities.length > 0 ? selectedCities[0] : 'SP'}
+                  </button>
+                  {selectedCities.length > 0 && (
+                    <button className="btn-secondary" style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)', padding: '0.5rem 1rem', borderRadius: '10px' }} onClick={handleResetAllFilters}>
+                      Limpar todas as cidades
+                    </button>
+                  )}
+                </div>
               </div>
             ) : viewMode === 'list' ? (
               /* DEFAULT VIEW MODE: LIST SORTED BY ASCENDING DISTANCE */

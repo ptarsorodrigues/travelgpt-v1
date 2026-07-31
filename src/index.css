@@ -3781,9 +3781,9 @@ body {
 /* Quick Filter Bar (Display Type & Initial Radius directly below Featured Attractions Carousel) */
 .carousel-quick-filter-bar {
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 0.6rem 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
   background: rgba(11, 15, 25, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -3791,6 +3791,22 @@ body {
   border-radius: var(--radius-md);
   margin-top: 0.75rem;
   overflow: hidden;
+}
+
+.quick-filter-row-top {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+.quick-filter-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 0.25rem;
 }
 
 .quick-filter-row-wrapper {
@@ -3888,18 +3904,21 @@ body {
 }
 
 .carousel-quick-filter-bar .btn-personalize-toggle {
-  height: 38px !important;
-  padding: 0.45rem 0.95rem !important;
-  font-size: 0.82rem !important;
+  height: 42px !important;
+  padding: 0.5rem 1.5rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
   border-radius: 12px !important;
   white-space: nowrap !important;
-  max-width: none !important;
-  width: auto !important;
-  box-shadow: 0 2px 10px rgba(0, 212, 178, 0.3) !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(0, 212, 178, 0.35) !important;
 }
 
 .carousel-quick-filter-bar .btn-personalize-toggle.active {
-  box-shadow: 0 4px 16px rgba(0, 212, 178, 0.6) !important;
+  box-shadow: 0 4px 18px rgba(0, 212, 178, 0.65) !important;
 }
 
 [data-theme="light"] .carousel-quick-filter-bar {
@@ -4453,12 +4472,12 @@ body {
   }
 
   .brand-logo-btn {
-    height: 36px !important;
-    padding: 0.2rem 0.4rem !important;
+    height: 38px !important;
+    padding: 2px 8px !important;
   }
 
   .header-logo-img {
-    height: 28px !important;
+    height: 34px !important;
     padding: 0 !important;
   }
 

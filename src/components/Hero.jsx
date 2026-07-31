@@ -232,125 +232,126 @@ export default function Hero({
 
         {/* CONTROLES DE EXIBIÇÃO, RAIO DE BUSCA E SELEÇÃO DE CATEGORIAS INTEGRADOS NA MESMA SEÇÃO */}
         <div className="carousel-quick-filter-bar">
-          {/* 1. TIPO DE EXIBIÇÃO */}
-          <div className="quick-filter-row-wrapper">
-            <div className="quick-filter-pills-scroll" ref={row1Ref}>
-              <button 
-                type="button"
-                className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('list'); }}
-                title="Modo Lista (Padrão)"
-              >
-                <List size={14} /> Lista
-              </button>
+          {/* LINHA 1: TIPO DE EXIBIÇÃO + DIVIDER + RAIO DE BUSCA */}
+          <div className="quick-filter-row-top">
+            {/* 1. TIPO DE EXIBIÇÃO */}
+            <div className="quick-filter-row-wrapper">
+              <div className="quick-filter-pills-scroll" ref={row1Ref}>
+                <button 
+                  type="button"
+                  className={`radius-pill ${viewMode === 'list' ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('list'); }}
+                  title="Modo Lista (Padrão)"
+                >
+                  <List size={14} /> Lista
+                </button>
 
-              <button 
-                type="button"
-                className={`radius-pill ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('grid'); }}
-                title="Modo Cards em Grid"
-              >
-                <Grid size={14} /> Grid
-              </button>
+                <button 
+                  type="button"
+                  className={`radius-pill ${viewMode === 'grid' ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('grid'); }}
+                  title="Modo Cards em Grid"
+                >
+                  <Grid size={14} /> Grid
+                </button>
 
-              <button 
-                type="button"
-                className={`radius-pill ${viewMode === 'city' ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('city'); }}
-                title="Agrupado por Cidade"
-              >
-                <MapPin size={14} /> Por Cidade
-              </button>
+                <button 
+                  type="button"
+                  className={`radius-pill ${viewMode === 'city' ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('city'); }}
+                  title="Agrupado por Cidade"
+                >
+                  <MapPin size={14} /> Por Cidade
+                </button>
 
-              <button 
-                type="button"
-                className={`radius-pill ${viewMode === 'category' ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('category'); }}
-                title="Agrupado por Categoria"
-              >
-                <Layers size={14} /> Categorias
-              </button>
+                <button 
+                  type="button"
+                  className={`radius-pill ${viewMode === 'category' ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('category'); }}
+                  title="Agrupado por Categoria"
+                >
+                  <Layers size={14} /> Categorias
+                </button>
+              </div>
+              {canScrollRow1 && (
+                <button 
+                  type="button"
+                  className="quick-filter-scroll-arrow-btn"
+                  onClick={() => handleScrollRow(row1Ref)}
+                  title="Deslize para ver mais opções"
+                  aria-label="Ver mais opções"
+                >
+                  <ChevronRight size={15} />
+                </button>
+              )}
             </div>
-            {canScrollRow1 && (
-              <button 
-                type="button"
-                className="quick-filter-scroll-arrow-btn"
-                onClick={() => handleScrollRow(row1Ref)}
-                title="Deslize para ver mais opções"
-                aria-label="Ver mais opções"
-              >
-                <ChevronRight size={15} />
-              </button>
-            )}
+
+            <div className="quick-filter-divider" />
+
+            {/* 2. RAIO DE BUSCA INICIAL */}
+            <div className="quick-filter-row-wrapper">
+              <div className="quick-filter-pills-scroll" ref={row2Ref}>
+                <button 
+                  type="button"
+                  className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(10); }}
+                  title="Exibir apenas locais a menos de 10 km (Opção inicial padrão)"
+                >
+                  🎯 Até 10 km (Inicial)
+                </button>
+
+                <button 
+                  type="button"
+                  className={`radius-pill ${maxDistanceKm === 25 ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(25); }}
+                  title="Exibir locais a menos de 25 km"
+                >
+                  🚗 Até 25 km
+                </button>
+
+                <button 
+                  type="button"
+                  className={`radius-pill ${maxDistanceKm === 50 ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(50); }}
+                  title="Exibir locais a menos de 50 km"
+                >
+                  🛣️ Até 50 km
+                </button>
+
+                <button 
+                  type="button"
+                  className={`radius-pill ${maxDistanceKm === 100 ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(100); }}
+                  title="Exibir locais a menos de 100 km"
+                >
+                  🗺️ Até 100 km
+                </button>
+
+                <button 
+                  type="button"
+                  className={`radius-pill ${maxDistanceKm === null ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(null); }}
+                  title="Exibir todos os locais do Estado"
+                >
+                  🌐 Todas
+                </button>
+              </div>
+              {canScrollRow2 && (
+                <button 
+                  type="button"
+                  className="quick-filter-scroll-arrow-btn"
+                  onClick={() => handleScrollRow(row2Ref)}
+                  title="Deslize para ver mais opções"
+                  aria-label="Ver mais opções"
+                >
+                  <ChevronRight size={15} />
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="quick-filter-divider" />
-
-          {/* 2. RAIO DE BUSCA INICIAL */}
-          <div className="quick-filter-row-wrapper">
-            <div className="quick-filter-pills-scroll" ref={row2Ref}>
-              <button 
-                type="button"
-                className={`radius-pill ${maxDistanceKm === 10 ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(10); }}
-                title="Exibir apenas locais a menos de 10 km (Opção inicial padrão)"
-              >
-                🎯 Até 10 km (Inicial)
-              </button>
-
-              <button 
-                type="button"
-                className={`radius-pill ${maxDistanceKm === 25 ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(25); }}
-                title="Exibir locais a menos de 25 km"
-              >
-                🚗 Até 25 km
-              </button>
-
-              <button 
-                type="button"
-                className={`radius-pill ${maxDistanceKm === 50 ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(50); }}
-                title="Exibir locais a menos de 50 km"
-              >
-                🛣️ Até 50 km
-              </button>
-
-              <button 
-                type="button"
-                className={`radius-pill ${maxDistanceKm === 100 ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(100); }}
-                title="Exibir locais a menos de 100 km"
-              >
-                🗺️ Até 100 km
-              </button>
-
-              <button 
-                type="button"
-                className={`radius-pill ${maxDistanceKm === null ? 'active' : ''}`}
-                onClick={(e) => { e.stopPropagation(); setMaxDistanceKm && setMaxDistanceKm(null); }}
-                title="Exibir todos os locais do Estado"
-              >
-                🌐 Todas
-              </button>
-            </div>
-            {canScrollRow2 && (
-              <button 
-                type="button"
-                className="quick-filter-scroll-arrow-btn"
-                onClick={() => handleScrollRow(row2Ref)}
-                title="Deslize para ver mais opções"
-                aria-label="Ver mais opções"
-              >
-                <ChevronRight size={15} />
-              </button>
-            )}
-          </div>
-
-          <div className="quick-filter-divider" />
-
-          {/* 3. SELECIONE AS CATEGORIAS */}
-          <div className="quick-filter-row-wrapper personalize-quick-wrapper">
+          {/* LINHA 2 (LINHA DE BAIXO): SELECIONE AS CATEGORIAS */}
+          <div className="quick-filter-row-bottom">
             <button 
               type="button"
               className={`btn-personalize-toggle ${isCategoryBoxExpanded ? 'active' : ''}`}
@@ -360,12 +361,12 @@ export default function Hero({
               }}
               title="Clique para abrir e selecionar as categorias"
             >
-              <SlidersHorizontal size={14} color="#FFFFFF" />
+              <SlidersHorizontal size={16} color="#FFFFFF" />
               <span>SELECIONE AS CATEGORIAS</span>
               {isCategoryBoxExpanded ? (
-                <ChevronUp size={14} color="#FFFFFF" className="toggle-arrow" />
+                <ChevronUp size={16} color="#FFFFFF" className="toggle-arrow" />
               ) : (
-                <ChevronDown size={14} color="#FFFFFF" className="toggle-arrow" />
+                <ChevronDown size={16} color="#FFFFFF" className="toggle-arrow" />
               )}
             </button>
           </div>
