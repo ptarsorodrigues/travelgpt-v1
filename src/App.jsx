@@ -349,9 +349,10 @@ export default function App() {
         />
       </div>
 
-      {/* Botão de Controle do GPS + Informação da Localização detectada / referência */}
+      {/* Seção do Controle de GPS e Exibição da Localização (Conforme Mockup MS Paint do Usuário) */}
       <div className="gps-control-banner-container container">
-        <div className="gps-banner-control-bar">
+        <div className="gps-control-row">
+          {/* Botão de Controle do GPS (Verde Ativo / Vermelho Inativo) */}
           <button 
             type="button"
             className={`gps-toggle-btn-custom ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}
@@ -367,22 +368,34 @@ export default function App() {
             <span>{userLocation?.isGps ? 'GPS Ativo' : 'GPS Inativo'}</span>
           </button>
 
-          <div className={`gps-location-info-badge ${userLocation?.isGps ? 'active' : 'inactive'}`}>
+          {/* Caixa Retangular de Exibição da Localização (Borda de Destaque) */}
+          <div className={`gps-location-display-box ${userLocation?.isGps ? 'active' : 'inactive'}`}>
             {isLoadingDb || isGeolocating ? (
-              <span className="gps-info-text">
+              <span className="gps-display-text">
                 <Loader2 size={14} className="animate-spin" style={{ display: 'inline', marginRight: '6px' }} />
-                Detectando localização GPS...
+                Detectando localização pelo GPS...
               </span>
             ) : userLocation?.isGps ? (
-              <span className="gps-info-text active">
-                📍 Localização detectada pelo GPS: <strong>{detectedCityName}</strong>
+              <span className="gps-display-text active">
+                Localização detectada pelo GPS: <strong>{detectedCityName}</strong>
               </span>
             ) : (
-              <span className="gps-info-text inactive">
-                📍 Localização de referência para os pontos de interesse: <strong>{referenceLocationName}</strong>
+              <span className="gps-display-text inactive">
+                Localização de referência: <strong>{referenceLocationName}</strong>
               </span>
             )}
           </div>
+        </div>
+
+        {/* Mensagem Dinâmica do Estado do GPS */}
+        <div className="gps-status-banner-msg">
+          {isLoadingDb || isGeolocating ? (
+            <span className="gps-msg-text">... preparando as atrações mais próximas</span>
+          ) : userLocation?.isGps ? (
+            <span className="gps-msg-text active">Exibindo locais próximos a sua posição atual.</span>
+          ) : (
+            <span className="gps-msg-text inactive">Exibindo locais a partir do centro da cidade.</span>
+          )}
         </div>
       </div>
 
