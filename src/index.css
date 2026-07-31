@@ -3492,8 +3492,13 @@ body {
   }
 
   .quick-filter-pills-scroll .radius-pill {
-    padding: 0.3rem 0.65rem !important;
-    font-size: 0.76rem !important;
+    padding: 0.45rem 0.75rem !important;
+    font-size: 0.78rem !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
   .distance-radius-row {
@@ -3819,8 +3824,13 @@ body {
 }
 
 .quick-filter-pills-scroll .radius-pill {
-  font-size: 0.78rem;
-  padding: 0.3rem 0.75rem;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.95rem;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   flex-shrink: 0;
 }
 
@@ -3867,19 +3877,31 @@ body {
   background: rgba(0, 168, 140, 0.3);
 }
 
-[data-theme="light"] .quick-filter-pills .radius-pill {
+[data-theme="light"] .scroll-edge-fade {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 80%) !important;
+}
+
+[data-theme="light"] .scroll-edge-fade svg {
+  color: #00897B !important;
+  filter: drop-shadow(0 0 3px rgba(0, 168, 140, 0.3)) !important;
+}
+
+[data-theme="light"] .carousel-quick-filter-bar .radius-pill,
+[data-theme="light"] .quick-filter-pills-scroll .radius-pill {
   background: rgba(0, 0, 0, 0.04);
   border-color: rgba(0, 0, 0, 0.12);
   color: #334155;
 }
 
-[data-theme="light"] .quick-filter-pills .radius-pill:hover {
+[data-theme="light"] .carousel-quick-filter-bar .radius-pill:hover,
+[data-theme="light"] .quick-filter-pills-scroll .radius-pill:hover {
   background: rgba(0, 168, 140, 0.12);
   color: #00897B;
   border-color: #00897B;
 }
 
-[data-theme="light"] .quick-filter-pills .radius-pill.active {
+[data-theme="light"] .carousel-quick-filter-bar .radius-pill.active,
+[data-theme="light"] .quick-filter-pills-scroll .radius-pill.active {
   background: linear-gradient(135deg, #00A88C 0%, #00897B 100%);
   color: #FFFFFF;
   border-color: transparent;
@@ -4493,6 +4515,8 @@ body {
   transition: var(--transition) !important;
   flex-shrink: 0 !important;
   white-space: nowrap !important;
+  height: 38px !important;
+  box-sizing: border-box !important;
 }
 
 .hero-badge-proximo.active-green {
@@ -4524,6 +4548,8 @@ body {
   backdrop-filter: blur(8px) !important;
   white-space: nowrap !important;
   flex-shrink: 0 !important;
+  height: 38px !important;
+  box-sizing: border-box !important;
 }
 
 /* ==========================================================================
