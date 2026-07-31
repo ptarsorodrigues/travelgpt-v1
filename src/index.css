@@ -3852,6 +3852,36 @@ body {
   margin: 0 0.15rem;
 }
 
+/* Scroll Indicator Tag for Horizontal Scroll Sections */
+.scroll-hint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(0, 212, 178, 0.12);
+  border: 1px dashed rgba(0, 212, 178, 0.4);
+  padding: 0.18rem 0.45rem;
+  border-radius: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  flex-shrink: 0;
+  margin-left: 0.35rem;
+  animation: pulse-scroll-hint 2s infinite ease-in-out;
+}
+
+@keyframes pulse-scroll-hint {
+  0%, 100% { opacity: 0.75; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(3px); }
+}
+
+[data-theme="light"] .scroll-hint-badge {
+  background: rgba(0, 168, 140, 0.12);
+  border-color: rgba(0, 168, 140, 0.4);
+  color: #00897B;
+}
+
 [data-theme="light"] .carousel-quick-filter-bar {
   background: rgba(255, 255, 255, 0.88);
   border-color: rgba(0, 168, 140, 0.3);

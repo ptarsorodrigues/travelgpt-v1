@@ -189,7 +189,7 @@ export default function Hero({
         {/* CONTROLES DE EXIBIÇÃO E RAIO DE BUSCA INICIAL LOGO ABAIXO DO CARROSSEL DE DESTAQUE (SEM TÍTULOS DE TEXTO) */}
         <div className="carousel-quick-filter-bar">
           {/* 1. TIPO DE EXIBIÇÃO (APENAS BOTÕES) */}
-          <div className="quick-filter-group">
+          <div className="quick-filter-group scrollable-row">
             <div className="quick-filter-pills">
               <button 
                 type="button"
@@ -227,12 +227,15 @@ export default function Hero({
                 <Layers size={14} /> Categorias
               </button>
             </div>
+            <span className="scroll-hint-badge" title="Deslize horizontalmente para ver mais opções">
+              ↔ Deslize
+            </span>
           </div>
 
           <div className="quick-filter-divider" />
 
           {/* 2. RAIO DE BUSCA INICIAL (APENAS BOTÕES) */}
-          <div className="quick-filter-group">
+          <div className="quick-filter-group scrollable-row">
             <div className="quick-filter-pills">
               <button 
                 type="button"
@@ -279,6 +282,9 @@ export default function Hero({
                 🌐 Todas
               </button>
             </div>
+            <span className="scroll-hint-badge" title="Deslize horizontalmente para ver mais opções">
+              ↔ Deslize
+            </span>
           </div>
         </div>
       </div>
