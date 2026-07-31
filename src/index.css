@@ -4588,17 +4588,39 @@ body {
   }
 }
 
-/* Padronização de Tamanho dos Botões do Menu Superior no Desktop (Mesmo Tamanho do GPS) */
+/* Padronização de Tamanho dos Botões do Menu Superior no Desktop & Proteção do Espaço do Logo */
 @media (min-width: 769px) {
+  .header-left-group {
+    flex-shrink: 0 !important;
+    gap: 0.85rem !important;
+  }
+
+  .brand-logo-btn {
+    flex-shrink: 0 !important;
+    height: 42px !important;
+  }
+
+  .header-logo-img {
+    height: 40px !important;
+    max-height: 40px !important;
+    width: auto !important;
+    max-width: none !important;
+    object-fit: contain !important;
+  }
+
+  .header-nav-tabs {
+    gap: 0.35rem !important;
+  }
+
   .nav-tab-btn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     height: 38px !important;
     min-height: 38px !important;
-    padding: 0 0.95rem !important;
+    padding: 0 0.7rem !important;
     border-radius: 10px !important;
-    font-size: 0.85rem !important;
+    font-size: 0.82rem !important;
     font-weight: 700 !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
@@ -4606,9 +4628,94 @@ body {
   }
 
   .nav-tab-text {
-    font-size: 0.85rem !important;
+    font-size: 0.82rem !important;
     font-weight: 700 !important;
     display: inline-block !important;
+  }
+
+  /* DESIGN EXCLUSIVO APENAS DA VERSÃO DESKTOP PARA A LISTA DE ATRAÇÕES CONFORME SOLICITADO */
+  .list-item-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.85rem 1.25rem !important;
+    gap: 1.5rem !important;
+    border-radius: 16px !important;
+  }
+
+  .list-item-top-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+
+  .list-item-thumb-wrapper {
+    width: 95px !important;
+    height: 95px !important;
+    flex-shrink: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+
+  .list-item-right-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    min-width: 240px !important;
+  }
+
+  .place-item-title {
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 0.1rem 0 !important;
+  }
+
+  .list-item-tier-city-row {
+    margin-bottom: 0.1rem !important;
+  }
+
+  .list-item-bottom-block {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 0.65rem !important;
+    flex: 1 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+  }
+
+  .place-item-address-full {
+    text-align: right !important;
+    font-size: 0.85rem !important;
+    color: var(--text-muted) !important;
+    width: 100% !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .list-item-actions-row-left {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .list-item-actions-row-left .fav-btn-icon {
+    margin-left: 0.5rem !important;
   }
 }
 
