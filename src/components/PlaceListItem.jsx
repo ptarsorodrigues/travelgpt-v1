@@ -66,13 +66,29 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             </div>
           </div>
 
-          {/* Linha 3: Distância (ex: "4.7 km", sem 'de você') */}
-          {distanceKm !== null && (
-            <div className="card-distance-badge" title="Distância estimada">
-              <Navigation size={12} className="distance-icon" />
-              <span>{formatDistance(distanceKm, false)}</span>
+          {/* Linha 3: Distância e Preços/Ingressos */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
+            {distanceKm !== null && (
+              <div className="card-distance-badge" title="Distância estimada">
+                <Navigation size={12} className="distance-icon" />
+                <span>{formatDistance(distanceKm, false)}</span>
+              </div>
+            )}
+
+            <div 
+              className="card-price-badge" 
+              title="Preço dos Ingressos & Serviços (Clique para ver no Guia IA)"
+              onClick={(e) => {
+                if (onOpenPlaceAi) {
+                  e.stopPropagation();
+                  onOpenPlaceAi(place);
+                }
+              }}
+            >
+              <Ticket size={12} className="price-icon" />
+              <span>{place.ticketInfo || place.price || 'Ingressos no Guia IA ✨'}</span>
             </div>
-          )}
+          </div>
 
           {/* Linha 4: Categoria */}
           <div className="list-item-category-wrap">
@@ -83,21 +99,6 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
 
       {/* Bloco Inferior apenas 1 coluna (Largura Total 100%) */}
       <div className="list-item-bottom-block">
-        {/* Ingressos & Preços de Serviços */}
-        <div 
-          className="place-item-ticket-row" 
-          title="Preço dos Ingressos & Valores de Serviços"
-          onClick={(e) => {
-            if (onOpenPlaceAi) {
-              e.stopPropagation();
-              onOpenPlaceAi(place);
-            }
-          }}
-        >
-          <Ticket size={13} color="var(--accent-gold)" style={{ flexShrink: 0 }} />
-          <span>{place.ticketInfo || place.price || 'Ingressos & Serviços: Ver no Guia IA ✨'}</span>
-        </div>
-
         {/* 1. Endereço completo ocupando 100% da largura */}
         <div className="place-item-address-full" title={place.address}>
           {place.address}

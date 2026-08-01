@@ -1646,6 +1646,58 @@ body {
   border: 1px solid #B2EBE4;
 }
 
+/* Card Price Badge (Pill style identical to distance badge, but in rich Amber/Gold) */
+.card-price-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 15px;
+  background: rgba(255, 184, 0, 0.15);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  color: #FFB800;
+  font-size: 0.8rem;
+  font-weight: 700;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card-price-badge:hover {
+  background: rgba(255, 184, 0, 0.25);
+  border-color: #FFB800;
+}
+
+[data-theme="light"] .card-price-badge {
+  background: #FFF8E6;
+  color: #B45309;
+  border: 1px solid #FCD34D;
+}
+
+.price-icon {
+  color: #FFB800;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .price-icon {
+  color: #B45309;
+}
+
+/* Hero Top Price Badge for Featured Ads */
+.badge-price-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 184, 0, 0.5);
+  color: #FFE066;
+  font-size: 0.82rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+}
+
 .place-item-address {
   font-size: 0.9rem;
   color: var(--text-muted);

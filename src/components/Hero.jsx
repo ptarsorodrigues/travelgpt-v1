@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid, SlidersHorizontal, ChevronDown, ChevronUp, Ticket } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 
@@ -164,6 +164,11 @@ export default function Hero({
                   <span>a <strong>{formatDistance(distanceKm, false)}</strong></span>
                 </div>
               )}
+
+              <div className="badge-price-hero" title="Valores dos Ingressos & Serviços">
+                <Ticket size={13} color="#FFB800" />
+                <span>{currentPlace.ticketInfo || currentPlace.price || 'Ingressos & Serviços no Guia IA ✨'}</span>
+              </div>
             </div>
 
             <h1 className="hero-title">{currentPlace.title}</h1>

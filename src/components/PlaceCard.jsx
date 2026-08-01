@@ -67,30 +67,30 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
           {place.address}
         </div>
 
-        {/* Ingressos & Preços de Serviços */}
-        <div 
-          className="place-item-ticket-row" 
-          title="Preço dos Ingressos & Valores de Serviços"
-          onClick={(e) => {
-            if (onOpenPlaceAi) {
-              e.stopPropagation();
-              onOpenPlaceAi(place);
-            }
-          }}
-        >
-          <Ticket size={13} color="var(--accent-gold)" style={{ flexShrink: 0 }} />
-          <span>{place.ticketInfo || place.price || 'Ingressos & Serviços: Ver no Guia IA ✨'}</span>
-        </div>
-
-        {/* 4. Classificação e Distância */}
-        <div className="place-item-meta-row" style={{ marginBottom: '12px' }}>
+        {/* 4. Classificação, Distância e Ingressos/Serviços */}
+        <div className="place-item-meta-row" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span className="list-item-category">{place.category}</span>
+
           {distanceKm !== null && (
             <span className="card-distance-badge" title="Distância estimada até sua localização">
               <Navigation size={12} className="distance-icon" />
               <span>{formatDistance(distanceKm)}</span>
             </span>
           )}
+
+          <span 
+            className="card-price-badge" 
+            title="Preço dos Ingressos & Serviços (Clique para ver no Guia IA)"
+            onClick={(e) => {
+              if (onOpenPlaceAi) {
+                e.stopPropagation();
+                onOpenPlaceAi(place);
+              }
+            }}
+          >
+            <Ticket size={12} className="price-icon" />
+            <span>{place.ticketInfo || place.price || 'Ingressos no Guia IA ✨'}</span>
+          </span>
         </div>
 
         {/* 5. Ações (Saiba Mais + IA + Waze + Google Maps no lado esquerdo, Coração no final do lado direito) */}
