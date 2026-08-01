@@ -51,39 +51,36 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
 
         {/* Coluna 2 (Direita da Imagem) */}
         <div className="list-item-right-info">
-          {/* Linha 1: Título do Ponto de Interesse */}
+          {/* 1. Título */}
           <h3 className="place-item-title">{place.title}</h3>
 
-          {/* Linha 2: Badge de Nível + Cidade */}
-          <div className="list-item-tier-city-row">
-            <ProductTierIcon tier={place.tier} />
-            <div 
-              className="place-item-city interactive-city-tag-inline"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (onSelectCity) onSelectCity(place.city);
-              }}
-              title={`Filtrar por ${place.city}`}
-            >
-              <MapPin size={14} className="city-icon" />
-              <span>{place.city}</span>
-            </div>
+          {/* 2. Cidade */}
+          <div 
+            className="place-item-city interactive-city-tag-inline"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onSelectCity) onSelectCity(place.city);
+            }}
+            title={`Filtrar por ${place.city}`}
+            style={{ marginBottom: '6px' }}
+          >
+            <MapPin size={14} className="city-icon" />
+            <span>{place.city}</span>
           </div>
 
-          {/* Linha 3: Status, Distância e Preços/Ingressos */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
-            <div className={`card-status-badge ${status.isOpen ? 'open' : 'closed'}`} title="Status de funcionamento hoje">
-              <span>{status.isOpen ? '🟢' : '🔴'}</span>
-              <span>{status.text}</span>
-            </div>
-
+          {/* 3. Linha de Badges 1: Nível (GOLD/DIAMOND/etc) + Distância em km */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            <ProductTierIcon tier={place.tier} />
             {distanceKm !== null && (
               <div className="card-distance-badge" title="Distância estimada">
                 <Navigation size={12} className="distance-icon" />
                 <span>{formatDistance(distanceKm, false)}</span>
               </div>
             )}
+          </div>
 
+          {/* 4. Linha de Badges 2: Preço dos Ingressos (Dourado) + Status de Funcionamento (Verde) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
             <div 
               className="card-price-badge" 
               title="Preço dos Ingressos & Serviços"
@@ -97,9 +94,14 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
               <Ticket size={12} className="price-icon" />
               <span>{getPlacePriceTag(place)}</span>
             </div>
+
+            <div className={`card-status-badge ${status.isOpen ? 'open' : 'closed'}`} title="Status de funcionamento hoje">
+              <span>{status.isOpen ? '🟢' : '🔴'}</span>
+              <span>{status.text}</span>
+            </div>
           </div>
 
-          {/* Linha 4: Categoria */}
+          {/* 5. Categoria */}
           <div className="list-item-category-wrap">
             <span className="list-item-category">{place.category}</span>
           </div>
