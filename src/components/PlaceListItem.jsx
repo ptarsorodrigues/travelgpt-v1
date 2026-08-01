@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Heart, Navigation, Info, Sparkles } from 'lucide-react';
+import { MapPin, Heart, Navigation, Info, Sparkles, Ticket } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
@@ -83,6 +83,21 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
 
       {/* Bloco Inferior apenas 1 coluna (Largura Total 100%) */}
       <div className="list-item-bottom-block">
+        {/* Ingressos & Preços de Serviços */}
+        <div 
+          className="place-item-ticket-row" 
+          title="Preço dos Ingressos & Valores de Serviços"
+          onClick={(e) => {
+            if (onOpenPlaceAi) {
+              e.stopPropagation();
+              onOpenPlaceAi(place);
+            }
+          }}
+        >
+          <Ticket size={13} color="var(--accent-gold)" style={{ flexShrink: 0 }} />
+          <span>{place.ticketInfo || place.price || 'Ingressos & Serviços: Ver no Guia IA ✨'}</span>
+        </div>
+
         {/* 1. Endereço completo ocupando 100% da largura */}
         <div className="place-item-address-full" title={place.address}>
           {place.address}

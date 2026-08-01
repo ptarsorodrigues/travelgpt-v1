@@ -1658,6 +1658,27 @@ body {
   margin-top: 0.2rem;
 }
 
+.place-item-ticket-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: var(--accent-gold);
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin: 6px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.place-item-ticket-row:hover {
+  background: rgba(255, 184, 0, 0.2);
+  border-color: var(--accent-gold);
+}
+
 .list-item-category-row {
   margin-top: 0.1rem;
 }

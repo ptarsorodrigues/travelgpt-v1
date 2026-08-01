@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles } from 'lucide-react';
+import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles, Ticket } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
@@ -65,6 +65,21 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
         {/* 3. Endereço abaixo da cidade */}
         <div className="place-item-address" style={{ marginBottom: '8px' }}>
           {place.address}
+        </div>
+
+        {/* Ingressos & Preços de Serviços */}
+        <div 
+          className="place-item-ticket-row" 
+          title="Preço dos Ingressos & Valores de Serviços"
+          onClick={(e) => {
+            if (onOpenPlaceAi) {
+              e.stopPropagation();
+              onOpenPlaceAi(place);
+            }
+          }}
+        >
+          <Ticket size={13} color="var(--accent-gold)" style={{ flexShrink: 0 }} />
+          <span>{place.ticketInfo || place.price || 'Ingressos & Serviços: Ver no Guia IA ✨'}</span>
         </div>
 
         {/* 4. Classificação e Distância */}
