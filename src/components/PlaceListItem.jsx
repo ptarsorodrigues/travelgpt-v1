@@ -138,8 +138,6 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             >
               <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
             </button>
-
-            <div className="desktop-card-divider" />
           </div>
         </div>
 
@@ -150,7 +148,8 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           </div>
 
           <div className="place-item-address-full" title={place.address}>
-            {place.address}
+            <MapPin size={13} className="address-icon-desktop" />
+            <span>{place.address}</span>
           </div>
         </div>
       </div>
