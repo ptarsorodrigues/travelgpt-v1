@@ -8,7 +8,7 @@ export default function ImageCarousel({ place, altTitle, className = '', height,
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(null);
 
-  // Filtra imagens que falharam no carregamento (ex: links do Drive bloqueados)
+  // Filtra imagens que falharam no carregamento (ex: links quebrados)
   const validImages = rawImages.filter(img => !failedImages.has(img));
   const activeList = validImages.length > 0 ? validImages : [rawImages[0] || 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=1000&q=80'];
 
@@ -47,11 +47,12 @@ export default function ImageCarousel({ place, altTitle, className = '', height,
 
   // Suporte a Gesto de Deslizar (Swipe) no Celular / Touch
   const handleTouchStart = (e) => {
+    if (activeList.length <= 1) return;
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
+    if (touchStartX.current === null || activeList.length <= 1) return;
     const touchEndX = e.changedTouches[0].clientX;
     const diff = touchStartX.current - touchEndX;
 
@@ -79,6 +80,7 @@ export default function ImageCarousel({ place, altTitle, className = '', height,
         onError={() => handleImageError(currentImage)}
       />
 
+      {/* Renderiza controles de carrossel APENAS se existirem 2 ou mais fotos autênticas e válidas do local */}
       {activeList.length > 1 && (
         <>
           <button 
