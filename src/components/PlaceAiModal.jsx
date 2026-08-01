@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Key, Loader2, MapPin, AlertTriangle, Cpu, Ticket } from 'lucide-react';
 import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
+import { fetchWikivoyageGuide } from '../utils/wikivoyageApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
   const [apiKeyInput, setApiKeyInput] = useState('');
@@ -10,24 +11,30 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    if (place && currentKey) {
+    if (place) {
       loadAiGuide(currentKey);
     }
-  }, [place, currentKey]);
+  }, [place]);
 
   const loadAiGuide = async (keyToUse) => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
-      const guide = await fetchGeminiPlaceGuide(place, keyToUse);
-      setGuideText(guide);
-    } catch (err) {
-      if (err.message === 'MISSING_KEY') {
-        setErrorMsg('Por favor, informe sua Chave de API do Google Gemini abaixo para ativar a IA.');
-      } else if (err.message === 'INVALID_KEY') {
-        setErrorMsg('Chave de API do Google Gemini inválida ou não autorizada. Verifique a chave informada.');
+      // 1. Fetch instant guide from Wikivoyage & Wikipedia (PT) + Place Data
+      const wikiGuide = await fetchWikivoyageGuide(place);
+      if (wikiGuide) {
+        setGuideText(wikiGuide);
       } else {
-        setErrorMsg(`Erro ao consultar o Google Gemini: ${err.message}`);
+        // Fallback to Gemini if available
+        const guide = await fetchGeminiPlaceGuide(place, keyToUse);
+        setGuideText(guide);
+      }
+    } catch (err) {
+      try {
+        const guide = await fetchGeminiPlaceGuide(place, keyToUse);
+        setGuideText(guide);
+      } catch (geminiErr) {
+        setErrorMsg('Não foi possível carregar as informações do guia no momento.');
       }
     } finally {
       setIsLoading(false);
@@ -137,7 +144,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
                 <span>{place.city}</span>
               </div>
               <div className="place-ai-tag-line">
-                Guia TravelGPT by Gemini IA
+                Guia Turístico TravelGPT
               </div>
             </div>
           </div>
@@ -148,41 +155,15 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
         {/* Scrollable Body */}
         <div className="place-ai-modal-body">
-          {/* Missing API Key Warning / Input */}
-          {(!currentKey || errorMsg?.includes('Chave')) && (
-            <div className="place-ai-key-box">
-              <div className="place-ai-key-title">
-                <Key size={18} color="var(--accent-gold)" />
-                <span>Informe sua Chave de API do Google Gemini</span>
-              </div>
-              <p className="place-ai-key-desc">
-                Para ativarmos a IA do Google Gemini, informe abaixo sua chave de API (formato <code>AIzaSy...</code>). A chave fica salva de forma 100% segura apenas no seu navegador.
-              </p>
-
-              <form onSubmit={handleSaveKey} className="place-ai-key-form">
-                <input 
-                  type="password"
-                  placeholder="Cole sua API Key do Google Gemini aqui (AIzaSy...)"
-                  value={apiKeyInput}
-                  onChange={(e) => setApiKeyInput(e.target.value)}
-                  className="place-ai-key-input"
-                />
-                <button type="submit" className="btn-primary">
-                  Salvar Chave & Gerar
-                </button>
-              </form>
-            </div>
-          )}
-
           {/* Loading State with Animated Progress Bar */}
           {isLoading && (
             <div className="place-ai-loading-box">
               <Loader2 size={42} color="var(--primary)" className="animate-spin" style={{ margin: '0 auto 1rem auto' }} />
-              <h4>Gerando Análise Completa & Curadoria...</h4>
+              <h4>Carregando Guia Turístico & Curadoria...</h4>
               <div className="ai-progress-bar-wrap">
                 <div className="ai-progress-bar-fill" />
               </div>
-              <span className="ai-progress-text">Aguarde cerca de 10 segundos.</span>
+              <span className="ai-progress-text">Carregando informações do guia...</span>
             </div>
           )}
 
