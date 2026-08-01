@@ -1383,7 +1383,7 @@ body {
   .list-item-desktop-view {
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
+    align-items: stretch !important;
     justify-content: space-between !important;
     gap: 1.25rem !important;
     width: 100% !important;
@@ -1391,14 +1391,15 @@ body {
   }
 
   .list-item-desktop-view .list-item-thumb-wrapper {
-    width: 110px !important;
-    height: 110px !important;
-    min-width: 110px !important;
-    max-width: 110px !important;
+    width: 135px !important;
+    min-width: 135px !important;
+    max-width: 135px !important;
+    height: auto !important;
+    min-height: 120px !important;
     border-radius: 12px !important;
     overflow: hidden !important;
     flex-shrink: 0 !important;
-    align-self: center !important;
+    align-self: stretch !important;
   }
 
   .list-item-center-info {
