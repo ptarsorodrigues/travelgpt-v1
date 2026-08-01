@@ -2012,18 +2012,28 @@ body {
 .place-ai-modal-footer {
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-end !important;
-  padding-top: 1rem !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding-top: 0.85rem !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
   margin-top: 0.5rem !important;
   flex-shrink: 0 !important;
+  width: 100% !important;
 }
 
 .place-ai-close-btn {
-  padding: 0.75rem 2rem !important;
-  font-weight: 700 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 15px rgba(0, 212, 178, 0.3) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 0.55rem 1.5rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 212, 178, 0.25) !important;
+  margin: 0 auto !important;
+  width: auto !important;
+  min-width: 130px !important;
 }
 
 @media (max-width: 640px) {
@@ -2080,12 +2090,15 @@ body {
     box-sizing: border-box !important;
   }
   .place-ai-modal-footer .place-ai-close-btn {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0.85rem 1rem !important;
-    font-size: 1rem !important;
+    width: auto !important;
+    min-width: 140px !important;
+    padding: 0.55rem 1.4rem !important;
+    font-size: 0.88rem !important;
     text-align: center !important;
-    margin-left: 0 !important;
+    margin: 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
