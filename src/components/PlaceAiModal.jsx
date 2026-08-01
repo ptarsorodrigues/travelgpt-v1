@@ -177,7 +177,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               <div className="ai-progress-bar-wrap">
                 <div className="ai-progress-bar-fill" />
               </div>
-              <span className="ai-progress-text">Aguarde, estamos gerando suas informações</span>
+              <span className="ai-progress-text">Aguarde cerca de 10 segundos,</span>
             </div>
           )}
 

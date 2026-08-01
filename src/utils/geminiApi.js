@@ -62,7 +62,7 @@ Siga rigorosamente a estrutura abaixo:
 - **Dica de Ouro:** O que não pode deixar de fazer.
 - **Ponto Cego/Atenção:** Um risco, limitação ou detalhe crucial que o turista pode negligenciar (ex: falta de quiosques, segurança no entorno em certos horários, necessidade de agendamento prévio).
 
-Tom de voz: Profissional, engajante e altamente prático. Evite adjetivos genéricos sem contexto.`;
+Tom de voz: Profissional, engajante e altamente prático. Evite adjetivos genéricos sem contexto. Finalize todas as frases e seções por completo, sem truncar.`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey.trim()}`;
 
@@ -81,7 +81,7 @@ Tom de voz: Profissional, engajante e altamente prático. Evite adjetivos genér
       ],
       generationConfig: {
         temperature: 0.6,
-        maxOutputTokens: 2500
+        maxOutputTokens: 8192
       }
     })
   });
