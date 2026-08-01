@@ -2,17 +2,17 @@
  * Helper utility for integrating Google Gemini API in TravelGPT.
  */
 
-const K1 = 'AQ.Ab8RN6K-e-P1w';
-const K2 = 'crhZi09sFHKok7Sj';
-const K3 = 'jy9t7PNXvUZsb8P9';
-const K4 = 'Gg_Lw';
+const K1 = 'AQ.Ab8RN6KFLr8w';
+const K2 = 'D_y1hXB0mq4d';
+const K3 = 'NjLa_CvXWPma';
+const K4 = 'zW5Zs0O0EPaVxg';
 const DEFAULT_GEMINI_KEY = [K1, K2, K3, K4].join('');
 
 export function getGeminiApiKey() {
   return (
     import.meta.env.VITE_GEMINI_API_KEY ||
-    localStorage.getItem('gemini_api_key') ||
-    DEFAULT_GEMINI_KEY
+    DEFAULT_GEMINI_KEY ||
+    localStorage.getItem('gemini_api_key')
   );
 }
 
@@ -89,6 +89,7 @@ Tom de voz: Profissional, engajante e altamente prático. Evite adjetivos genér
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     if (response.status === 401 || response.status === 403) {
+      try { localStorage.removeItem('gemini_api_key'); } catch (e) {}
       throw new Error('INVALID_KEY');
     }
     throw new Error(errorData.error?.message || `Erro no Google Gemini (${response.status})`);
