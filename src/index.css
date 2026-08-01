@@ -2008,6 +2008,24 @@ body {
   animation: spin 1s linear infinite !important;
 }
 
+/* Base Footer for Place AI Modal */
+.place-ai-modal-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  margin-top: 0.5rem !important;
+  flex-shrink: 0 !important;
+}
+
+.place-ai-close-btn {
+  padding: 0.75rem 2rem !important;
+  font-weight: 700 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 212, 178, 0.3) !important;
+}
+
 @media (max-width: 640px) {
   .place-ai-modal-container {
     width: 100vw !important;
@@ -2052,24 +2070,22 @@ body {
   }
   .place-ai-modal-footer {
     display: flex !important;
-    flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
+    justify-content: center !important;
     width: 100% !important;
-    padding: 0.75rem 0.25rem 0.25rem 0.25rem !important;
+    padding: 0.75rem 0.5rem 0.5rem 0.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    flex-shrink: 0 !important;
+    background: #0B0F19 !important;
     box-sizing: border-box !important;
   }
-  .place-ai-modal-footer button {
-    flex: 1 !important;
-    min-width: 0 !important;
+  .place-ai-modal-footer .place-ai-close-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 1rem !important;
+    text-align: center !important;
     margin-left: 0 !important;
-    justify-content: center !important;
-    padding: 0.65rem 0.4rem !important;
-    font-size: 0.84rem !important;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
-    overflow: hidden !important;
   }
 }
 

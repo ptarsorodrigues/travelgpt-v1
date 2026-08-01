@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Key, Loader2, RefreshCw, MapPin, AlertTriangle, Cpu } from 'lucide-react';
+import { X, Sparkles, Key, Loader2, MapPin, AlertTriangle, Cpu } from 'lucide-react';
 import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
@@ -177,7 +177,7 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
               <div className="ai-progress-bar-wrap">
                 <div className="ai-progress-bar-fill" />
               </div>
-              <span className="ai-progress-text">Aguarde cerca de 10 segundos,</span>
+              <span className="ai-progress-text">Aguarde cerca de 10 segundos.</span>
             </div>
           )}
 
@@ -202,21 +202,10 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
 
         {/* Footer Actions Bar */}
         <div className="place-ai-modal-footer">
-          {currentKey && !isLoading && (
-            <button 
-              type="button"
-              className="mini-clear-btn"
-              onClick={() => loadAiGuide(currentKey)}
-            >
-              <RefreshCw size={14} /> Regerar Resposta
-            </button>
-          )}
-
           <button 
             type="button"
-            className="btn-primary"
+            className="btn-primary place-ai-close-btn"
             onClick={onClose}
-            style={{ marginLeft: 'auto' }}
           >
             Fechar Janela
           </button>
