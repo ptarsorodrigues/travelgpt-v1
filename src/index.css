@@ -4885,14 +4885,14 @@ body {
   }
 }
 
-/* Tag PRÓXIMO A VOCÊ e Tag de Distância na Mesma Linha */
+/* Tag PRÓXIMO A VOCÊ, Tag de Distância e Tag de Preço */
 .hero-top-badges {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  flex-wrap: nowrap !important;
-  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
   margin-bottom: 1.25rem !important;
 }
 
@@ -4947,6 +4947,36 @@ body {
   flex-shrink: 0 !important;
   height: 38px !important;
   box-sizing: border-box !important;
+}
+
+@media (max-width: 640px) {
+  .hero-top-badges {
+    flex-wrap: wrap !important;
+    gap: 0.4rem 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .hero-badge-proximo {
+    height: 32px !important;
+    padding: 0.3rem 0.7rem !important;
+    font-size: 0.75rem !important;
+  }
+  .badge-distance-hero {
+    height: 32px !important;
+    padding: 0.3rem 0.7rem !important;
+    font-size: 0.75rem !important;
+  }
+  .badge-price-hero {
+    height: 32px !important;
+    padding: 0.3rem 0.75rem !important;
+    font-size: 0.75rem !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* ==========================================================================
