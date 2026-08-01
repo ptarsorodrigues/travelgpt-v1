@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Sparkles, Layers, List, Grid, SlidersHorizontal, ChevronDown, ChevronUp, Ticket } from 'lucide-react';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getPlacePriceTag } from '../utils/priceHelper';
 
 export default function Hero({ 
   featuredPlaces, 
@@ -167,7 +168,7 @@ export default function Hero({
 
               <div className="badge-price-hero" title="Valores dos Ingressos & Serviços">
                 <Ticket size={13} color="#FFB800" />
-                <span>{currentPlace.ticketInfo || currentPlace.price || 'Ingressos & Serviços no Guia IA ✨'}</span>
+                <span>Ingresso: <strong>{getPlacePriceTag(currentPlace)}</strong></span>
               </div>
             </div>
 

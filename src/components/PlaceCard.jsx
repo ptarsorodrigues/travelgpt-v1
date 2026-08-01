@@ -4,6 +4,7 @@ import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
+import { getPlacePriceTag } from '../utils/priceHelper';
 
 export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const handleImageError = (e) => {
@@ -80,7 +81,7 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
 
           <span 
             className="card-price-badge" 
-            title="Preço dos Ingressos & Serviços (Clique para ver no Guia IA)"
+            title="Preço dos Ingressos & Serviços"
             onClick={(e) => {
               if (onOpenPlaceAi) {
                 e.stopPropagation();
@@ -89,7 +90,7 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
             }}
           >
             <Ticket size={12} className="price-icon" />
-            <span>{place.ticketInfo || place.price || 'Ingressos no Guia IA ✨'}</span>
+            <span>{getPlacePriceTag(place)}</span>
           </span>
         </div>
 

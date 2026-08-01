@@ -3,6 +3,7 @@ import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation,
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getPlacePriceTag } from '../utils/priceHelper';
 
 export default function PlaceModal({ place, userLocation, onClose, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   if (!place) return null;
@@ -81,8 +82,8 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
             <div className="modal-info-item highlight-ticket-item">
               <Ticket size={18} color="var(--accent-gold)" />
               <div>
-                <small style={{ color: 'var(--text-dim)', display: 'block' }}>Preços dos Ingressos & Serviços</small>
-                <strong>{place.ticketInfo || place.price || 'Consulte valores e gratuidades no Guia IA Gemini'}</strong>
+                <small style={{ color: 'var(--text-dim)', display: 'block' }}>Preço dos Ingressos & Serviços</small>
+                <strong>{getPlacePriceTag(place)}</strong>
               </div>
             </div>
 
