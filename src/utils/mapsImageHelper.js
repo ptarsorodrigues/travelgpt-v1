@@ -1,63 +1,44 @@
 /**
- * Utilitário para obter a URL da imagem de um estabelecimento (Place).
- * Utiliza prioritariamente coverImage e backupImage como fallback.
+ * Utilitário para obter a imagem da atração diretamente do Google Meu Negócio / Google Maps
+ * utilizando a URL (googleMapsUrl) cadastrada no Banco de Dados Postgres.
+ * NÃO utiliza nenhuma imagem em cache local ou Google Drive.
  */
 
 export function getPlaceImageUrl(place) {
   if (!place) return '';
-  return place.coverImage || place.backupImage || '';
-}
 
-/**
- * Retorna ESTRITAMENTE as imagens cadastradas para esta atração específica.
- * Nenhuma imagem genérica ou do Google Drive é utilizada.
- */
-export function getPlaceImages(place) {
-  if (!place) return [];
-  const list = [];
-
-  // 1. Foto de capa da atração
-  if (place.coverImage && typeof place.coverImage === 'string') {
-    list.push(place.coverImage);
+  // 1. Se a atração possuir googleMapsUrl do Banco de Dados, busca a imagem do Google Meu Negócio
+  if (place.googleMapsUrl) {
+    let params = `url=${encodeURIComponent(place.googleMapsUrl)}`;
+    if (place.lat && place.lng) {
+      params += `&lat=${place.lat}&lng=${place.lng}`;
+    }
+    return `/api/extract-maps-photo?${params}`;
   }
 
-  // 2. Foto de backup da própria atração (se diferente da capa)
-  if (place.backupImage && typeof place.backupImage === 'string' && !list.includes(place.backupImage)) {
-    list.push(place.backupImage);
+  // 2. Se a capa vinda do Banco de Dados não for do Google Drive nem cache
+  if (place.coverImage && typeof place.coverImage === 'string' && !place.coverImage.includes('googleusercontent.com') && !place.coverImage.includes('drive.google.com')) {
+    return place.coverImage;
   }
 
-  // 3. Foto oficial extraída do Wikipedia/Wikivoyage para este local específico
-  if (place.wikiImageUrl && typeof place.wikiImageUrl === 'string' && !list.includes(place.wikiImageUrl)) {
-    list.push(place.wikiImageUrl);
-  }
-
-  // 4. Galeria de fotos específica cadastrada no próprio objeto da atração (se houver)
-  if (Array.isArray(place.images)) {
-    place.images.forEach(img => {
-      if (img && typeof img === 'string' && !list.includes(img)) {
-        list.push(img);
-      }
-    });
-  }
-
-  // Limita estritamente ao máximo de 5 fotos por atração
-  return list.slice(0, 5);
+  return '';
 }
 
 /**
  * Handler de erro para tags <img>.
- * Se a capa falhar, altera o src para backupImage.
+ * Se a imagem falhar, reconecta ao endpoint do Google Meu Negócio com o link do Banco de Dados.
  */
 export function handlePlaceImageError(event, place) {
   if (!place) return;
   const imgElement = event.target;
-  
+
   if (imgElement.dataset.fallbackState === 'failed') {
     return;
   }
 
   imgElement.dataset.fallbackState = 'failed';
-  if (place.backupImage && imgElement.src !== place.backupImage) {
-    imgElement.src = place.backupImage;
+
+  if (place.googleMapsUrl) {
+    imgElement.src = `/api/extract-maps-photo?url=${encodeURIComponent(place.googleMapsUrl)}`;
   }
 }

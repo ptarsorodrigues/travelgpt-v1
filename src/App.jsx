@@ -45,7 +45,8 @@ export default function App() {
 
   useEffect(() => {
     setIsLoadingDb(true);
-    fetch('/api/places')
+    // Conecta exclusivamente ao Banco de Dados Postgres Vercel (/api/places) sem cache local
+    fetch('/api/places', { cache: 'no-store' })
       .then(res => {
         if (!res.ok) {
           throw new Error(`Erro na API do Banco de Dados (${res.status})`);
@@ -60,30 +61,16 @@ export default function App() {
           }));
           setPlaces(normalized);
           setDbError(null);
-          setIsLoadingDb(false);
         } else {
-          throw new Error('Formato de resposta inválido do Banco de Dados.');
+          throw new Error('Nenhum registro retornado do Banco de Dados.');
         }
       })
       .catch(err => {
-        console.warn('Servidor de banco de dados offline ou desenvolvimento local sem API. Utilizando fallback local places.json:', err.message);
-        import('./data/places.json')
-          .then(fallbackModule => {
-            const fallbackData = fallbackModule.default || fallbackModule;
-            const normalized = fallbackData.map(p => ({
-              ...p,
-              category: normalizeCategory(p.category || p.originalCategory)
-            }));
-            setPlaces(normalized);
-            setDbError(null);
-          })
-          .catch(importErr => {
-            console.error('Erro ao carregar fallback de places.json:', importErr);
-            setDbError(err.message);
-          })
-          .finally(() => {
-            setIsLoadingDb(false);
-          });
+        console.error('Erro de conexão com o Banco de Dados:', err.message);
+        setDbError(`Conexão com o Banco de Dados Postgres: ${err.message}`);
+      })
+      .finally(() => {
+        setIsLoadingDb(false);
       });
   }, []);
 
