@@ -32,9 +32,12 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
       onClick={handleSaibaMais}
       title={`Clique para abrir ${place.title}`}
     >
-      {/* Bloco Superior (Lado a Lado): Coluna 1 (Imagem 105px) | Coluna 2 (Direita) */}
-      <div className="list-item-top-row">
-        {/* Coluna 1 (Esquerda): Imagem miniatura (105px, align-self: stretch) */}
+      {/* ========================================================
+          DESKTOP VIEW (Visível apenas na versão Desktop >= 769px)
+          Formato idêntico à imagem de referência
+          ======================================================== */}
+      <div className="list-item-desktop-view">
+        {/* 1. Imagem Miniatura (Esquerda) */}
         <div 
           className="list-item-thumb-wrapper"
           onClick={handleSaibaMais}
@@ -49,12 +52,12 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           />
         </div>
 
-        {/* Coluna 2 (Direita da Imagem) */}
-        <div className="list-item-right-info">
-          {/* 1. Título */}
+        {/* 2. Coluna Central (Título, Cidade, Badges em 1 linha, Botões de Ação) */}
+        <div className="list-item-center-info">
+          {/* Título */}
           <h3 className="place-item-title">{place.title}</h3>
 
-          {/* 2. Cidade */}
+          {/* Cidade com ícone MapPin */}
           <div 
             className="place-item-city interactive-city-tag-inline"
             onClick={(e) => {
@@ -62,25 +65,22 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
               if (onSelectCity) onSelectCity(place.city);
             }}
             title={`Filtrar por ${place.city}`}
-            style={{ marginBottom: '6px' }}
           >
             <MapPin size={14} className="city-icon" />
             <span>{place.city}</span>
           </div>
 
-          {/* 3. Linha de Badges 1: Nível (GOLD/DIAMOND/etc) + Distância em km */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+          {/* Linha Única de Badges: Nível (GOLD/etc) + Distância (km) + Ingressos/Preço + Status */}
+          <div className="list-item-badges-row-desktop">
             <ProductTierIcon tier={place.tier} />
+            
             {distanceKm !== null && (
               <div className="card-distance-badge" title="Distância estimada">
                 <Navigation size={12} className="distance-icon" />
                 <span>{formatDistance(distanceKm, false)}</span>
               </div>
             )}
-          </div>
 
-          {/* 4. Linha de Badges 2: Preço dos Ingressos (Dourado) + Status de Funcionamento (Verde) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
             <div 
               className="card-price-badge" 
               title="Preço dos Ingressos & Serviços"
@@ -101,58 +101,175 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             </div>
           </div>
 
-          {/* 5. Categoria */}
+          {/* Linha de Ações: Saiba Mais + IA + Waze + Google Maps + Favorito (Coração) + Divisor */}
+          <div className="list-item-actions-row-desktop">
+            <button 
+              className="details-btn saiba-mais-framed-btn"
+              onClick={handleSaibaMais}
+              title={`Abrir Listing URL (${listingUrl})`}
+            >
+              <Info size={14} />
+              <span>Saiba Mais</span>
+            </button>
+
+            {onOpenPlaceAi && (
+              <button
+                type="button"
+                className="ia-icon-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenPlaceAi(place);
+                }}
+                title="Guia TravelGPT by Gemini IA"
+              >
+                <Sparkles size={15} color="var(--accent-gold)" />
+              </button>
+            )}
+
+            <NavButtons place={place} userLocation={userLocation} />
+
+            <button 
+              className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(place.id);
+              }}
+              title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+            >
+              <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
+            </button>
+
+            <div className="desktop-card-divider" />
+          </div>
+        </div>
+
+        {/* 3. Coluna Direita (Categoria no Topo + Endereço Completo na Base) */}
+        <div className="list-item-right-section">
           <div className="list-item-category-wrap">
             <span className="list-item-category">{place.category}</span>
+          </div>
+
+          <div className="place-item-address-full" title={place.address}>
+            {place.address}
           </div>
         </div>
       </div>
 
-      {/* Bloco Inferior apenas 1 coluna (Largura Total 100%) */}
-      <div className="list-item-bottom-block">
-        {/* 1. Endereço completo ocupando 100% da largura */}
-        <div className="place-item-address-full" title={place.address}>
-          {place.address}
-        </div>
-
-        {/* 2. Botões "Saiba Mais", Waze & Google Maps e "Favorito (Coração)" alinhados */}
-        <div className="list-item-actions-row-left">
-          <button 
-            className="details-btn saiba-mais-framed-btn"
+      {/* ========================================================
+          MOBILE VIEW (Visível apenas na versão Mobile <= 768px)
+          ======================================================== */}
+      <div className="list-item-mobile-view">
+        <div className="list-item-top-row">
+          <div 
+            className="list-item-thumb-wrapper"
             onClick={handleSaibaMais}
-            title={`Abrir Listing URL (${listingUrl})`}
+            title={`Clique para abrir ${place.title}`}
           >
-            <Info size={14} />
-            <span>Saiba Mais</span>
-          </button>
+            <img 
+              src={getPlaceImageUrl(place)} 
+              alt={place.title}
+              className="list-item-thumb"
+              onError={handleImageError}
+              loading="lazy"
+            />
+          </div>
 
-          {onOpenPlaceAi && (
-            <button
-              type="button"
-              className="ia-icon-btn"
+          <div className="list-item-right-info">
+            <h3 className="place-item-title">{place.title}</h3>
+
+            <div 
+              className="place-item-city interactive-city-tag-inline"
               onClick={(e) => {
                 e.stopPropagation();
-                onOpenPlaceAi(place);
+                if (onSelectCity) onSelectCity(place.city);
               }}
-              title="Guia TravelGPT by Gemini IA"
+              title={`Filtrar por ${place.city}`}
+              style={{ marginBottom: '6px' }}
             >
-              <Sparkles size={15} color="var(--accent-gold)" />
+              <MapPin size={14} className="city-icon" />
+              <span>{place.city}</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+              <ProductTierIcon tier={place.tier} />
+              {distanceKm !== null && (
+                <div className="card-distance-badge" title="Distância estimada">
+                  <Navigation size={12} className="distance-icon" />
+                  <span>{formatDistance(distanceKm, false)}</span>
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+              <div 
+                className="card-price-badge" 
+                title="Preço dos Ingressos & Serviços"
+                onClick={(e) => {
+                  if (onOpenPlaceAi) {
+                    e.stopPropagation();
+                    onOpenPlaceAi(place);
+                  }
+                }}
+              >
+                <Ticket size={12} className="price-icon" />
+                <span>{getPlacePriceTag(place)}</span>
+              </div>
+
+              <div className={`card-status-badge ${status.isOpen ? 'open' : 'closed'}`} title="Status de funcionamento hoje">
+                <span>{status.isOpen ? '🟢' : '🔴'}</span>
+                <span>{status.text}</span>
+              </div>
+            </div>
+
+            <div className="list-item-category-wrap">
+              <span className="list-item-category">{place.category}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="list-item-bottom-block">
+          <div className="place-item-address-full" title={place.address}>
+            {place.address}
+          </div>
+
+          <div className="list-item-actions-row-left">
+            <button 
+              className="details-btn saiba-mais-framed-btn"
+              onClick={handleSaibaMais}
+              title={`Abrir Listing URL (${listingUrl})`}
+            >
+              <Info size={14} />
+              <span>Saiba Mais</span>
             </button>
-          )}
 
-          <NavButtons place={place} userLocation={userLocation} />
+            {onOpenPlaceAi && (
+              <button
+                type="button"
+                className="ia-icon-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenPlaceAi(place);
+                }}
+                title="Guia TravelGPT by Gemini IA"
+              >
+                <Sparkles size={15} color="var(--accent-gold)" />
+              </button>
+            )}
 
-          <button 
-            className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleFavorite(place.id);
-            }}
-            title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
-            style={{ marginLeft: 'auto' }}
-          >
-            <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
-          </button>
+            <NavButtons place={place} userLocation={userLocation} />
+
+            <button 
+              className={`fav-btn-icon ${isFavorite(place.id) ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(place.id);
+              }}
+              title={isFavorite(place.id) ? "Remover dos salvos" : "Salvar no roteiro"}
+              style={{ marginLeft: 'auto' }}
+            >
+              <Heart size={16} fill={isFavorite(place.id) ? "#FFF" : "none"} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
