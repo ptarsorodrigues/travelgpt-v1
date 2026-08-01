@@ -17,8 +17,10 @@ export async function fetchWikivoyageGuide(place) {
   ];
 
   let summaryText = '';
+  let wikiImageUrl = '';
+  let wikiTitle = '';
 
-  // 1. Fetch summary from Wikipedia (PT) / Wikivoyage (PT) REST API
+  // 1. Fetch summary and official photo from Wikipedia (PT) / Wikivoyage (PT) REST API
   for (const query of searchQueries) {
     try {
       const wikiUrl = `https://pt.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
@@ -27,6 +29,12 @@ export async function fetchWikivoyageGuide(place) {
         const data = await res.json();
         if (data.extract && data.extract.length > 80 && !data.title?.includes('Desambiguação')) {
           summaryText = data.extract;
+          wikiTitle = data.title || place.title;
+          if (data.originalimage?.source) {
+            wikiImageUrl = data.originalimage.source;
+          } else if (data.thumbnail?.source) {
+            wikiImageUrl = data.thumbnail.source;
+          }
           break;
         }
       }
@@ -35,20 +43,23 @@ export async function fetchWikivoyageGuide(place) {
     }
   }
 
-  // 2. Build structured guide output matching TravelGPT sections
+  // 2. Build structured guide output matching TravelGPT sections with embedded images
   const priceTag = getPlacePriceTag(place);
   const status = getOpeningStatus(place);
 
   const conceptSection = summaryText || place.description || 
     `O ponto turístico ${place.title} é uma das principais atrações de ${place.city} - SP, oferecendo aos visitantes uma excelente opção de lazer, cultura e entretenimento local.`;
 
+  const section1ImageMarkdown = wikiImageUrl ? `\n\n![Vista de ${wikiTitle}](${wikiImageUrl})` : '';
+  const section2ImageMarkdown = place.coverImage ? `\n\n![Estrutura e Ambiente: ${place.title}](${place.coverImage})` : '';
+
   return `## 🌿 1. Visão Geral & Conceito
-${conceptSection}
+${conceptSection}${section1ImageMarkdown}
 
 ## 🏛️ 2. Destaques & O Que Fazer
 - **Pontos de Interesse Internos:** Explore a área principal, atrações culturais, espaços de convivência e oportunidades fotográficas.
 - **Ambiente & Lazer:** Ideal para passeios com a família, amigos ou momentos de relaxamento em ${place.city}.
-- **Relevância Local:** Pertence à categoria de **${place.category}**, destacando-se como ponto turístico na região.
+- **Relevância Local:** Pertence à categoria de **${place.category}**, destacando-se como ponto turístico na região.${section2ImageMarkdown}
 
 ## 🎟️ 3. Ingressos, Preços & Valores de Serviços
 - **Valores dos Ingressos:** **${priceTag}**

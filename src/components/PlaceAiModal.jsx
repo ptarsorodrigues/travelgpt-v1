@@ -67,6 +67,27 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
         return <hr key={index} className="ai-modal-hr" />;
       }
 
+      // Markdown Images: ![caption](url)
+      if (trimmed.startsWith('![') && trimmed.includes('](')) {
+        const match = trimmed.match(/!\[(.*?)\]\((.*?)\)/);
+        if (match) {
+          const caption = match[1];
+          const imgSrc = match[2];
+          return (
+            <div key={index} className="ai-modal-image-card">
+              <img 
+                src={imgSrc} 
+                alt={caption || place.title} 
+                className="ai-modal-section-img" 
+                onError={(e) => { e.target.parentElement.style.display = 'none'; }} 
+                loading="lazy"
+              />
+              {caption && <span className="ai-modal-img-caption">📸 {caption}</span>}
+            </div>
+          );
+        }
+      }
+
       // Section Headers (## 1. Visão Geral & Conceito, ## 3. Ingressos, Preços & Valores, etc.)
       if (trimmed.startsWith('#') || /^##?\s+/.test(trimmed) || /^\d+\.\s+/.test(trimmed)) {
         const cleanHeader = trimmed.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');

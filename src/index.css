@@ -1999,6 +1999,39 @@ body {
   border-bottom: 1.5px solid rgba(0, 212, 178, 0.3);
 }
 
+/* AI Modal High-Contrast Embedded Image Cards */
+.ai-modal-image-card {
+  margin: 1.25rem 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+  background: rgba(15, 23, 42, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease;
+}
+
+.ai-modal-image-card:hover {
+  transform: scale(1.01);
+  border-color: var(--primary);
+}
+
+.ai-modal-section-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.ai-modal-img-caption {
+  display: block;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(15, 23, 42, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .ticket-section-header {
   border-bottom: 1.5px solid rgba(255, 184, 0, 0.5) !important;
 }
