@@ -4,6 +4,7 @@ import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlacePriceTag } from '../utils/priceHelper';
 import { getOpeningStatus } from '../utils/openingHoursHelper';
+import { getPlaceImageUrl, handlePlaceImageError as mapsHandleImageError } from '../utils/mapsImageHelper';
 
 export default function Hero({ 
   featuredPlaces, 
@@ -69,7 +70,7 @@ export default function Hero({
   if (!currentPlace) return null;
 
   const handleImageError = (e) => {
-    e.target.src = currentPlace.backupImage;
+    mapsHandleImageError(e, currentPlace);
   };
 
   const distanceKm = userLocation && currentPlace.lat && currentPlace.lng
@@ -127,7 +128,7 @@ export default function Hero({
         >
           <div className="hero-backdrop">
             <img 
-              src={currentPlace.coverImage || currentPlace.image} 
+              src={getPlaceImageUrl(currentPlace)} 
               alt={currentPlace.title} 
               onError={handleImageError}
               className="hero-bg-img"

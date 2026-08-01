@@ -1,32 +1,34 @@
 /**
- * Utilitário para obter a imagem da atração diretamente do Google Meu Negócio / Google Maps
- * utilizando a URL (googleMapsUrl) cadastrada no Banco de Dados Postgres.
- * NÃO utiliza nenhuma imagem em cache local ou Google Drive.
+ * Utilitário para obter e exibir a imagem da atração diretamente dos campos
+ * de imagem (coverImage, backupImage ou image) cadastrados no Banco de Dados.
+ * Exibe as imagens reais do banco de dados sem realizar extração dinâmica.
  */
 
 export function getPlaceImageUrl(place) {
   if (!place) return '';
 
-  // 1. Se a atração possuir googleMapsUrl do Banco de Dados, busca a imagem do Google Meu Negócio
-  if (place.googleMapsUrl) {
-    let params = `url=${encodeURIComponent(place.googleMapsUrl)}`;
-    if (place.lat && place.lng) {
-      params += `&lat=${place.lat}&lng=${place.lng}`;
-    }
-    return `/api/extract-maps-photo?${params}`;
+  // 1. Prioriza a imagem de capa (coverImage) cadastrada no Banco de Dados
+  if (place.coverImage && typeof place.coverImage === 'string' && place.coverImage.trim() !== '') {
+    return place.coverImage.trim();
   }
 
-  // 2. Se a capa vinda do Banco de Dados não for do Google Drive nem cache
-  if (place.coverImage && typeof place.coverImage === 'string' && !place.coverImage.includes('googleusercontent.com') && !place.coverImage.includes('drive.google.com')) {
-    return place.coverImage;
+  // 2. Fallback para a imagem secundária/backup (backupImage)
+  if (place.backupImage && typeof place.backupImage === 'string' && place.backupImage.trim() !== '') {
+    return place.backupImage.trim();
   }
 
-  return '';
+  // 3. Fallback para a propriedade genérica 'image'
+  if (place.image && typeof place.image === 'string' && place.image.trim() !== '') {
+    return place.image.trim();
+  }
+
+  // 4. Imagem de fallback padrão em alta resolução caso não haja imagem cadastrada
+  return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80';
 }
 
 /**
  * Handler de erro para tags <img>.
- * Se a imagem falhar, reconecta ao endpoint do Google Meu Negócio com o link do Banco de Dados.
+ * Se a imagem de capa falhar ao carregar, realiza fallback gracioso para backupImage.
  */
 export function handlePlaceImageError(event, place) {
   if (!place) return;
@@ -36,9 +38,16 @@ export function handlePlaceImageError(event, place) {
     return;
   }
 
-  imgElement.dataset.fallbackState = 'failed';
+  const defaultFallback = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80';
+  const backup = (place && place.backupImage && typeof place.backupImage === 'string' && place.backupImage.trim() !== '')
+    ? place.backupImage.trim()
+    : defaultFallback;
 
-  if (place.googleMapsUrl) {
-    imgElement.src = `/api/extract-maps-photo?url=${encodeURIComponent(place.googleMapsUrl)}`;
+  if (imgElement.src !== backup) {
+    imgElement.dataset.fallbackState = 'trying_backup';
+    imgElement.src = backup;
+  } else {
+    imgElement.dataset.fallbackState = 'failed';
+    imgElement.src = defaultFallback;
   }
 }
