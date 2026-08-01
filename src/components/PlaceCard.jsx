@@ -1,10 +1,11 @@
 import React from 'react';
-import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles, Ticket } from 'lucide-react';
+import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles, Ticket, Clock } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 import { getPlacePriceTag } from '../utils/priceHelper';
+import { getOpeningStatus } from '../utils/openingHoursHelper';
 
 export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const handleImageError = (e) => {
@@ -14,6 +15,8 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
   const distanceKm = userLocation && place.lat && place.lng
     ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
     : null;
+
+  const status = getOpeningStatus(place);
 
   // Listing URL da página completa do ponto de interesse
   const listingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl;
@@ -68,9 +71,14 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
           {place.address}
         </div>
 
-        {/* 4. Classificação, Distância e Ingressos/Serviços */}
+        {/* 4. Classificação, Distância, Ingressos/Serviços e Status */}
         <div className="place-item-meta-row" style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span className="list-item-category">{place.category}</span>
+
+          <span className={`card-status-badge ${status.isOpen ? 'open' : 'closed'}`} title="Status de funcionamento hoje">
+            <span>{status.isOpen ? '🟢' : '🔴'}</span>
+            <span>{status.text}</span>
+          </span>
 
           {distanceKm !== null && (
             <span className="card-distance-badge" title="Distância estimada até sua localização">

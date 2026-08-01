@@ -3,6 +3,7 @@ import { MapPin, Star, Info, Heart, Navigation, ChevronLeft, ChevronRight, Spark
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlacePriceTag } from '../utils/priceHelper';
+import { getOpeningStatus } from '../utils/openingHoursHelper';
 
 export default function Hero({ 
   featuredPlaces, 
@@ -74,6 +75,8 @@ export default function Hero({
   const distanceKm = userLocation && currentPlace.lat && currentPlace.lng
     ? getDistanceKm(userLocation.lat, userLocation.lng, currentPlace.lat, currentPlace.lng)
     : null;
+
+  const status = getOpeningStatus(currentPlace);
 
   const handlePrev = (e) => {
     if (e) e.stopPropagation();
@@ -158,6 +161,10 @@ export default function Hero({
               <span className={`hero-badge-proximo ${userLocation?.isGps ? 'active-green' : 'inactive-red'}`}>
                 {userLocation?.isGps ? 'PRÓXIMO A VOCÊ' : 'NÃO DEIXE DE VER'}
               </span>
+
+              <div className="badge-distance-hero" style={{ background: 'rgba(0, 0, 0, 0.6)', border: '1px solid rgba(255, 255, 255, 0.3)' }} title="Status de funcionamento hoje">
+                <span>{status.isOpen ? '🟢' : '🔴'} <strong>{status.text}</strong></span>
+              </div>
 
               {distanceKm !== null && (
                 <div className="badge-distance-hero">

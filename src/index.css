@@ -1646,6 +1646,43 @@ body {
   border: 1px solid #B2EBE4;
 }
 
+/* Instant Opening Status Badge (0 delay) */
+.card-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 15px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.card-status-badge.open {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.card-status-badge.closed {
+  background: rgba(239, 68, 68, 0.12);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+[data-theme="light"] .card-status-badge.open {
+  background: #E6F4EA;
+  color: #137333;
+  border: 1px solid #CEEAD6;
+}
+
+[data-theme="light"] .card-status-badge.closed {
+  background: #FCE8E6;
+  color: #C5221F;
+  border: 1px solid #FAD2CF;
+}
+
 /* Card Price Badge (Pill style identical to distance badge, but in rich Amber/Gold) */
 .card-price-badge {
   display: inline-flex;

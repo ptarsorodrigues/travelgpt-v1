@@ -5,6 +5,7 @@ import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 import { getPlacePriceTag } from '../utils/priceHelper';
+import { getOpeningStatus } from '../utils/openingHoursHelper';
 
 export default function PlaceListItem({ place, userLocation, onSelectPlace, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   const handleImageError = (e) => {
@@ -14,6 +15,8 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
   const distanceKm = userLocation && place.lat && place.lng
     ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
     : null;
+
+  const status = getOpeningStatus(place);
 
   // Listing URL da página completa do ponto de interesse
   const listingUrl = place.listingUrl || place.websiteUrl || place.googleMapsUrl;
@@ -67,8 +70,13 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             </div>
           </div>
 
-          {/* Linha 3: Distância e Preços/Ingressos */}
+          {/* Linha 3: Status, Distância e Preços/Ingressos */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
+            <div className={`card-status-badge ${status.isOpen ? 'open' : 'closed'}`} title="Status de funcionamento hoje">
+              <span>{status.isOpen ? '🟢' : '🔴'}</span>
+              <span>{status.text}</span>
+            </div>
+
             {distanceKm !== null && (
               <div className="card-distance-badge" title="Distância estimada">
                 <Navigation size={12} className="distance-icon" />
