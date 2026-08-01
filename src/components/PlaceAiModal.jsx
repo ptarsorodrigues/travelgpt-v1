@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Key, Loader2, MapPin, AlertTriangle, Cpu } from 'lucide-react';
+import { X, Sparkles, Key, Loader2, MapPin, AlertTriangle, Cpu, Ticket } from 'lucide-react';
 import { getGeminiApiKey, saveGeminiApiKey, fetchGeminiPlaceGuide } from '../utils/geminiApi';
 
 export default function PlaceAiModal({ place, onClose, onSelectCity }) {
@@ -60,12 +60,17 @@ export default function PlaceAiModal({ place, onClose, onSelectCity }) {
         return <hr key={index} className="ai-modal-hr" />;
       }
 
-      // Section Headers (## 1. Visão Geral & Conceito, ## 2. Destaques, etc.)
+      // Section Headers (## 1. Visão Geral & Conceito, ## 3. Ingressos, Preços & Valores, etc.)
       if (trimmed.startsWith('#') || /^##?\s+/.test(trimmed) || /^\d+\.\s+/.test(trimmed)) {
         const cleanHeader = trimmed.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');
+        const isTicketHeader = /ingresso|preço|valor|serviço/i.test(cleanHeader);
         return (
-          <div key={index} className="ai-modal-section-header">
-            <Sparkles size={18} color="var(--primary)" />
+          <div key={index} className={`ai-modal-section-header ${isTicketHeader ? 'ticket-section-header' : ''}`}>
+            {isTicketHeader ? (
+              <Ticket size={20} color="var(--accent-gold)" />
+            ) : (
+              <Sparkles size={18} color="var(--primary)" />
+            )}
             <h3>{cleanHeader.replace(/\*\*/g, '')}</h3>
           </div>
         );

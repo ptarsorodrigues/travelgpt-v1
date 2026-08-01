@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation, Sparkles } from 'lucide-react';
+import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation, Sparkles, Ticket } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
 import { getDistanceKm, formatDistance } from '../utils/geo';
@@ -75,6 +75,14 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
               <div>
                 <small style={{ color: 'var(--text-dim)', display: 'block' }}>Endereço Completo</small>
                 <strong>{place.address}</strong>
+              </div>
+            </div>
+
+            <div className="modal-info-item highlight-ticket-item">
+              <Ticket size={18} color="var(--accent-gold)" />
+              <div>
+                <small style={{ color: 'var(--text-dim)', display: 'block' }}>Preços dos Ingressos & Serviços</small>
+                <strong>{place.ticketInfo || place.price || 'Consulte valores e gratuidades no Guia IA Gemini'}</strong>
               </div>
             </div>
 

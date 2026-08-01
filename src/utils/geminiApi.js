@@ -33,7 +33,7 @@ export async function fetchGeminiPlaceGuide(place, customApiKey = null) {
 
   const prompt = `Atue como um guia turístico especialista e curador de viagens. 
 
-Forneça uma análise completa, detalhada e estruturada sobre o ponto turístico: ${place.title}, ${place.city} - SP.
+Forneça uma análise completa, detalhada e altamente informativa sobre o ponto turístico: ${place.title}, ${place.city} - SP.
 Endereço base: ${place.address || 'Não informado'}
 Categoria base: ${place.category}
 Descrição inicial: ${place.description || ''}
@@ -46,18 +46,23 @@ Siga rigorosamente a estrutura abaixo:
 ## 2. Destaques & O Que Fazer
 - Principais atrações internas, atividades, trilhas, monumentos ou pontos de interesse fotográfico.
 
-## 3. Informações Práticas (Logística)
+## 3. Ingressos, Preços & Valores de Serviços
+- **Valores dos Ingressos:** (Informe se é Gratuito, meia-entrada para estudantes/idosos, gratuidades para crianças ou faixas de preço em R$).
+- **Valores de Serviços & Atividades:** (Valores de passeios guiados, brinquedos, aluguel de equipamentos ou atrações extras).
+- **Estacionamento & Outras Taxas:** (Valores de estacionamento local/conveniado ou taxas de conservação).
+- **Formas de Pagamento & Dica de Compra:** (Aceitação de Pix, cartão, dinheiro ou compra antecipada online).
+
+## 4. Informações Práticas & Logística
 - **Endereço Completo:**
 - **Horário de Funcionamento:**
-- **Preço/Ingressos:** (Gratuito ou faixa de preço)
 - **Acessibilidade:** (Acessível para PCD, idosos, carrinhos de bebê)
 - **Pet Friendly:** (Sim/Não e regras)
 
-## 4. Como Chegar & Acesso
+## 5. Como Chegar & Acesso
 - Opções de transporte público (metrô, ônibus mais próximo) e facilidade de estacionamento/aplicativos.
 
-## 5. Dicas de Ouro & Ponto Cego
-- **Melhor horário/dia para visitar:**
+## 6. Dicas de Ouro & Ponto Cego
+- **Melhor horário/dia para visitar:** (Dias de gratuidade ou menor movimento)
 - **Tempo médio de permanência:**
 - **Dica de Ouro:** O que não pode deixar de fazer.
 - **Ponto Cego/Atenção:** Um risco, limitação ou detalhe crucial que o turista pode negligenciar (ex: falta de quiosques, segurança no entorno em certos horários, necessidade de agendamento prévio).
