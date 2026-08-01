@@ -2,7 +2,6 @@ import React from 'react';
 import { MapPin, Heart, Navigation, Info, Sparkles, Ticket } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
-import ImageCarousel from './ImageCarousel';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 import { getPlacePriceTag } from '../utils/priceHelper';
@@ -38,13 +37,19 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
           Formato idêntico à imagem de referência
           ======================================================== */}
       <div className="list-item-desktop-view">
-        {/* 1. Imagem Miniatura com Carrossel (Esquerda) */}
+        {/* 1. Imagem Miniatura da Atração (Esquerda) */}
         <div 
           className="list-item-thumb-wrapper"
           onClick={handleSaibaMais}
           title={`Clique para abrir ${place.title}`}
         >
-          <ImageCarousel place={place} altTitle={place.title} />
+          <img 
+            src={getPlaceImageUrl(place)} 
+            alt={place.title}
+            className="list-item-thumb"
+            onError={handleImageError}
+            loading="lazy"
+          />
         </div>
 
         {/* 2. Coluna Central (Título, Cidade, Badges em 1 linha, Botões de Ação) */}
@@ -160,7 +165,13 @@ export default function PlaceListItem({ place, userLocation, onSelectPlace, onOp
             onClick={handleSaibaMais}
             title={`Clique para abrir ${place.title}`}
           >
-            <ImageCarousel place={place} altTitle={place.title} />
+            <img 
+              src={getPlaceImageUrl(place)} 
+              alt={place.title}
+              className="list-item-thumb"
+              onError={handleImageError}
+              loading="lazy"
+            />
           </div>
 
           <div className="list-item-right-info">

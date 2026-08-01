@@ -2,7 +2,6 @@ import React from 'react';
 import { MapPin, Heart, Phone, Mail, Star, Navigation, Info, Sparkles, Ticket, Clock } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
-import ImageCarousel from './ImageCarousel';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlaceImageUrl, handlePlaceImageError } from '../utils/mapsImageHelper';
 import { getPlacePriceTag } from '../utils/priceHelper';
@@ -30,7 +29,13 @@ export default function PlaceCard({ place, userLocation, onSelectPlace, onOpenWe
   return (
     <div className="place-card" onClick={handleSaibaMais} style={{ cursor: 'pointer' }}>
       <div className="place-card-img-wrap" onClick={handleSaibaMais}>
-        <ImageCarousel place={place} altTitle={place.title} />
+        <img 
+          src={getPlaceImageUrl(place)} 
+          alt={place.title}
+          className="place-card-img"
+          onError={handleImageError}
+          loading="lazy"
+        />
         <div className="place-badge-category">
           {place.category.split('&')[0]}
         </div>
