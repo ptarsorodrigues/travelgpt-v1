@@ -9,6 +9,36 @@ export function getPlaceImageUrl(place) {
 }
 
 /**
+ * Retorna uma lista de todas as imagens disponíveis do local para carrossel.
+ */
+export function getPlaceImages(place) {
+  if (!place) return [];
+  const list = [];
+  
+  if (place.coverImage) {
+    list.push(place.coverImage);
+  }
+  
+  if (place.backupImage && !list.includes(place.backupImage)) {
+    list.push(place.backupImage);
+  }
+
+  if (place.wikiImageUrl && !list.includes(place.wikiImageUrl)) {
+    list.push(place.wikiImageUrl);
+  }
+
+  if (Array.isArray(place.images)) {
+    place.images.forEach(img => {
+      if (img && typeof img === 'string' && !list.includes(img)) {
+        list.push(img);
+      }
+    });
+  }
+
+  return list.length > 0 ? list : ['https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=1000&q=80'];
+}
+
+/**
  * Handler de erro para tags <img> que tentam carregar a imagem principal.
  * Se a capa falhar, altera o src para backupImage.
  */

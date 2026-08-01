@@ -2,15 +2,12 @@ import React from 'react';
 import { X, MapPin, ExternalLink, Phone, Mail, Heart, Star, Compass, Navigation, Sparkles, Ticket } from 'lucide-react';
 import ProductTierIcon from './ProductTierIcon';
 import NavButtons from './NavButtons';
+import ImageCarousel from './ImageCarousel';
 import { getDistanceKm, formatDistance } from '../utils/geo';
 import { getPlacePriceTag } from '../utils/priceHelper';
 
-export default function PlaceModal({ place, userLocation, onClose, onOpenWebView, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
+export default function PlaceModal({ place, userLocation, onClose, onSelectCity, isFavorite, toggleFavorite, onOpenPlaceAi }) {
   if (!place) return null;
-
-  const handleImageError = (e) => {
-    e.target.src = place.backupImage;
-  };
 
   const distanceKm = userLocation && place.lat && place.lng
     ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
@@ -23,14 +20,9 @@ export default function PlaceModal({ place, userLocation, onClose, onOpenWebView
           <X size={20} />
         </button>
 
-        {/* Modal Header / Banner Image */}
+        {/* Modal Header / Banner Image Carousel */}
         <div className="modal-hero-img-wrap">
-          <img 
-            src={place.coverImage} 
-            alt={place.title}
-            className="modal-hero-img"
-            onError={handleImageError}
-          />
+          <ImageCarousel place={place} altTitle={place.title} />
           <div className="modal-hero-overlay" />
           
           {/* Tier Badge Overlay */}

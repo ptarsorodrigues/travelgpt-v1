@@ -35,6 +35,9 @@ export async function fetchWikivoyageGuide(place) {
           } else if (data.thumbnail?.source) {
             wikiImageUrl = data.thumbnail.source;
           }
+          if (wikiImageUrl && place) {
+            place.wikiImageUrl = wikiImageUrl;
+          }
           break;
         }
       }
