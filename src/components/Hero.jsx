@@ -8,9 +8,6 @@ import { getPlaceImageUrl, handlePlaceImageError as mapsHandleImageError } from 
 
 export default function Hero({ 
   featuredPlaces, 
-  places = [],
-  selectedCities = [],
-  searchQuery = '',
   userLocation, 
   onSelectPlace, 
   onOpenWebView, 
@@ -22,8 +19,6 @@ export default function Hero({
   setViewMode,
   maxDistanceKm,
   setMaxDistanceKm,
-  selectedCategories = ['Todas'],
-  setSelectedCategories,
   isCategoryBoxExpanded,
   setIsCategoryBoxExpanded
 }) {
@@ -35,38 +30,6 @@ export default function Hero({
   const row2Ref = useRef(null);
   const [canScrollRow1, setCanScrollRow1] = useState(false);
   const [canScrollRow2, setCanScrollRow2] = useState(false);
-
-  // 4 Categorias Principais com imagens personalizadas na ordem exata solicitada
-  const FEATURED_CATEGORY_ICONS = [
-    {
-      id: 'hoteis',
-      name: 'Hotéis & Acomodações',
-      label: 'Hotéis & Acomodações',
-      image: '/images/categories/hoteis.jpg',
-      description: 'Hotéis, pousadas, resorts, chalés e aluguel por temporada'
-    },
-    {
-      id: 'comer',
-      name: 'Comer & Beber',
-      label: 'Comer & Beber',
-      image: '/images/categories/comer.jpg',
-      description: 'Restaurantes, bares, quiosques, cafeterias e comidas típicas'
-    },
-    {
-      id: 'experiencias',
-      name: 'O que Fazer & Experiências',
-      label: 'O que Fazer & Experiências',
-      image: '/images/categories/experiencias.jpg',
-      description: 'Pontos turísticos, passeios, praias, trilhas, cultura e vida noturna'
-    },
-    {
-      id: 'compras',
-      name: 'Compras & Serviços',
-      label: 'Compras & Serviços',
-      image: '/images/categories/compras.jpg',
-      description: 'Feirinhas, artesanato, shoppings, farmácias, receptivos e emergências'
-    }
-  ];
 
   const checkScrollable = useCallback(() => {
     if (row1Ref.current) {
@@ -156,6 +119,9 @@ export default function Hero({
       <div className="container">
         <div 
           className="hero-card"
+          onClick={(e) => handleSaibaMais(e)}
+          title={`Saiba mais sobre ${currentPlace.title}`}
+          style={{ cursor: 'pointer' }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -214,14 +180,7 @@ export default function Hero({
               </div>
             </div>
 
-            <h1 
-              className="hero-title"
-              onClick={handleSaibaMais}
-              style={{ cursor: 'pointer' }}
-              title={`Saiba mais sobre ${currentPlace.title}`}
-            >
-              {currentPlace.title}
-            </h1>
+            <h1 className="hero-title">{currentPlace.title}</h1>
             
             <div className="hero-meta">
               <div 
@@ -242,14 +201,7 @@ export default function Hero({
               </div>
             </div>
 
-            <p 
-              className="hero-description"
-              onClick={handleSaibaMais}
-              style={{ cursor: 'pointer' }}
-              title={`Saiba mais sobre ${currentPlace.title}`}
-            >
-              {currentPlace.description}
-            </p>
+            <p className="hero-description">{currentPlace.description}</p>
 
             <div className="hero-actions">
               <button 
@@ -324,6 +276,15 @@ export default function Hero({
                   title="Agrupado por Cidade"
                 >
                   <MapPin size={14} /> Por Cidade
+                </button>
+
+                <button 
+                  type="button"
+                  className={`radius-pill ${viewMode === 'category' ? 'active' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); setViewMode && setViewMode('category'); }}
+                  title="Agrupado por Categoria"
+                >
+                  <Layers size={14} /> Categorias
                 </button>
               </div>
               {canScrollRow1 && (
@@ -401,59 +362,27 @@ export default function Hero({
                 </button>
               )}
             </div>
+          </div>
 
-            {/* SEÇÃO DOS 4 ÍCONES DE CATEGORIA COM IMAGENS (LOGOMARCA / FOTOS) - NA MESMA LINHA NO CELULAR */}
-            <div className="category-icons-section-wrap">
-              <div className="category-icons-grid-row">
-                {FEATURED_CATEGORY_ICONS.map(cat => {
-                  const isSelected = selectedCategories.includes(cat.name) && !selectedCategories.includes('Todas');
-                  
-                  // Calcular a quantidade de atrações existentes conforme a seleção (cidades/busca)
-                  const count = (places || []).filter(p => {
-                    if (selectedCities && selectedCities.length > 0 && !selectedCities.includes(p.city)) {
-                      return false;
-                    }
-                    const mainCat = p.mainCategory || p.category;
-                    return mainCat === cat.name || p.category === cat.name;
-                  }).length;
-
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      className={`category-icon-card ${isSelected ? 'active' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (isSelected) {
-                          setSelectedCategories && setSelectedCategories(['Todas']);
-                        } else {
-                          setSelectedCategories && setSelectedCategories([cat.name]);
-                        }
-                        const el = document.getElementById('search-results-anchor') || document.getElementById('places-list-container');
-                        if (el) {
-                          el.scrollIntoView({ behavior: 'smooth' });
-                        }
-                      }}
-                      title={`${cat.name}: ${cat.description} (${count} atrações)`}
-                    >
-                      <div className="category-icon-img-wrapper">
-                        <img src={cat.image} alt={cat.name} className="category-icon-img" />
-                        <div className="category-icon-overlay" />
-                        {isSelected && (
-                          <span className="category-icon-active-check">✓</span>
-                        )}
-                      </div>
-                      <div className="category-icon-label-wrap">
-                        <span className="category-icon-label">{cat.label}</span>
-                      </div>
-                      <div className="category-icon-badge-wrap">
-                        <span className="category-icon-count-badge" title={`${count} atrações`}>{count}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+          {/* LINHA 3 (CELULAR): BOTÃO DE SELECIONE AS CATEGORIAS CENTRALIZADO */}
+          <div className="quick-filter-row-bottom row-line-3">
+            <button 
+              type="button"
+              className={`btn-personalize-toggle ${isCategoryBoxExpanded ? 'active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsCategoryBoxExpanded && setIsCategoryBoxExpanded(!isCategoryBoxExpanded);
+              }}
+              title="Clique para abrir e selecionar as categorias"
+            >
+              <SlidersHorizontal size={16} color="#FFFFFF" />
+              <span>SELECIONE AS CATEGORIAS</span>
+              {isCategoryBoxExpanded ? (
+                <ChevronUp size={16} color="#FFFFFF" className="toggle-arrow" />
+              ) : (
+                <ChevronDown size={16} color="#FFFFFF" className="toggle-arrow" />
+              )}
+            </button>
           </div>
         </div>
       </div>

@@ -222,41 +222,19 @@ export default function CityCategoryFilterBox({
                 <div className="box-items-scroll">
                   {categoriesList.slice(1).map(cat => {
                     const isChecked = selectedCategories.includes(cat);
-                    const count = placesData.filter(p => {
-                      if (selectedCities.length > 0 && !selectedCities.includes(p.city)) return false;
-                      return (p.mainCategory || p.category) === cat;
-                    }).length;
-                    const CATEGORY_DESCRIPTIONS = {
-                      "O que Fazer & Experiências": "Pontos turísticos, passeios, praias, trilhas, cultura e vida noturna",
-                      "Hotéis & Acomodações": "Hotéis, pousadas, resorts, chalés e aluguel por temporada",
-                      "Comer & Beber": "Restaurantes, bares, quiosques, cafeterias e comidas típicas",
-                      "Compras & Serviços": "Feirinhas, artesanato, shoppings, farmácias, receptivos e emergências"
-                    };
-                    const description = CATEGORY_DESCRIPTIONS[cat];
+                    const count = placesData.filter(p => p.category === cat).length;
                     return (
-                      <label key={cat} className={`checkbox-item-row category-item-row ${isChecked ? 'checked' : ''}`}>
-                        <div className="category-item-top">
-                          <div className="category-item-title-group">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <input 
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={() => toggleCategory(cat)}
-                                className="custom-checkbox"
-                              />
-                              <span className="checkbox-category-title">{cat}</span>
-                            </div>
-                            <span className="checkbox-category-count-centered" style={{ margin: '2px auto 0 auto', textAlign: 'center', display: 'block', width: '100%' }}>
-                              {count} atrações
-                            </span>
-                          </div>
+                      <label key={cat} className={`checkbox-item-row ${isChecked ? 'checked' : ''}`}>
+                        <input 
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => toggleCategory(cat)}
+                          className="custom-checkbox"
+                        />
+                        <span className="checkbox-city-name">{cat}</span>
+                        <div className="city-meta-tags">
                           <span className="meta-badge-count">{count}</span>
                         </div>
-                        {description && (
-                          <div className="checkbox-category-desc">
-                            {description}
-                          </div>
-                        )}
                       </label>
                     );
                   })}
