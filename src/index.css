@@ -3811,6 +3811,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.35rem;
   background: transparent;
   border: none;
@@ -3821,6 +3822,7 @@ body {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   width: 100%;
+  height: 100%;
 }
 
 .category-icon-card:hover {
@@ -3889,9 +3891,11 @@ body {
   font-weight: 600;
   color: var(--text-main, #FFFFFF);
   line-height: 1.15;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  height: 2.4em;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -3909,24 +3913,54 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 3px auto 0 auto;
-  padding: 1px 8px;
-  background: rgba(0, 212, 242, 0.15);
-  border: 1px solid rgba(0, 212, 242, 0.4);
-  color: var(--primary, #00D4T2);
-  font-size: 0.72rem;
-  font-weight: 800;
-  border-radius: 12px;
+  margin-top: auto;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 8px;
+  background: #0f172a;
+  border: 1.5px solid var(--primary, #00D4T2);
+  color: #38bdf8;
+  font-size: 0.75rem;
+  font-weight: 900;
+  border-radius: 11px;
   text-align: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  line-height: 1.2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  line-height: 1;
+  letter-spacing: 0.2px;
 }
 
 .category-icon-card.active .category-icon-count-badge {
   background: var(--primary, #00D4T2);
-  color: #0d1117;
+  color: #090d16;
   border-color: var(--primary, #00D4T2);
   font-weight: 900;
+  box-shadow: 0 2px 8px rgba(0, 212, 178, 0.5);
+}
+
+[data-theme="light"] .category-icon-label {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+[data-theme="light"] .category-icon-card.active .category-icon-label {
+  color: #00897B;
+  font-weight: 800;
+}
+
+[data-theme="light"] .category-icon-count-badge {
+  background: #0f172a;
+  border: 1.5px solid #00897B;
+  color: #38bdf8;
+  font-weight: 900;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .category-icon-card.active .category-icon-count-badge {
+  background: #00897B;
+  color: #FFFFFF;
+  border-color: #00897B;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(0, 137, 123, 0.4);
 }
 
 .checkbox-category-count-centered {
@@ -3950,13 +3984,17 @@ body {
   
   .category-icon-label {
     font-size: 0.64rem;
-    line-height: 1.1;
+    line-height: 1.15;
+    height: 2.3em;
+    min-height: 2.3em;
   }
 
   .category-icon-count-badge {
-    font-size: 0.65rem;
-    padding: 0px 6px;
-    margin-top: 2px;
+    font-size: 0.70rem;
+    min-width: 24px;
+    height: 20px;
+    padding: 0 6px;
+    margin-top: auto;
   }
 }
 
