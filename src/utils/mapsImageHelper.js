@@ -1,33 +1,55 @@
-/**
- * Utilitário para obter e exibir a imagem oficial da atração diretamente dos campos
- * de imagem (coverImage ou backupImage) cadastrados no Banco de Dados/CSV.
- */
+const CATEGORY_FALLBACKS = {
+  'waterpark': 'https://images.unsplash.com/photo-1582650625119-3a31f8418b0d?auto=format&fit=crop&w=1000&q=80',
+  'park': 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=1000&q=80',
+  'zoo': 'https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=1000&q=80',
+  'waterfall': 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1000&q=80',
+  'beach': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
+  'museum': 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1000&q=80',
+  'default': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80'
+};
+
+function isValidImageUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  if (trimmed.includes('googleusercontent.com/d/') || trimmed.includes('drive.google.com')) {
+    return false;
+  }
+  return true;
+}
+
+export function getCategoryFallback(place) {
+  if (!place) return CATEGORY_FALLBACKS.default;
+  const cat = (place.category || place.mainCategory || '').toLowerCase();
+  const title = (place.title || '').toLowerCase();
+
+  if (title.includes('piscina') || title.includes('thermas') || title.includes('toboagua') || title.includes('aquátic')) return CATEGORY_FALLBACKS.waterpark;
+  if (title.includes('zoo') || title.includes('fazendin') || cat.includes('zoológico')) return CATEGORY_FALLBACKS.zoo;
+  if (title.includes('cachoeira') || title.includes('corredeira')) return CATEGORY_FALLBACKS.waterfall;
+  if (title.includes('praia') || title.includes('prainha') || title.includes('balneário')) return CATEGORY_FALLBACKS.beach;
+  if (title.includes('museu') || cat.includes('museu')) return CATEGORY_FALLBACKS.museum;
+
+  return CATEGORY_FALLBACKS.park;
+}
 
 export function getPlaceImageUrl(place) {
-  if (!place) return '';
+  if (!place) return CATEGORY_FALLBACKS.default;
 
-  // 1. Prioriza a imagem de capa (coverImage) cadastrada no Banco de Dados/CSV (lh3.googleusercontent.com)
-  if (place.coverImage && typeof place.coverImage === 'string' && place.coverImage.trim() !== '') {
+  if (isValidImageUrl(place.coverImage)) {
     return place.coverImage.trim();
   }
 
-  // 2. Fallback para a imagem secundária (backupImage)
-  if (place.backupImage && typeof place.backupImage === 'string' && place.backupImage.trim() !== '') {
+  if (isValidImageUrl(place.backupImage)) {
     return place.backupImage.trim();
   }
 
-  // 3. Fallback para a propriedade genérica 'image'
-  if (place.image && typeof place.image === 'string' && place.image.trim() !== '') {
+  if (isValidImageUrl(place.image)) {
     return place.image.trim();
   }
 
-  return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80';
+  return getCategoryFallback(place);
 }
 
-/**
- * Handler de erro para tags <img>.
- * Se a imagem de capa falhar ao carregar, realiza fallback gracioso para backupImage.
- */
 export function handlePlaceImageError(event, place) {
   if (!place) return;
   const imgElement = event.target;
@@ -36,16 +58,15 @@ export function handlePlaceImageError(event, place) {
     return;
   }
 
-  const defaultFallback = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80';
-  const backup = (place && place.backupImage && typeof place.backupImage === 'string' && place.backupImage.trim() !== '')
-    ? place.backupImage.trim()
-    : defaultFallback;
+  const fallback = getCategoryFallback(place);
+  const backup = isValidImageUrl(place.backupImage) ? place.backupImage.trim() : fallback;
 
   if (imgElement.src !== backup) {
     imgElement.dataset.fallbackState = 'trying_backup';
     imgElement.src = backup;
   } else {
     imgElement.dataset.fallbackState = 'failed';
-    imgElement.src = defaultFallback;
+    imgElement.src = fallback;
   }
 }
+
