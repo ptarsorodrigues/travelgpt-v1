@@ -156,9 +156,6 @@ export default function Hero({
       <div className="container">
         <div 
           className="hero-card"
-          onClick={(e) => handleSaibaMais(e)}
-          title={`Saiba mais sobre ${currentPlace.title}`}
-          style={{ cursor: 'pointer' }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -217,7 +214,14 @@ export default function Hero({
               </div>
             </div>
 
-            <h1 className="hero-title">{currentPlace.title}</h1>
+            <h1 
+              className="hero-title"
+              onClick={handleSaibaMais}
+              style={{ cursor: 'pointer' }}
+              title={`Saiba mais sobre ${currentPlace.title}`}
+            >
+              {currentPlace.title}
+            </h1>
             
             <div className="hero-meta">
               <div 
@@ -238,7 +242,14 @@ export default function Hero({
               </div>
             </div>
 
-            <p className="hero-description">{currentPlace.description}</p>
+            <p 
+              className="hero-description"
+              onClick={handleSaibaMais}
+              style={{ cursor: 'pointer' }}
+              title={`Saiba mais sobre ${currentPlace.title}`}
+            >
+              {currentPlace.description}
+            </p>
 
             <div className="hero-actions">
               <button 
