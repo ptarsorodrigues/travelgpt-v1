@@ -432,8 +432,12 @@ export default function Hero({
                           <span className="category-icon-active-check">✓</span>
                         )}
                       </div>
-                      <span className="category-icon-label">{cat.label}</span>
-                      <span className="category-icon-count-badge">{count}</span>
+                      <div className="category-icon-label-wrap">
+                        <span className="category-icon-label">{cat.label}</span>
+                      </div>
+                      <div className="category-icon-badge-wrap">
+                        <span className="category-icon-count-badge" title={`${count} atrações`}>{count}</span>
+                      </div>
                     </button>
                   );
                 })}
