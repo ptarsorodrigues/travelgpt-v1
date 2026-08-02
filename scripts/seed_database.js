@@ -46,10 +46,49 @@ async function seed() {
     await client.query(`
       CREATE TABLE IF NOT EXISTS categories (
         id BIGSERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL UNIQUE,
+        name VARCHAR(150) NOT NULL UNIQUE,
+        description TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `);
+    
+    // Garantir inclusão da coluna description caso a tabela já existisse sem ela
+    await client.query(`
+      ALTER TABLE categories ADD COLUMN IF NOT EXISTS description TEXT;
+    `);
+
+    // Definir as 4 Categorias Principais requeridas
+    const MAIN_CATEGORIES = [
+      {
+        name: "O que Fazer & Experiências",
+        description: "Pontos turísticos, passeios, praias, trilhas, cultura e vida noturna"
+      },
+      {
+        name: "Hotéis & Acomodações",
+        description: "Hotéis, pousadas, resorts, chalés e aluguel por temporada"
+      },
+      {
+        name: "Comer & Beber",
+        description: "Restaurantes, bares, quiosques, cafeterias e comidas típicas"
+      },
+      {
+        name: "Compras & Serviços",
+        description: "Feirinhas, artesanato, shoppings, farmácias, receptivos e emergências"
+      }
+    ];
+
+    // Seed das Categorias Principais
+    const categoryMap = new Map();
+    for (const cat of MAIN_CATEGORIES) {
+      const resCat = await client.query(
+        `INSERT INTO categories (name, description) 
+         VALUES ($1, $2) 
+         ON CONFLICT (name) DO UPDATE SET description = EXCLUDED.description 
+         RETURNING id, name;`,
+        [cat.name, cat.description]
+      );
+      categoryMap.set(cat.name, resCat.rows[0].id);
+    }
 
     // 3. Criar Tabela de Locais / Pontos Turísticos
     await client.query(`
@@ -82,9 +121,8 @@ async function seed() {
 
     console.log(`📦 Carregados ${placesData.length} registros de places.json`);
 
-    // Dicionários para mapear IDs das Cidades e Categorias
+    // Dicionários para mapear IDs das Cidades
     const cityMap = new Map();
-    const categoryMap = new Map();
 
     for (const place of placesData) {
       // Inserir Cidade se não existir
@@ -96,17 +134,18 @@ async function seed() {
         cityMap.set(place.city, resCity.rows[0].id);
       }
 
-      // Inserir Categoria se não existir
-      if (!categoryMap.has(place.category)) {
-        const resCat = await client.query(
-          `INSERT INTO categories (name) VALUES ($1) ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name RETURNING id;`,
-          [place.category]
-        );
-        categoryMap.set(place.category, resCat.rows[0].id);
-      }
-
       const cityId = cityMap.get(place.city);
-      const categoryId = categoryMap.get(place.category);
+      
+      // Determinar a Categoria Principal (padrão: "O que Fazer & Experiências")
+      let mainCategoryName = "O que Fazer & Experiências";
+      if (place.mainCategory && categoryMap.has(place.mainCategory)) {
+        mainCategoryName = place.mainCategory;
+      } else if (categoryMap.has(place.category)) {
+        mainCategoryName = place.category;
+      }
+      
+      const categoryId = categoryMap.get(mainCategoryName);
+      const originalCat = place.originalCategory || place.category;
 
       // Upsert do Ponto Turístico
       await client.query(`
@@ -138,7 +177,7 @@ async function seed() {
         place.id,
         place.title,
         categoryId,
-        place.originalCategory,
+        originalCat,
         cityId,
         place.address,
         place.phone || '',

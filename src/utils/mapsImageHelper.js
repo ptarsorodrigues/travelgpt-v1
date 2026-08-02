@@ -1,18 +1,17 @@
 /**
- * Utilitário para obter e exibir a imagem da atração diretamente dos campos
- * de imagem (coverImage, backupImage ou image) cadastrados no Banco de Dados.
- * Exibe as imagens reais do banco de dados sem realizar extração dinâmica.
+ * Utilitário para obter e exibir a imagem oficial da atração diretamente dos campos
+ * de imagem (coverImage ou backupImage) cadastrados no Banco de Dados/CSV.
  */
 
 export function getPlaceImageUrl(place) {
   if (!place) return '';
 
-  // 1. Prioriza a imagem de capa (coverImage) cadastrada no Banco de Dados
+  // 1. Prioriza a imagem de capa (coverImage) cadastrada no Banco de Dados/CSV (lh3.googleusercontent.com)
   if (place.coverImage && typeof place.coverImage === 'string' && place.coverImage.trim() !== '') {
     return place.coverImage.trim();
   }
 
-  // 2. Fallback para a imagem secundária/backup (backupImage)
+  // 2. Fallback para a imagem secundária (backupImage)
   if (place.backupImage && typeof place.backupImage === 'string' && place.backupImage.trim() !== '') {
     return place.backupImage.trim();
   }
@@ -22,7 +21,6 @@ export function getPlaceImageUrl(place) {
     return place.image.trim();
   }
 
-  // 4. Imagem de fallback padrão em alta resolução caso não haja imagem cadastrada
   return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80';
 }
 

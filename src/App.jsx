@@ -16,13 +16,31 @@ import Footer from './components/Footer';
 import { getDistanceKm, formatDistance, normalizeText, fuzzyPhoneticMatch } from './utils/geo';
 import { Search, MapPin, Grid, List, Layers, Map as MapIcon, Filter, Heart, Sparkles, Compass, X, Navigation, Database, Loader2 } from 'lucide-react';
 
+export const CATEGORY_OBJECTS = [
+  {
+    name: "O que Fazer & Experiências",
+    description: "Pontos turísticos, passeios, praias, trilhas, cultura e vida noturna"
+  },
+  {
+    name: "Hotéis & Acomodações",
+    description: "Hotéis, pousadas, resorts, chalés e aluguel por temporada"
+  },
+  {
+    name: "Comer & Beber",
+    description: "Restaurantes, bares, quiosques, cafeterias e comidas típicas"
+  },
+  {
+    name: "Compras & Serviços",
+    description: "Feirinhas, artesanato, shoppings, farmácias, receptivos e emergências"
+  }
+];
+
 const CATEGORIES = [
   "Todas",
-  "Parques de Diversão & Aquáticos",
-  "Áreas de Lazer, Praças & Parques",
-  "Atrações Turísticas, Museus & Cultura",
-  "Cachoeiras, Prainhas & Mirantes",
-  "Zoológicos, Bosques & Natureza"
+  "O que Fazer & Experiências",
+  "Hotéis & Acomodações",
+  "Comer & Beber",
+  "Compras & Serviços"
 ];
 
 // Default Location: São Paulo Capital Center (-23.5505, -46.6333)
@@ -38,8 +56,17 @@ export default function App() {
   const [dbError, setDbError] = useState(null);
 
   const normalizeCategory = (cat) => {
-    if (!cat) return "Atrações Turísticas, Museus & Cultura";
-    if (cat === "Atrações Turísticas & Lazer") return "Atrações Turísticas, Museus & Cultura";
+    if (!cat) return "O que Fazer & Experiências";
+    if (
+      cat === "Parques de Diversão & Aquáticos" ||
+      cat === "Áreas de Lazer, Praças & Parques" ||
+      cat === "Atrações Turísticas, Museus & Cultura" ||
+      cat === "Cachoeiras, Prainhas & Mirantes" ||
+      cat === "Zoológicos, Bosques & Natureza" ||
+      cat === "Atrações Turísticas & Lazer"
+    ) {
+      return "O que Fazer & Experiências";
+    }
     return cat;
   };
 
@@ -57,7 +84,9 @@ export default function App() {
         if (Array.isArray(data) && data.length > 0) {
           const normalized = data.map(p => ({
             ...p,
-            category: normalizeCategory(p.category || p.originalCategory)
+            category: p.category || p.originalCategory,
+            originalCategory: p.originalCategory || p.category,
+            mainCategory: p.mainCategory || 'O que Fazer & Experiências'
           }));
           setPlaces(normalized);
           setDbError(null);
@@ -274,9 +303,12 @@ export default function App() {
         return false;
       }
 
-      // Multi-categories filter
-      if (!selectedCategories.includes('Todas') && !selectedCategories.includes(place.category)) {
-        return false;
+      // Multi-categories filter (checa categoria principal de agrupamento)
+      if (!selectedCategories.includes('Todas')) {
+        const mainCat = place.mainCategory || place.category;
+        if (!selectedCategories.includes(mainCat) && !selectedCategories.includes(place.category)) {
+          return false;
+        }
       }
 
       // Search query filter (Fuzzy & Phonetic Matching for PT-BR)
@@ -518,6 +550,9 @@ export default function App() {
           {!showFavoritesOnly && (
             <Hero 
               featuredPlaces={featuredPlaces}
+              places={places}
+              selectedCities={selectedCities}
+              searchQuery={searchQuery}
               userLocation={activeUserLocation}
               onSelectPlace={setSelectedPlace}
               onOpenWebView={setWebViewerPlace}
@@ -529,30 +564,12 @@ export default function App() {
               setViewMode={setViewMode}
               maxDistanceKm={maxDistanceKm}
               setMaxDistanceKm={setMaxDistanceKm}
-              isCategoryBoxExpanded={isCategoryBoxExpanded}
-              setIsCategoryBoxExpanded={setIsCategoryBoxExpanded}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
             />
           )}
 
-          {/* DEDICATED CITY & CATEGORY MULTI-SELECTION FILTER SYSTEM */}
-          <CityCategoryFilterBox 
-            placesData={places}
-            userLocation={activeUserLocation}
-            onGeolocateUser={handleGeolocateUser}
-            isGeolocating={isGeolocating}
-            selectedCities={selectedCities}
-            setSelectedCities={setSelectedCities}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            categoriesList={CATEGORIES}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            onResetAll={handleResetAllFilters}
-            isExpanded={isCategoryBoxExpanded}
-            setIsExpanded={setIsCategoryBoxExpanded}
-          />
-
-          {/* Status & Active Filter Summary Bar na seção de cima, abaixo de SELECIONE AS CATEGORIAS (LINHA 4 NO CELULAR) */}
+          {/* Status & Active Filter Summary Bar na seção de cima */}
           <div className="container active-filters-summary-container-mobile" style={{ marginTop: '0.75rem', marginBottom: '0.5rem' }}>
             <div className="active-filters-summary-bar">
               <div>

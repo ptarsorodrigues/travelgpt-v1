@@ -43,8 +43,11 @@ export default async function handler(req, res) {
         SELECT 
           p.id,
           p.title,
-          c.name AS category,
+          p.original_category AS category,
           p.original_category AS "originalCategory",
+          c.name AS "mainCategory",
+          c.description AS "categoryDescription",
+          p.category_id AS "categoryId",
           ci.name AS city,
           p.address,
           p.phone,
