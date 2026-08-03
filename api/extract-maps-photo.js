@@ -53,9 +53,33 @@ export default async function handler(req, res) {
     return res.redirect(302, streetViewUrl);
   }
 
-  // 3. Extrair a imagem (og:image) diretamente da página de consulta do Google Maps
+  // 3. Extrair a foto real da página do Google Maps via Googlebot-Image crawler
   if (targetUrl) {
     try {
+      // Método A: Fetch via Googlebot-Image User-Agent
+      const gbotRes = await fetch(targetUrl, {
+        headers: {
+          'User-Agent': 'Googlebot-Image/1.0',
+          'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7'
+        }
+      });
+      const gbotHtml = await gbotRes.text();
+
+      const guMatches = gbotHtml.match(/https:\/\/[a-z0-9\.-]*googleusercontent\.com\/[^\s"'\\]+/gi) || [];
+      const cleanGbotPhotos = [...new Set(guMatches)].filter(p => 
+        !p.includes('maps_512dp') && 
+        !p.includes('staticmap') &&
+        !p.includes('al-icon') &&
+        !p.includes('24dp')
+      );
+
+      if (cleanGbotPhotos.length > 0) {
+        let photoUrl = cleanGbotPhotos[0].replace(/&amp;/g, '&');
+        if (photoUrl.startsWith('//')) photoUrl = 'https:' + photoUrl;
+        return res.redirect(302, photoUrl);
+      }
+
+      // Método B: Fetch via Desktop Browser User-Agent (ignora staticmaps)
       const pageRes = await fetch(targetUrl, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -64,16 +88,15 @@ export default async function handler(req, res) {
       });
       const html = await pageRes.text();
 
-      // Procurar og:image no HTML da página do Google Maps
       const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
                       html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
       
-      if (ogMatch && ogMatch[1]) {
+      if (ogMatch && ogMatch[1] && !ogMatch[1].includes('staticmap') && !ogMatch[1].includes('maps_512dp')) {
         let imageUrl = ogMatch[1].replace(/&amp;/g, '&');
+        if (imageUrl.startsWith('//')) imageUrl = 'https:' + imageUrl;
         return res.redirect(302, imageUrl);
       }
 
-      // Procurar URLs diretas de foto do Googlelh5 / googleusercontent
       const photoMatch = html.match(/(https:\/\/[a-z0-9-]+\.googleusercontent\.com\/p\/[a-zA-Z0-9_-]+=s\d+)/i) ||
                          html.match(/(https:\/\/lh\d+\.googleusercontent\.com\/proxy\/[a-zA-Z0-9_-]+)/i);
 
@@ -85,6 +108,13 @@ export default async function handler(req, res) {
     }
   }
 
-  // 4. Se não encontrar nenhuma foto, retorna 404 para disparar o onError do frontend
+  // 4. Se não encontrar foto específica e houver coordenadas lat/lng, retorna mapa estático
+  if (lat && lng) {
+    const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=16&size=800x600&sensor=false`;
+    return res.redirect(302, staticMapUrl);
+  }
+
+  // 5. Se não encontrar nenhuma foto, retorna 404 para disparar o onError do frontend
   return res.status(404).json({ error: 'Image not found for specified googleMapsUrl' });
 }
+
