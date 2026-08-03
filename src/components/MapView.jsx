@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import { getDistanceKm, formatDistance } from '../utils/geo';
+import { getPlaceImageUrl } from '../utils/mapsImageHelper';
 
 export default function MapView({ places, userLocation, onSelectPlace, onSelectCity }) {
   const mapRef = useRef(null);
@@ -90,11 +91,12 @@ export default function MapView({ places, userLocation, onSelectPlace, onSelectC
           ? getDistanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
           : null;
 
+        const imgUrl = getPlaceImageUrl(place);
         const popupContent = document.createElement('div');
         popupContent.style.maxWidth = '220px';
         popupContent.style.fontFamily = 'Inter, sans-serif';
         popupContent.innerHTML = `
-          <img src="${place.coverImage}" alt="${place.title}" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:8px;" onerror="this.src='${place.backupImage}'"/>
+          <img src="${imgUrl}" alt="${place.title}" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:8px;" onerror="this.src='${place.backupImage || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1000&q=80'}'"/>
           <h4 style="margin:0 0 4px 0; font-size:14px; color:#0F172A;">${place.title}</h4>
           <p style="margin:0 0 4px 0; font-size:12px; color:#0088FF; font-weight:600; cursor:pointer;" id="city-btn-${place.id}">📍 ${place.city}</p>
           ${distKm !== null ? `<p style="margin:0 0 8px 0; font-size:11px; color:#10B981; font-weight:700;">🚗 a ${formatDistance(distKm)}</p>` : ''}
